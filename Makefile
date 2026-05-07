@@ -77,6 +77,18 @@ $(NEXUS): $(SRC) $(CONV) $(MATH) $(PRETTY) exercises.texi figures.texi
 
 epub: $(GOAL)
 
+.ONESHELL:
+install-deps:
+	echo "You need to run this as superuser!"
+	apt install -y texinfo perl ruby-full wget
+	gem install nokogiri
+	mkdir -p phantomjs
+	cd phantomjs
+	wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
+	tar -xf phantomjs-2.1.1-linux-x86_64.tar.bz2
+	echo 'To use the Make commands correctly, you will need to include PhantomJS binary to the path with "export PATH=$(shell pwd)/phantomjs/phantomjs-2.1.1-linux-x86_64/bin/:$$PATH"'
+
+
 $(META): $(NEXUS) create_metafiles.rb 
 	@echo -n "Building ePub3 file, saving to parent directory..."
 	@# Remove 'xmlns:xml' attribute inserted by batch-prettify.
@@ -104,4 +116,4 @@ $(GOAL): $(META) $(THUMB) $(FIG) $(CSS) $(FONT) mimetype META-INF/* LICENSE
 	  index.xhtml $(DIR)css/* $(DIR)fig/* ; \
 	echo "done."
 
-.PHONY: all epub html
+.PHONY: all epub html install-deps
