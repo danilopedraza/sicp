@@ -35,7 +35,21 @@ Next: <a href="1_002e1.xhtml#g_t1_002e1" accesskey="n" rel="next">1.1</a>, Prev:
 <h2 class="chapter"><span class="chapnum">1</span><span class="chaptitle">Building Abstractions with Procedures</span></h2>
 
 <blockquote>
-<p>The acts of the mind, wherein it exerts its power over simple ideas, are
+<!-- 
+   Dejo esto en comentario porque aún no sé cómo citarlo.
+   Lo tomé de la página 143 de la edición del FCE
+<p>Los actos de la mente por los cuales ejerce su poder sobre sus ideas simples
+son principalmente estos tres: 1. Combinandoen una idea compuesta varias ideas
+simples; es así como se hacen todas las <em>ideas complejas</em>.  2. El segundo
+consiste en juntar dos ideas, ya sean simples o complejas, para ponerlas una cerca
+a la otra, de tal manera que pueda verlas a la vez sin combinarlas en una; es así
+como la mente obtiene todas sus ideas de <em>relaciones</em>.  3. El tercero
+consiste en separar de todas las demás ideas que las acompañan en su existencia
+real; esta operación se llama <em>abstracción</em>, y es así como la mente hace
+todas sus <em>ideas generales</em>.
+-->
+
+The acts of the mind, wherein it exerts its power over simple ideas, are
 chiefly these three: 1. Combining<!-- /@w --> several simple ideas into one compound one,
 and thus all complex ideas are made.  2. The second<!-- /@w --> is bringing two ideas,
 whether simple or complex, together, and setting them by one another so as to
@@ -44,10 +58,19 @@ all its ideas of relations.  3. The third<!-- /@w --> is separating them from 
 ideas that accompany them in their real existence: this is called abstraction,
 and thus all its general ideas are made.
 </p>
-<p>—John Locke, <cite>An Essay Concerning Human Understanding</cite> (1690)
+<p>—John Locke, <cite>Ensayo sobre el entendimiento humano</cite> (1690)
 </p></blockquote>
 
+Estamos a punto de estudiar la idea de un <a id="index-proceso-computacional"></a>
+<em>proceso computacional</em>. Los procesos computacionales son entidades
+abstractas que habitan en los computadores y al evolucionar manipulan otros entes
+abtractos llamados <a id="index-datos"></a>
+<em>datos</em>. Esta evolución, la evolución de un proceso, es dirigida por un patrón de reglas
+llamado <a id="index-programa"></a>
+<em>programa</em>. Las personas crean programas para dirigir procesos, y es así como
+invocamos a los espiritus del computador con nuestros conjuros.
 
+<!--
 <p>We are about to study the idea of a <a id="index-computational-process"></a>
 <em>computational process</em>.
 Computational processes are abstract beings that inhabit computers.  As they
@@ -58,6 +81,21 @@ evolution of a process is directed by a pattern of rules called a
 <em>program</em>.  People create programs to direct processes.  In effect, we
 conjure the spirits of the computer with our spells.
 </p>
+-->
+
+<p>
+De hecho, un proceso computacional es muy parecido a la idea de un espíritu en
+la brujería. No puede ser visto ni tocado, no está del todo hecho de materia física,
+sin embargo es bastante real. Puede llevar a cabo trabajo intelectual, contestar
+preguntas e incluso puede afectar al mundo al distribuir dinero de un banco o al
+controlar un brazo robot de una fábrica. Los programas que usamos para conjurar
+procesos son como los conjuros de un brujo. Están compuestos cuidadosamente de
+expresiones simbólicas creadas en <a id="index-lenguajes-de-programación"></a>
+<em>lenguajes de programación</em> místicos y esotéricos, que están detrás de
+las tareas que queremos que nuestro proceso lleve a cabo.
+</p>
+
+<!--
 <p>A computational process is indeed much like a sorcerer’s idea of a spirit.  It
 cannot be seen or touched.  It is not composed of matter at all.  However, it
 is very real.  It can perform intellectual work.  It can answer questions.  It
@@ -68,6 +106,18 @@ arcane and esoteric <a id="index-programming-languages"></a>
 <em>programming languages</em> that prescribe the tasks we
 want our processes to perform.
 </p>
+-->
+
+<p>Un proceso computacional, en un computador que trabaja correctamente,
+ejecuta programas de manera precisa y exacta. Entonces, como el aprendiz de 
+un brujo, los programadores novatos deben aprender a entender y anticipar las
+consecuencias de sus conjuros. Incluso errores en un programa (que usualmente se llaman 
+<a id="index-bugs"></a>
+<em>bugs</em> o <a id="index-fallos"></a>
+<em>fallos</em>) pueden tener consucuencias complejas e impredecibles.
+</p>
+
+<!--
 <p>A computational process, in a correctly working computer, executes programs
 precisely and accurately.  Thus, like the sorcerer’s apprentice, novice
 programmers must learn to understand and to anticipate the consequences of
@@ -77,6 +127,18 @@ their conjuring.  Even small errors (usually called <a id="index-bugs"></a>
 <em>glitches</em>) in programs can have complex and unanticipated
 consequences.
 </p>
+-->
+
+<p>Por suerte, aprender a programar es, considerablemente, menos peligroso que
+aprender brujería, pues los espíritus con los que pactamos están contenidos de
+de una manera segura y conveniente. La programación del mundo real, sin embargo,
+requiere cuidado, experticia y discernimiento. Un pequeño fallo en un programa
+asistido y diseñado por computadora puede, por ejemplo, conducir a el colapso
+catastrófico de un avión o una presa, o incluso a la autodestrucción de un
+robot industrial.
+</p>
+
+<!--
 <p>Fortunately, learning to program is considerably less dangerous than learning
 sorcery, because the spirits we deal with are conveniently contained in a
 secure way.  Real-world programming, however, requires care, expertise, and
@@ -84,6 +146,23 @@ wisdom.  A small bug in a computer-aided design program, for example, can lead
 to the catastrophic collapse of an airplane or a dam or the self-destruction of
 an industrial robot.
 </p>
+-->
+
+<p>
+Los maestros del software tienen la habilidad de organizar programas de tal 
+manera que pueden, en términos razonables, asegurar que el proceso resultante
+se encarge de las tareas destinadas. Ellos pueden visualizar el comportamiento
+de sus sistemas con anticipación. Conocen cómo construir programas para que los
+problemas impredecibles no dejen consecuencias catastróficas, y cuando surgen
+problemas, pueden <a id="index-depurar"></a>
+<em>depurar</em>
+sus programas. Los sistemas computacionales bien diseñados, así como los 
+autos o reactores nucleares bien diseñados, son diseñados de manera modular,
+de modo que las partes pueden ser construidas, reemplazadas y depuradas
+de forma separada.
+</p>
+
+<!--
 <p>Master software engineers have the ability to organize programs so that they
 can be reasonably sure that the resulting processes will perform the tasks
 intended.  They can visualize the behavior of their systems in advance.  They
@@ -94,9 +173,31 @@ their programs.  Well-designed computational systems, like well-designed
 automobiles or nuclear reactors, are designed in a modular manner, so that the
 parts can be constructed, replaced, and debugged separately.
 </p>
+-->
+
+<a id="Programando-en-Lisp"></a>
+<h5 class="subsubheading">Programando en Lisp</h5>
+
+<!--
 <a id="Programming-in-Lisp"></a>
 <h5 class="subsubheading">Programming in Lisp</h5>
+-->
 
+<p>
+Necesitamos un lenguaje apropiado para describir procesos y para este propósito
+usaremos el lenguaje de programación Lisp. Así como usualmente, cada uno de nuestros 
+pensamientos son expresados en nuestro lenguaje natural (como el Español, el inglés o 
+el Japonés) y las descripciones de fenómenos cuantitativos son expresados con 
+notación matemática, nuestros pensamientos procedimentales serán expresados en Lisp.
+Lisp fue inventado a finales de los años 50 como un formalismo para pensar hacer del 
+uso de ciertos tipos de expresiones lógicas, llamadas <a id="index-ecuaciones-recursivas"></a>
+<em>ecuaciones recursivas</em>,
+como un modelo para computación. El lenguaje fue concevido por John McCarthy y está
+basado en su artículo “Recursive Functions of Symbolic Expressions and Their
+Computation by Machine” (<a href="References.xhtml#McCarthy-1960">McCarthy 1960</a>).
+</p>
+
+<!--
 <p>We need an appropriate language for describing processes, and we will use for
 this purpose the programming language Lisp.  Just as our everyday thoughts are
 usually expressed in our natural language (such as English, French, or
@@ -109,6 +210,18 @@ as a model for computation.  The language was conceived by John McCarthy and is
 based on his paper “Recursive Functions of Symbolic Expressions and Their
 Computation by Machine” (<a href="References.xhtml#McCarthy-1960">McCarthy 1960</a>).
 </p>
+-->
+
+<p>
+   A pesar de su génesis como un formalismo matemático, Lisp is un lenguaje
+   de programación práctico. Un <a id="index-intérprete"></a>
+   <em>intérprete</em> de Lisp es una máquina en la que se lleva a cabo procesos
+   descritos en el lenguaje Lisp. El primer intérprete de Lisp fue implementado
+   por McCarthy con la ayuda de colegas y estudiantes del Grupo de Inteligencia 
+   Artificial del Laboratorio de Investigación de Electrónica  del <abbr>MIT</abbr>
+   y del Centro de Computación del <abbr>MIT</abbr>.
+</p>
+
 <p>Despite its inception as a mathematical formalism, Lisp is a practical
 programming language.  A Lisp <a id="index-interpreter"></a>
 <em>interpreter</em> is a machine that carries
