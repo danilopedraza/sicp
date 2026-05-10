@@ -953,26 +953,45 @@ from @abbr{DARPA}, made possible by Bob Kahn.
 @chapter Building Abstractions with Procedures
 
 @quotation
-The acts of the mind, wherein it exerts its power over simple ideas, are
-chiefly these three: @w{1. Combining} several simple ideas into one compound one,
-and thus all complex ideas are made.  @w{2. The second} is bringing two ideas,
-whether simple or complex, together, and setting them by one another so as to
-take a view of them at once, without uniting them into one, by which it gets
-all its ideas of relations.  @w{3. The third} is separating them from all other
-ideas that accompany them in their real existence: this is called abstraction,
-and thus all its general ideas are made.
+Los actos de la mente por los cuales ejerce su poder sobre sus ideas simples
+son principalmente estos tres: @{1. Combinando} en una idea compuesta varias ideas
+simples; es así como se hacen todas las ideas complejas.  @{2. El segundo}
+consiste en juntar dos ideas, ya sean simples o complejas, para ponerlas una cerca
+a la otra, de tal manera que pueda verlas a la vez sin combinarlas en una; es así
+como la mente obtiene todas sus ideas de relaciones.  @{3. El tercero}
+consiste en separar de todas las demás ideas que las acompañan en su existencia
+real; esta operación se llama abstracción, y es así como la mente hace
+todas sus ideas generales.
 
----John Locke, @cite{An Essay Concerning Human Understanding} (1690)
+---John Locke, @cite{Ensayo sobre el entendimiento humano FCE} (1690)
 @end quotation
 
 
 @noindent
+Estamos a punto de estudiar la idea de un @newterm{proceso computacional}. Los 
+procesos computacionales son entidades abstractas que habitan en los computadores 
+y al evolucionar manipulan otros entes abtractos llamados @newterm{datos}. Esta 
+evolución, la evolución de un proceso, es dirigida por un patrón de reglas
+llamado @newterm{programa}. Las personas crean programas para dirigir procesos,
+y es así como invocamos a los espiritus del computador con nuestros conjuros.
+
 We are about to study the idea of a @newterm{computational process}.
 Computational processes are abstract beings that inhabit computers.  As they
 evolve, processes manipulate other abstract things called @newterm{data}.  The
 evolution of a process is directed by a pattern of rules called a
 @newterm{program}.  People create programs to direct processes.  In effect, we
 conjure the spirits of the computer with our spells.
+
+
+De hecho, un proceso computacional es muy parecido a la idea de un espíritu en
+la brujería. No puede ser visto ni tocado, no está del todo hecho de materia física,
+sin embargo es bastante real. Puede llevar a cabo trabajo intelectual, contestar
+preguntas e incluso puede afectar al mundo al distribuir dinero de un banco o al
+controlar un brazo robot de una fábrica. Los programas que usamos para conjurar
+procesos son como los conjuros de un brujo. Están compuestos cuidadosamente de
+expresiones simbólicas creadas en @newterm{lenguajes de programación} místicos y 
+esotéricos, que están detrás de las tareas que queremos que nuestro proceso lleve 
+a cabo.
 
 A computational process is indeed much like a sorcerer's idea of a spirit.  It
 cannot be seen or touched.  It is not composed of matter at all.  However, it
@@ -983,6 +1002,13 @@ sorcerer's spells.  They are carefully composed from symbolic expressions in
 arcane and esoteric @newterm{programming languages} that prescribe the tasks we
 want our processes to perform.
 
+
+Un proceso computacional, en un computador que trabaja correctamente, ejecuta
+programas de manera precisa y exacta. Entonces, como el aprendiz de un brujo,
+los programadores novatos deben aprender a entender y anticipar las consecuencias
+de sus conjuros. Incluso errores en un programa (que usualmente se llaman
+@newterm{bugs} o @{fallos}) pueden tener consucuencias complejas e impredecibles.
+
 A computational process, in a correctly working computer, executes programs
 precisely and accurately.  Thus, like the sorcerer's apprentice, novice
 programmers must learn to understand and to anticipate the consequences of
@@ -990,12 +1016,32 @@ their conjuring.  Even small errors (usually called @newterm{bugs} or
 @newterm{glitches}) in programs can have complex and unanticipated
 consequences.
 
+
+Por suerte, aprender a programar es, considerablemente, menos peligroso que
+aprender brujería, pues los espíritus con los que pactamos están contenidos de
+de una manera segura y conveniente. La programación del mundo real, sin embargo,
+requiere cuidado, experticia y discernimiento. Un pequeño fallo en un programa
+asistido y diseñado por computadora puede, por ejemplo, conducir a el colapso
+catastrófico de un avión o una presa, o incluso a la autodestrucción de un
+robot industrial.
+
 Fortunately, learning to program is considerably less dangerous than learning
 sorcery, because the spirits we deal with are conveniently contained in a
 secure way.  Real-world programming, however, requires care, expertise, and
 wisdom.  A small bug in a computer-aided design program, for example, can lead
 to the catastrophic collapse of an airplane or a dam or the self-destruction of
 an industrial robot.
+
+
+Los maestros del software tienen la habilidad de organizar programas de tal 
+manera que pueden, en términos razonables, asegurar que el proceso resultante
+se encarge de las tareas destinadas. Ellos pueden visualizar el comportamiento
+de sus sistemas con anticipación. Conocen cómo construir programas para que los
+problemas impredecibles no dejen consecuencias catastróficas, y cuando surgen
+problemas, pueden @newterm{depurar} sus programas. Los sistemas computacionales
+bien diseñados, así como los autos o reactores nucleares bien diseñados, son
+diseñados de manera modular, de modo que las partes pueden ser construidas,
+reemplazadas y depuradas de forma separada.
 
 Master software engineers have the ability to organize programs so that they
 can be reasonably sure that the resulting processes will perform the tasks
@@ -1006,7 +1052,22 @@ their programs.  Well-designed computational systems, like well-designed
 automobiles or nuclear reactors, are designed in a modular manner, so that the
 parts can be constructed, replaced, and debugged separately.
 
+
+@subsubheading Programando en Lisp
+
 @subsubheading Programming in Lisp
+
+
+Necesitamos un lenguaje apropiado para describir procesos y para este propósito
+usaremos el lenguaje de programación Lisp. Así como usualmente, cada uno de nuestros 
+pensamientos son expresados en nuestro lenguaje natural (como el Español, el inglés o 
+el Japonés) y las descripciones de fenómenos cuantitativos son expresados con 
+notación matemática, nuestros pensamientos procedimentales serán expresados en Lisp.
+Lisp fue inventado a finales de los años 50 como un formalismo para pensar hacer del 
+uso de ciertos tipos de expresiones lógicas, llamadas @newterm{ecuaciones recursivas}
+como un modelo para computación. El lenguaje fue concevido por John McCarthy y está
+basado en su artículo ``Recursive Functions of Symbolic Expressions and Their
+Computation by Machine'' (@ref{McCarthy 1960}).
 
 We need an appropriate language for describing processes, and we will use for
 this purpose the programming language Lisp.  Just as our everyday thoughts are
@@ -1018,6 +1079,23 @@ of certain kinds of logical expressions, called @newterm{recursion equations},
 as a model for computation.  The language was conceived by John McCarthy and is
 based on his paper ``Recursive Functions of Symbolic Expressions and Their
 Computation by Machine'' (@ref{McCarthy 1960}).
+
+
+A pesar de su génesis como un formalismo matemático, Lisp is un lenguaje
+de programación práctico. Un @newterm{intérprete} de Lisp es una máquina
+en la que se lleva a cabo procesos descritos en el lenguaje Lisp. El primer
+intérprete de Lisp fue implementado por McCarthy con la ayuda de colegas y
+estudiantes del Grupo de Inteligencia Artificial del Laboratorio de
+Investigación de Electrónica  del @abbr{MIT} y del Centro de Computación
+del @abbr{MIT}.@footnote{The @cite{Lisp 1 Programmer's Manual} apareció en
+1960 y @cite{Lisp 1.5 Programmer's Manual} (@ref{McCarthy et al. 1965})
+fue publicado en 1962. La reciente historia de Lisp está descrita en 
+@ref{McCarthy 1978}.} Lisp, cuyo nombre es un acrónimo de LISt Processing,
+fue diseñado para equipar de capacidades a la manipulación simbólica, esto con
+el fin de atacar problemas de programación como la diferenciación simbólica
+y la integración de expresiones algebraicas.Para este propósito se incluyeron
+nuevos objetos de datos conocidos como átomos y listas, algo que lo diferenciaba
+notablemente de todos los demás lenguajes de la época
 
 Despite its inception as a mathematical formalism, Lisp is a practical
 programming language.  A Lisp @newterm{interpreter} is a machine that carries
@@ -1033,6 +1111,38 @@ attacking programming problems such as the symbolic differentiation and
 integration of algebraic expressions.  It included for this purpose new data
 objects known as atoms and lists, which most strikingly set it apart from all
 other languages of the period.
+
+
+Lisp no fue el producto de un esfuerzo de diseño coordinado. En cambio, 
+se desarrolló de una manera informal y experimental como respuesta a las necesidades
+de los usuarios y a consideraciones de implementación pragmática. La evolución
+informal de Lisp ha continuado a lo largo de los años, y la comunidad de usuarios
+de Lisp, tradicionalmente, han resistido los intentos de ``oficializar'' cualquier
+definición del lenguaje. Esta evolución, junto con la flexibilidad y elegancia de
+la concepción inicial, le ha permitido a Lisp ---el segundo lenguaje más antiguo que
+aún se usa ampliamente (solo Fortran es más antiguo)--- adaptarse continuamente para
+asimilar la mayoría de ideas modernas del diseño de programas. De modo que Lisp,
+como una familia de dialectos, mientras comparte la mayoría de las características
+originales, se diferencia de otros lenguajes de manera significativa. El dialecto
+de Lisp usado en este libro es llamado Scheme.@footnote{Los dos dialectos en los
+cuales están escritos la mayoría de programas de 1970 son MacLisp (@ref{Moon 1978}; 
+@ref{Pitman 1983}), desarrolado por el @abbr{MIT} Proyecto @abbr{MAC}, y interlisp
+(@ref{Teitelman 1974}), desarrollado por Bolt Beranek y Newman Inc. y el
+Xerox Palo Alto Research Center.
+El Portable Standard Lisp (@ref{Hearn 1969}; @ref{Griss 1981}) fue un dialecto de Lisp
+diseñado para ser facilmente portátil entre distintas máquinas. MacLisp produjo
+un gran número de subdialectos, tales como Franz Lisp, el cual fue desarrollado por
+la University of California at Berkeley, y Zetalisp (@ref{Moon and Weinreb 1981}),
+el cual se basaba en un procesador de propósito especial diseñado en el Laboratorio
+de Inteligencia Artifical del @abbr{MIT} para ejecutar Lisp de manera eficiente. El
+dialecto de Lisp usado en este libro, llamado Scheme (@ref{Steele and Sussman 1975}),
+fue inventado en 1975 por Guy Lewis Steele Jr. y Gerald Jay Sussman del Laboratorio
+de Inteligencia Artifical del @abbr{MIT} y luego reimplementado para uso instructivo
+en el @abbr{MIT}. Scheme se convirtió en un estándar @abbr{IEEE} en 1990 (@ref{IEEE 1990}).
+El dialecto Common Lisp (@ref{Steele 1982}, @ref{Steele 1990}) fue desarrollado por la
+comunidad de Lisp para combinar características de los dialectos anteriores de Lisp, 
+como un estádar industrial de Lisp. Common Lisp se convirtió en un estándar @abbr{ANSI}
+en 1994 (@ref{ANSI 1994}).}
 
 Lisp was not the product of a concerted design effort.  Instead, it evolved
 informally in an experimental manner in response to users' needs and to
@@ -1063,6 +1173,26 @@ later reimplemented for instructional use at @abbr{MIT}.  Scheme became an
 features from the earlier Lisp dialects to make an industrial standard for
 Lisp.  Common Lisp became an @abbr{ANSI} standard in 1994 (@ref{ANSI 1994}).}
 
+
+Por su carácter experimental y su énfasis en la manipulación simbólica, el primer
+Lisp fue muy ineficiente para computaciones numéricas, al menos en comparación
+con Fortran. Con el paso de los años, sin embargo, los compiladores de Lisp han
+sido desarrollados para traducir programas a código de máquina que pueda
+llevar a cabo computaciones numéricas de una manera rezonablemente eficiente. Y
+para aplicaciones especiales, Lisp ha sido usado con gran efectividad.@footnote{
+Una de las aplicaciones especiales fue un hito computacional de importancia
+científica---una integración del movimiento del Sistema Solar que extendió resultados
+previos por cerca de dos órdenes de magnitud, y demostró que la dinámica del Sistema
+Solar es caótica. Esta computación fue posible gracias a una nueva integración de
+algoritmos, un compilador de propósito especial y un computador especializado, todos
+implementados con la ayuda de herramientas de software escritas en Lisp
+(@ref{Abelson et al. 1992}; @ref{Sussman and Wisdom 1992}).}
+Aunque Lisp aún no supera su antigua reputación de ineficiencia irremediable,
+hoy en día Lisp se usa en muchas aplicaciones donde la eficiencia no es la 
+principal preocupación. Por ejemplo, Lisp se ha convertido en un lenguaje preferido
+para shells de sistemas operativos (operating-system shell) y para lenguajes de
+extensión para editores y sistemas de diseño asistido por computadora.
+
 Because of its experimental character and its emphasis on symbol manipulation,
 Lisp was at first very inefficient for numerical computations, at least in
 comparison with Fortran.  Over the years, however, Lisp compilers have been
@@ -1081,6 +1211,23 @@ is not the central concern.  For example, Lisp has become a language of choice
 for operating-system shell languages and for extension languages for editors
 and computer-aided design systems.
 
+Si Lisp no es un lenguaje convencional, ¿por qué lo estamos usando como el marco
+de nuestra discusión sobre programación? Porque posee características únicas que
+lo convierten en un excelente medio para estudiar construcciones importantes y
+estructuras de datos de programación, y para relacionarlas con los rasgos
+lingüísticos que las sustentan. La característica más significativa es el hecho
+de que las descripciones de procesos de Lisp, llamados @newterm{procedimientos},
+pueden ser representadas y manipuladas por sí mismas como datos de Lisp. La
+importancia de esto es que hay técnicas poderosas de diseño de programas que
+dependen de la habilidad de difuminar la distinción tradicional entre datos
+``pasivos'' y procesos ``activos''. Como descubriremos, la flexibilidad de Lisp
+en manejar procedimientos como datos hace de él uno de los lenguajes más convenientes
+que existen para explorar estas técnicas. La habilidad de representar procedimientos
+como datos también hace de Lisp un lenguaje excelente para escribir programas que
+deben manipular otros programas como datos, tales como los intérpretes y compiladores
+que soportan lenguajes de computadora.
+Más allá de estas consideraciones, programar en Lisp es muy divertido.
+
 If Lisp is not a mainstream language, why are we using it as the framework for
 our discussion of programming?  Because the language possesses unique features
 that make it an excellent medium for studying important programming constructs
@@ -1098,13 +1245,24 @@ data, such as the interpreters and compilers that support computer languages.
 Above and beyond these considerations, programming in Lisp is great fun.
 
 @menu
+* 1.1::              Los Elementos de la Programación
+* 1.2::              Procedimientos y los Procesos que Generan
+* 1.3::              Formulando Abstracciones con Procedimientos de Alto Nivel
+@end menu
+
+@menu
 * 1.1::              The Elements of Programming
 * 1.2::              Procedures and the Processes They Generate
 * 1.3::              Formulating Abstractions with Higher-Order Procedures
 @end menu
 
+@node 1.1, 1.2, Chapter 1, Chapter 1
+@section Los Elementos de la Programación
+
 @node	1.1, 1.2, Chapter 1, Chapter 1
 @section The Elements of Programming
+
+
 
 A powerful programming language is more than just a means for instructing a
 computer to perform tasks.  The language also serves as a framework within
@@ -4231,7 +4389,7 @@ procedures as values.  Procedures that manipulate procedures are called
 @newterm{higher-order procedures}.  This section shows how higher-order
 procedures can serve as powerful abstraction mechanisms, vastly increasing the
 expressive power of our language.
-
+FINAL
 @menu
 * 1.3.1::            Procedures as Arguments
 * 1.3.2::            Constructing Procedures Using @code{Lambda}
