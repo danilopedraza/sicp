@@ -80,14 +80,13 @@ epub: $(GOAL)
 .ONESHELL:
 install-deps:
 	echo "You need to run this as superuser!"
-	apt install -y texinfo perl ruby-full wget
+	apt install -y texinfo perl ruby-full wget libfontconfig1 inkscape
 	gem install nokogiri
 	mkdir -p phantomjs
 	cd phantomjs
 	wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
 	tar -xf phantomjs-2.1.1-linux-x86_64.tar.bz2
 	echo 'To use the Make commands correctly, you will need to include PhantomJS binary to the path with "export PATH=$(shell pwd)/phantomjs/phantomjs-2.1.1-linux-x86_64/bin/:$$PATH"'
-
 
 $(META): $(NEXUS) create_metafiles.rb 
 	@echo -n "Building ePub3 file, saving to parent directory..."
