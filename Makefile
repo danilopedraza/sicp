@@ -19,13 +19,13 @@ HIGHL = $(DIR)js/highlight/
 PRETTY = $(HIGHL)prettify.js $(HIGHL)lang-lisp.js batch-prettify.js
 COVER = index.in.xhtml $(DIR)fig/coverpage.std.svg $(DIR)fig/bookwheel.jpg
 THUMB = $(DIR)fig/cover.png     # thumbnail cover image
-SHELL = /bin/bash
+SHELL = bash
 
 JQ = <script src=\"js/jquery.min.js\" type=\"text/javascript\"></script>
 FT = <script src=\"js/footnotes.js\" type=\"text/javascript\"></script>
 BR = <script src=\"js/browsertest.js\" type=\"text/javascript\"></script>
 
-GITHUB = <a href=\"https://github.com/sarabander/sicp\"><img style=\"position: absolute; top: 0; right: 0; border: 0; width: 149px; height: 149px; z-index: 10; opacity: 0.5;\" src=\"http://aral.github.com/fork-me-on-github-retina-ribbons/right-red\@2x.png\" alt=\"Fork me on GitHub\" /></a>
+GITHUB = <a href=\"https://github.com/danilopedraza/sicp\"><img style=\"position: absolute; top: 0; right: 0; border: 0; width: 149px; height: 149px; z-index: 10; opacity: 0.5;\" src=\"http://aral.github.com/fork-me-on-github-retina-ribbons/right-red\@2x.png\" alt=\"Fork me on GitHub\" /></a>
 
 # Targets
 
@@ -98,7 +98,7 @@ $(META): $(NEXUS) create_metafiles.rb
 	./create_metafiles.rb
 
 $(THUMB): $(COVER)
-	@inkscape -b "#fbfbfb" -C -e $(THUMB) -f $(DIR)fig/coverpage.std.svg > /dev/null
+	@inkscape --export-background="#fbfbfb" --export-area-drawing --export-filename=$(THUMB)
 
 $(GOAL): $(META) $(THUMB) $(FIG) $(CSS) $(FONT) mimetype META-INF/* LICENSE
 	@if [ -f $(GOAL) ]; then rm $(GOAL); fi; \
