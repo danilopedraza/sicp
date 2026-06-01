@@ -114,8 +114,6 @@
 @dfn{\term\}
 @end macro
 
-@setshortcontentsaftertitlepage
-
 @titlepage
 
 @titlefont{Structure and Interpretation@* of Computer Programs}
