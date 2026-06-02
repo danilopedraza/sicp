@@ -58,6 +58,7 @@
             pkgs.inkscape
             pkgs.zip
             phantomjs
+            pkgs.texinfo
           ];
 
           buildInputs = [
@@ -69,10 +70,12 @@
             # Local MathJax to avoid internet access during build
             cp -r ${mathjax} ./mathjax
             chmod -R +w ./mathjax
-            sed -i 's|http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full|./mathjax/MathJax.js?config=TeX-AMS_HTML-full|' mathcell.xhtml
 
             # Fix shebangs
             patchShebangs .
+
+            export XDG_CACHE_HOME="$(mktemp -d)"
+            export LANG=C.UTF-8
 
             # The Makefile expects phantomjs in the PATH
             export PATH=$PATH:${phantomjs}/bin
