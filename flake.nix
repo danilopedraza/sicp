@@ -67,7 +67,6 @@
           ];
 
           buildPhase = ''
-            # Local MathJax to avoid internet access during build
             cp -r ${mathjax} ./mathjax
             chmod -R +w ./mathjax
 
@@ -77,7 +76,6 @@
             export XDG_CACHE_HOME="$(mktemp -d)"
             export LANG=C.UTF-8
 
-            # The Makefile expects phantomjs in the PATH
             export PATH=$PATH:${phantomjs}/bin
             
             make
