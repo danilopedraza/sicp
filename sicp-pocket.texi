@@ -1367,68 +1367,71 @@ es crucial, tanto para entender cómo funciona el intérprete como para implemen
 intérpretes}
 
 @node	1.1.3, 1.1.4, 1.1.2, 1.1
-@subsection Evaluating Combinations
+@subsection Evaluando Combinaciones
 
-One of our goals in this chapter is to isolate issues about thinking
-procedurally.  As a case in point, let us consider that, in evaluating
-combinations, the interpreter is itself following a procedure.
+Una de nuestras metas en este capítulo es aislar los problemas acerca del
+pensamiento procedimental (o iterativo). Como caso puntual, consideremos
+que, al evaluar combinaciones, el intérprete sigue en sí mismo un procedimiento. 
 
 @quotation
-To evaluate a combination, do the following:
+Al evaluar una combinación, hace lo siguiente:
 
 @enumerate 1
 
 @item
-Evaluate the subexpressions of the combination.
+Evalua las subexpresiones de la combinación.
 
 @item
-Apply the procedure that is the value of the leftmost subexpression (the
-operator) to the arguments that are the values of the other subexpressions (the
-operands).
+Aplica el procedimiento que tiene como valor la subexpresión que está más
+a la izquierda (el operador) a los argumentos que son los valores de las
+otras subexpresiones (los operandos).
 
 @end enumerate
 @end quotation
 
 @noindent
-Even this simple rule illustrates some important points about processes in
-general.  First, observe that the first step dictates that in order to
-accomplish the evaluation process for a combination we must first perform the
-evaluation process on each element of the combination.  Thus, the evaluation
-rule is @newterm{recursive} in nature; that is, it includes, as one of its
-steps, the need to invoke the rule itself.@footnote{It may seem strange that
-the evaluation rule says, as part of the first step, that we should evaluate
-the leftmost element of a combination, since at this point that can only be an
-operator such as @code{+} or @code{*} representing a built-in primitive
-procedure such as addition or multiplication.  We will see later that it is
-useful to be able to work with combinations whose operators are themselves
-compound expressions.}
+Incluso esta simple regla ilustra algunos puntos importantes acerca de los 
+procesos en general. Primero, observe que el primer paso establece que, para
+llevar a cabo el proceso de evaluación de una combinación, primero debemos
+realizar el proceso de evaluación en cada uno de los elementos de la combinación.
+Es por esto que la regla de evaluación es de naturaleza @newterm{recursiva};
+esto incluye, como uno de sus pasos, la necesidad de invocar la regla
+misma.@footnote{Podría parecer extraño que la regla de evaluacióñ diga, como
+parte de su primer paso, que debemos evaluar el elemento más a la izquierda de
+la combinación, como puede ser los operadores @code{+} o @code{*}, pues
+representan un procedimiento primitivo incorporado como pueden ser la adición
+o la multiplicación. Más adelante veremos que es útil para estar poder trabajar
+con combinaciones cuyos operadores son en sí mismos expresiones compuestas.} 
 
-Notice how succinctly the idea of recursion can be used to express what, in the
-case of a deeply nested combination, would otherwise be viewed as a rather
-complicated process.  For example, evaluating
+
+REVISIÓN CÉSAR (No sé si se conserva el sentido original del siguiente texto)
+Note cómo la idea de la recursión puede ser usada para expresar algo
+de una forma sucinta, en el caso de una combinación profundamente anidada,
+que de otro modo sería visto como un proceso más complicado.
+Por ejemplo, la evaluación
 
 @lisp
 (* (+ 2 (* 4 6)) (+ 3 5 7))
 @end lisp
 
 @noindent
-requires that the evaluation rule be applied to four different combinations.
-We can obtain a picture of this process by representing the combination in the
-form of a tree, as shown in @ref{Figure 1.1}.  Each combination is represented
-by a node with branches corresponding to the operator and the operands of the
-combination stemming from it.  The terminal nodes (that is, nodes with no
-branches stemming from them) represent either operators or numbers.  Viewing
-evaluation in terms of the tree, we can imagine that the values of the operands
-percolate upward, starting from the terminal nodes and then combining at higher
-and higher levels.  In general, we shall see that recursion is a very powerful
-technique for dealing with hierarchical, treelike objects.  In fact, the
-``percolate values upward'' form of the evaluation rule is an example of a
-general kind of process known as @newterm{tree accumulation}.
+requiere que la regla de evaluación sea aplicada para cuatro combinaciones
+diferentes. Podemos obtener una visualización de este proceso representando
+la combinación en forma de un árbol, como se muestra en @ref{Figure 1.1}. Cada
+combinación está representada por un nodo con ramas que corresponden al operador y
+a los operandos que parten de él. Los nodos terminales (es decir, nodos
+sin ramas saliendo de ellos) representan operadores o números. Viendo la evaluación
+en términos del árbol, podemos imaginar los valores de los operandos ascienden
+gradualmente, empezando desde la desde los nodos terminales y luego combinándose
+a niveles cada vez más altos. En general, veremos que la recursión es una técnica
+poderosa para manipular objetos jerárquicos con forma de árbol. De hecho, la forma de
+``pascenso de valores'' de la regla de evaluación es un ejemplo de un tipo
+general de proceso conocido como @newterm{tree accumulation}
 
 @float
 @anchor{Figure 1.1}
 @ifinfo
-@strong{Figure 1.1:} Tree representation, showing the value of each subcombination.
+@strong{Figure 1.1:} Representación de árbol, mostrando el valor de cada subcombinación.
 
 @example
    390
@@ -1445,43 +1448,46 @@ general kind of process known as @newterm{tree accumulation}.
 @end ifinfo
 @iftex
 @image{fig/chap1/Fig1.1g,,58mm,,.std.svg}
-@caption{@strong{Figure 1.1:} Tree representation, showing the value of each subcombination.}
+@caption{@strong{Figure 1.1:} Representación de árbol, mostrando el valor de cada subcombinación.}
 @end iftex
 @end float
 
 @noindent
-Next, observe that the repeated application of the first step brings us to the
-point where we need to evaluate, not combinations, but primitive expressions
-such as numerals, built-in operators, or other names.  We take care of the
-primitive cases by stipulating that
+
+Lo siguiente es observar que la aplicación repetida del primer paso nos
+conduce al punto en el que necesitamos evaluar, no combinaciones, sino expresiones
+primitivas tales como numerales, operadores incorporados u otros nombres. Nos cuidamos
+de los casos primitivos al estipular que
 
 @itemize @bullet
 
+REVISIÓN CÉSAR (en estos items hay una traducción literal, revisar si funciona)
 @item
-the values of numerals are the numbers that they name,
+los valores de los numerales son los números que ellos nombran,
 
 @item
-the values of built-in operators are the machine instruction sequences that
-carry out the corresponding operations, and
+los valores de los operadores incorporados son las secuencias de instrucción
+de máquina que ejecutan las correspondientes operaciones, y
 
 @item
-the values of other names are the objects associated with those names in the
-environment.
+los valores de otros nombres son los objetos asociados con estos nombres en
+el entorno.
 
 @end itemize
 
 @noindent
-We may regard the second rule as a special case of the third one by stipulating
-that symbols such as @code{+} and @code{*} are also included in the global
-environment, and are associated with the sequences of machine instructions that
-are their ``values.''  The key point to notice is the role of the environment
-in determining the meaning of the symbols in expressions.  In an interactive
-language such as Lisp, it is meaningless to speak of the value of an expression
-such as @code{(+ x 1)} without specifying any information about the environment
-that would provide a meaning for the symbol @code{x} (or even for the symbol
-@code{+}).  As we shall see in @ref{Chapter 3}, the general notion of the
-environment as providing a context in which evaluation takes place will play an
-important role in our understanding of program execution.
+Podríamos considerar la segunda regla como un caso especial de la tercera
+al estipular que los símbolos como @code{+} y @code{*} son también incluidos
+en el entorno global, y están asociados con las secuencias de instrucción de
+máquina vienen siendo sus ``valores.'' El punto clave a considerar es el rol
+del entorno al determinar el significado de los símbolos en expresiones. En
+un lenguaje interactivo como Lisp, no tiene sentido hablar del valor de una
+expresión como @code{(+ x 1)} sin especificar ninguna información acerca
+del entorno que proporcione un significado para el símbolo @code{x} (o incluso para
+el símbolo @code{+}). Como veremos en @ref{(Chapter 3)}, la noción general
+de entorno como aquel que proporciona un contexto en el cual la evaluación tiene
+lugar jugará un papel importante en nuestro entendimiento de la ejecución de
+un programa
 
 Notice that the evaluation rule given above does not handle definitions.  For
 instance, evaluating @code{(define x 3)} does not apply @code{define} to two
