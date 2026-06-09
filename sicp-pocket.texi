@@ -1487,34 +1487,36 @@ del entorno que proporcione un significado para el símbolo @code{x} (o incluso 
 el símbolo @code{+}). Como veremos en @ref{(Chapter 3)}, la noción general
 de entorno como aquel que proporciona un contexto en el cual la evaluación tiene
 lugar jugará un papel importante en nuestro entendimiento de la ejecución de
-un programa
+un programa.
 
-Notice that the evaluation rule given above does not handle definitions.  For
-instance, evaluating @code{(define x 3)} does not apply @code{define} to two
-arguments, one of which is the value of the symbol @code{x} and the other of
-which is 3, since the purpose of the @code{define} is precisely to associate
-@code{x} with a value.  (That is, @code{(define x 3)} is not a combination.)
+Note que la regla de evaluación anterior no está sujeta a definiciones. Por ejemplo,
+la evaluación @code{(define x 3)} no aplica @code{define} a los dos argumentos, uno
+de ellos es el valor del símbolo @code{x} y el otro de ellos es 3, pues el propósito
+de @code{define} es precisamente asociar a @code{x} con un valor. (Es decir,
+@code{(define x 3)} no es una combinación.)
 
-Such exceptions to the general evaluation rule are called @newterm{special forms}.  
-@code{Define} is the only example of a special form that we have seen
-so far, but we will meet others shortly.  Each special form has its own
-evaluation rule. The various kinds of expressions (each with its associated
-evaluation rule) constitute the syntax of the programming language.  In
-comparison with most other programming languages, Lisp has a very simple
-syntax; that is, the evaluation rule for expressions can be described by a
-simple general rule together with specialized rules for a small number of
-special forms.@footnote{Special syntactic forms that are simply convenient
-alternative surface structures for things that can be written in more uniform
-ways are sometimes called @newterm{syntactic sugar}, to use a phrase coined by
-Peter Landin.  In comparison with users of other languages, Lisp programmers,
-as a rule, are less concerned with matters of syntax.  (By contrast, examine
-any Pascal manual and notice how much of it is devoted to descriptions of
-syntax.)  This disdain for syntax is due partly to the flexibility of Lisp,
-which makes it easy to change surface syntax, and partly to the observation
-that many ``convenient'' syntactic constructs, which make the language less
-uniform, end up causing more trouble than they are worth when programs become
-large and complex.  In the words of Alan Perlis, ``Syntactic sugar causes
-cancer of the semicolon.''}
+Tales excepciones a la regla de evaluación general son llamadas
+@newterm{formas especiales}. @code{Define} es el único ejemplo de una forma 
+especial que hemos visto hasta ahora, pero pronto encontraremos otras. Cada forma
+especial tiene su propia regla de evaluación. Los distintos tipos de
+expresiones (cada uno asociado a su propia regla de evaluación) constituyen la
+sintaxis del lenguaje de programación. En comparación con la mayoría de otros
+lenguajes de programación, Lisp tiene una sintaxis muy simple; es decir, 
+la regla de evaluación para expresiones puede ser descrita por una regla general
+simple junto con reglas especializadas para un pequeño número de formas
+especiales.@footnote{Las formas sintácticas especiales, que son simplemente
+estructuras superficiales alternativas para cosas que pueden ser escritas de
+manera más uniforme, son llamadas @newterm{azúcar sintético}, para usar una frase
+acuñada por Peter Landin. En comparación con usuarios de otros lenguajes, los
+programadores de Lisp son, por regla general, menos preocupados cuestiones de
+sintaxis. (Como contraste, examine cualquier manual de Pascal y note cuánto de él
+está dedicado a las descripciones de sintaxis.) Este desdén por la sintaxis se debe
+en parte por la flexibilidad de Lisp, lo cual facilita cambiar la sintaxis superficial,
+y en parte por la observación de que muchas construcciones sintácticas ``convenientes'',
+que hacen el lenguaje menos uniforme, terminan causando más problemas de los que resuleve
+cuando los programas se vuelven largos y complejos. En palabras de Alan Perlis,
+``el azúcar sintético causa cáncer de punto'' y coma (en inglés tiene más gracia:
+``Syntactic sugar causes cancer of the semicolon.)''}
 
 @node	1.1.4, 1.1.5, 1.1.3, 1.1
 @subsection Compound Procedures
