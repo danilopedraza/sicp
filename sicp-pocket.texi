@@ -1404,9 +1404,10 @@ o la multiplicación. Más adelante veremos que es útil para estar poder trabaj
 con combinaciones cuyos operadores son en sí mismos expresiones compuestas.} 
 
 
-Note cómo la idea de la recursión puede ser usada para expresar algo
-de una forma sucinta, en el caso de una combinación profundamente anidada,
-que de otro modo sería visto como un proceso más complicado.
+Note como la idea de la recursión puede ser usada para expresar ideas
+complicadas de manera breve y relativamente simple, especialmente
+cuando se trata de cosas con muchas capas. Usar otra estrategia probablemente
+resultaría en que el proceso luzca más complicado.
 Por ejemplo, la evaluación
 
 @lisp
@@ -1461,7 +1462,7 @@ de los casos primitivos al estipular que
 @itemize @bullet
 
 @item
-los valores de los numerales son los números que ellos nombran,
+los valores de los numerales son los números que nombran,
 
 @item
 los valores de los operadores incorporados son las secuencias de instrucción
@@ -1519,38 +1520,39 @@ cuando los programas se vuelven largos y complejos. En palabras de Alan Perlis,
 @node	1.1.4, 1.1.5, 1.1.3, 1.1
 @subsection Procedimientos Compuestos
 
-We have identified in Lisp some of the elements that must appear in any
-powerful programming language:
+Hemos identificado algunos elementos de Lisp que deben aparecer en
+cualquier lenguaje de programación poderoso:
 
 @itemize @bullet
 
 @item
-Numbers and arithmetic operations are primitive data and procedures.
+Los números y las operaciones aritméticas son datos y procedimientos.
 
 @item
-Nesting of combinations provides a means of combining operations.
+El anidamiento de combinaciones como método de combinar operaciones.
 
 @item
-Definitions that associate names with values provide a limited means of
-abstraction.
+Las definiciones que asocian nombres con valores nos dan un método limitado
+de abstracción. 
 
 @end itemize
 
 @noindent
-Now we will learn about @newterm{procedure definitions}, a much more powerful
-abstraction technique by which a compound operation can be given a name and
-then referred to as a unit.
+Ahora aprenderemos el @newterm{procedimiento de definir}: una técnica
+de abstracción mucho más poderosa con la cual se le puede dar nombre a una
+operación compuesta y luego referirse a ella como unidad.
 
-We begin by examining how to express the idea of ``squaring.''  We might say,
-``To square something, multiply it by itself.''  This is expressed in our
-language as
+Empezaremos examinando cómo expresar la idea de ``elevar al cuadrado.''
+Podríamos decir que, ``elevar algo al cuadrado es multiplicarlo ese algo
+por si mismo.''
+Esto es expresado en nuestro lenguaje como
 
 @lisp
 (define (square x) (* x x))
 @end lisp
 
 @noindent
-We can understand this in the following way:
+Podemos entender esto de la siguiente manera:
 
 @example
 (define (square x)    (*       x       x))
@@ -1559,42 +1561,41 @@ We can understand this in the following way:
 @end example
 
 @noindent
-We have here a @newterm{compound procedure}, which has been given the name
-@code{square}.  The procedure represents the operation of multiplying something
-by itself.  The thing to be multiplied is given a local name, @code{x}, which
-plays the same role that a pronoun plays in natural language.  Evaluating the
-definition creates this compound procedure and associates it with the name
-@code{square}.@footnote{Observe that there are two different operations being
-combined here: we are creating the procedure, and we are giving it the name
-@code{square}.  It is possible, indeed important, to be able to separate these
-two notions---to create procedures without naming them, and to give names to
-procedures that have already been created.  We will see how to do this in
-@ref{1.3.2}.}
+Aquí tenemos un @newterm{procedimiento compuesto} que ha sido nombrado como
+@code{square}. Este procedimiento representa la operación de multiplicar algo
+por sí mismo y ese algo que es multiplicado está dado por un nombre local, @code{x},
+que tiene el mismo papel que tiene un pronombre en el lenguaje natural. Evaluar
+la definición crea este procedimiento compuesto y lo asocia con el nombre
+@code{square}.@footnote{Observe que hay dos operaciones distintas que están combinadas:
+estamos creando el procedimiento y dándole el nombre de @code{square}. Es posible, y de
+hecho es muy importante, poder separar estas dos nociones---crear procedimientos sin
+nombrarlos y dar nombres a procedimientos que realmente ya han sido creados.
+Veremos cómo hacer esto en @ref{1.3.2}.}
 
-The general form of a procedure definition is
+La forma general de una definición de procedimiento es
 
 @lisp
 (define (⟨@var{name}⟩ ⟨@var{formal parameters}⟩) ⟨@var{body}⟩)
 @end lisp
 
 @noindent
-The @code{⟨}@var{name}@code{⟩} is a symbol to be associated with the procedure definition in
-the environment.@footnote{Throughout this book, we will describe the general
-syntax of expressions by using italic symbols delimited by angle
-brackets---e.g., @code{⟨}@var{name}@code{⟩}---to denote the ``slots'' in the expression to be
-filled in when such an expression is actually used.} The @code{⟨}@var{@w{formal} @w{parameters}}@code{⟩} 
-are the names used within the body of the procedure to refer to
-the corresponding arguments of the procedure.  The @code{⟨}@var{body}@code{⟩} is an
-expression that will yield the value of the procedure application when the
-formal parameters are replaced by the actual arguments to which the procedure
-is applied.@footnote{More generally, the body of the procedure can be a
-sequence of expressions.  In this case, the interpreter evaluates each
-expression in the sequence in turn and returns the value of the final
-expression as the value of the procedure application.}  The @code{⟨}@var{name}@code{⟩} and
-the @code{⟨}@var{formal parameters}@code{⟩} are grouped within parentheses, just as they
-would be in an actual call to the procedure being defined.
+El @code{⟨}@var{name}@code{⟩} es un símbolo que se asociará con la definición de 
+procedimiento en el entorno.@footnote{A lo largo de este libro, describiremos la sintaxis
+general de expresiones usando letras itálicas delimitadas por corchetes angulares---e.g.,
+@code{⟨}@var{name}@code{⟩}---para denotar los ``espacios'' que deben llenarse cuando se
+use realmente una expresión.} Los @code{⟨}@var{@w{formal} @w{parameters}}@code{⟩} son
+los nombres usados dentro del cuerpo del procedimiento para referirse a los argumentos
+correspondientes del procedimiento. El @code{⟨}@var{body}@code{⟩} es una expresión
+que dará como resultado el valor de aplicar el procedimiento cuando los parámetros formales 
+sean sustituidos por los argumentos reales a los que se aplica el 
+procedimiento.@footnote{Generalmente, el cuerpo de los procedimientos puede ser
+una secuencia de expresiones. En este caso, el intérprete evalua en orden cada expresión en la
+secuencia y retorna el valor de la expresión final como el valor de la aplicación
+del procedimiento.} El @code{⟨}@var{name}@code{⟩} y los @code{⟨}@var{formal parameters}@code{⟩}
+están agrupados con paréntesis, justo como lo estarían en una llamada real del procedimiento
+que se está definiendo.
 
-Having defined @code{square}, we can now use it:
+Habiendo definido @code{square}, podemos aplicarlo:
 
 @lisp
 (square 21)
@@ -1608,16 +1609,16 @@ Having defined @code{square}, we can now use it:
 @end lisp
 
 @noindent
-We can also use @code{square} as a building block in defining other procedures.
-For example, @math{x^2 + y^2} can be expressed as
+También podemos usar @code{square} como un bloque constructor y así definir
+otros procedimientos. Por ejemplo, @math{x^2 + y^2} puede ser expresado como
 
 @lisp
 (+ (square x) (square y))
 @end lisp
 
 @noindent
-We can easily define a procedure @code{sum-of-squares} that, given any two
-numbers as arguments, produces the sum of their squares:
+Fácilmente podemos definir un procedimiento @code{sum-of-squares} que, dados
+dos números, proceda a dar la suma de sus cuadrados:
 
 @lisp
 (define (sum-of-squares x y)
@@ -1628,8 +1629,8 @@ numbers as arguments, produces the sum of their squares:
 @end lisp
 
 @noindent
-Now we can use @code{sum-of-squares} as a building block in constructing
-further procedures:
+Ahora podemos usar @code{sum-of-squares} como un componente básico
+para construir más procedimientos:
 
 @lisp
 (define (f a)
@@ -1640,10 +1641,10 @@ further procedures:
 @end lisp
 
 @noindent
-Compound procedures are used in exactly the same way as primitive procedures.
-Indeed, one could not tell by looking at the definition of
-@code{sum-of-squares} given above whether @code{square} was built into the
-interpreter, like @code{+} and @code{*}, or defined as a compound procedure.
+Los procedimientos compuestos se usan de la misma manera que los
+procedimientos primitivos. De hecho, no podríamos distinguir, solo mirando la definición
+de @code{sum-of-squares}, si @code{square} está integrado en el intérprete, como lo está
+@code{+} y @code{*}, o si está definido como un procedimiento compuesto.
 
 @node	1.1.5, 1.1.6, 1.1.4, 1.1
 @subsection The Substitution Model for Procedure Application
