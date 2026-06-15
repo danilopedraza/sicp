@@ -1133,7 +1133,7 @@ my %kept_misc_commands;
 my @informative_global_commands = ('contents', 'shortcontents',
   'summarycontents', 'allowcodebreaks', 'documentlanguage',
   'footnotestyle', 'documentencoding', 
-  'setcontentsaftertitlepage', 'setshortcontentsaftertitlepage',
+  'setcontentsaftertitlepage',
   'xrefautomaticsectiontitle', 'deftypefnnewline');
 # taken from global
 # 'documentencoding'

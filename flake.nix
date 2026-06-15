@@ -1,102 +1,107 @@
 {
-  description = "SICP EPUB build";
+  description = "A Typst project that uses Typst packages";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    typix = {
+      url = "github:loqusion/typix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-utils.url = "github:numtide/flake-utils";
+
+    # Example of downloading icons from a non-flake source
+    # font-awesome = {
+    #   url = "github:FortAwesome/Font-Awesome";
+    #   flake = false;
+    # };
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs { inherit system; };
+  outputs = inputs @ {
+    nixpkgs,
+    typix,
+    flake-utils,
+    ...
+  }:
+    flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+      inherit (pkgs) lib;
 
-        phantomjs = pkgs.stdenv.mkDerivation {
-          pname = "phantomjs";
-          version = "2.1.1";
+      typixLib = typix.lib.${system};
 
-          src = pkgs.fetchurl {
-            url = "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2";
-            sha256 = "0bqd8r97inh5f682m3cykg76s7bwjkqirxn9hhd5zr5fyi5rmpc6";
-          };
+      src = typixLib.cleanTypstSource ./.;
+      commonArgs = {
+        typstSource = "main.typ";
 
-          nativeBuildInputs = [ pkgs.autoPatchelfHook ];
-          buildInputs = [
-            pkgs.fontconfig
-            pkgs.freetype
-            pkgs.zlib
-            pkgs.libX11
-            pkgs.libXext
-            pkgs.stdenv.cc.cc.lib
-          ];
+        fontPaths = [
+          # Add paths to fonts here
+          # "${pkgs.roboto}/share/fonts/truetype"
+        ];
 
-          installPhase = ''
-            mkdir -p $out/bin
-            cp bin/phantomjs $out/bin/
-          '';
+        virtualPaths = [
+          # Add paths that must be locally accessible to typst here
+          # {
+          #   dest = "icons";
+          #   src = "${inputs.font-awesome}/svgs/regular";
+          # }
+        ];
+      };
+
+      unstable_typstPackages = [
+        # Add Typst packages here, transitive dependencies are also mandatory
+        {
+          name = "oxifmt";
+          version = "0.2.1";
+          hash = "sha256-8PNPa9TGFybMZ1uuJwb5ET0WGIInmIgg8h24BmdfxlU=";
+        }
+      ];
+
+      # Compile a Typst project, *without* copying the result
+      # to the current directory
+      build-drv = typixLib.buildTypstProject (commonArgs
+        // {
+          inherit src unstable_typstPackages;
+        });
+
+      # Compile a Typst project, and then copy the result
+      # to the current directory
+      build-script = typixLib.buildTypstProjectLocal (commonArgs
+        // {
+          inherit src unstable_typstPackages;
+        });
+
+      # Watch a project and recompile on changes
+      watch-script = typixLib.watchTypstProject commonArgs;
+    in {
+      checks = {
+        inherit build-drv build-script watch-script;
+      };
+
+      packages.default = build-drv;
+
+      apps = rec {
+        default = watch;
+        build = flake-utils.lib.mkApp {
+          drv = build-script;
         };
-
-        rubyWithNokogiri = pkgs.ruby.withPackages (ps: [ ps.nokogiri ]);
-
-        mathjax = pkgs.fetchFromGitHub {
-          owner = "mathjax";
-          repo = "MathJax";
-          rev = "2.7.9";
-          sha256 = "0rqxc3nxz1yih848fsv8yp5r86bh8lyr09wabk656cfh0whyp28q";
+        watch = flake-utils.lib.mkApp {
+          drv = watch-script;
         };
+      };
 
-      in {
-        packages.sicp-epub = pkgs.stdenv.mkDerivation {
-          pname = "sicp-epub";
-          version = "2.0";
-
-          src = ./.;
-
-          nativeBuildInputs = [
-            pkgs.perl
-            rubyWithNokogiri
-            pkgs.inkscape
-            pkgs.zip
-            phantomjs
-          ];
-
-          buildInputs = [
-            pkgs.fontconfig
-            pkgs.freetype
-          ];
-
-          buildPhase = ''
-            # Local MathJax to avoid internet access during build
-            cp -r ${mathjax} ./mathjax
-            chmod -R +w ./mathjax
-            sed -i 's|http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full|./mathjax/MathJax.js?config=TeX-AMS_HTML-full|' mathcell.xhtml
-
-            # Fix shebangs
-            patchShebangs .
-
-            # The Makefile expects phantomjs in the PATH
-            export PATH=$PATH:${phantomjs}/bin
-            
-            make
-          '';
-
-          installPhase = ''
-            mkdir -p $out
-            cp ../sicp.epub $out/ || cp sicp.epub $out/ || (ls -R .. && exit 1)
-          '';
-        };
-
-        packages.default = self.packages.${system}.sicp-epub;
-
-        devShells.default = pkgs.mkShell {
-          buildInputs = [
-            pkgs.perl
-            rubyWithNokogiri
-            pkgs.inkscape
-            pkgs.zip
-            phantomjs
-          ];
-        };
-      }
-    );
+      devShells.default = typixLib.devShell {
+        inherit (commonArgs) fontPaths virtualPaths;
+        packages = [
+          # WARNING: Don't run `typst-build` directly, instead use `nix run .#build`
+          # See https://github.com/loqusion/typix/issues/2
+          # build-script
+          watch-script
+          # More packages can be added here, like typstfmt
+          pkgs.typstfmt
+          pkgs.tinymist
+          pkgs.nixd
+        ];
+      };
+    });
 }

@@ -7,3 +7,7 @@ toc.xhtml
 *~
 \#*\#
 /phantomjs
+/mathjax
+/result
+/main.pdf
+/main.html
