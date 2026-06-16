@@ -102,43 +102,63 @@ Educators, generals, dieticians, psychologists, and parents program. Armies, stu
 #set page(numbering: "1")
 #counter(page).update(1)
 
-#heading(level: 1)[Building Abstractions with Procedures]
+#heading(level: 1)[Construcción de Abstracciones con Procedimientos]
 
-#quote(block: true, attribution: [John Locke, _An Essay Concerning Human Understanding_ (1690)])[
-  The acts of the mind, wherein it exerts its power over simple ideas, are chiefly these three: 1. Combining several simple ideas into one compound one, and thus all complex ideas are made. 2. The second is bringing two ideas, whether simple or complex, together, and setting them by one another so as to take a view of them at once, without uniting them into one, by which it gets all its ideas of relations. 3. The third is separating them from all other ideas that accompany them in their real existence: this is called abstraction, and thus all its general ideas are made.
+#quote(block: true, attribution: [John Locke, _Ensayo sobre el entendimiento humano_ (1690)])[
+  Los actos de la mente por los cuales ejerce su poder sobre sus ideas simples son principalmente estos tres: 1. Combinando en una idea compuesta varias ideas simples; es así como se hacen todas las ideas complejas. 2. El segundo consiste en juntar dos ideas, ya sean simples o complejas, para ponerlas una cerca a la otra, de tal manera que pueda verlas a la vez sin combinarlas en una; es así como la mente obtiene todas sus ideas de relaciones. 3. El tercero consiste en separar de todas las demás ideas que las acompañan en su existencia real; esta operación se llama abstracción, y es así como la mente hace todas sus ideas generales.
 ]
 
-We are about to study the idea of a *computational process*. Computational processes are abstract beings that inhabit computers. As they evolve, processes manipulate other abstract things called *data*. The evolution of a process is directed by a pattern of rules called a *program*. People create programs to direct processes. In effect, we conjure the spirits of the computer with our spells.
+Estamos a punto de estudiar la idea de un *proceso computacional*. Los procesos computacionales son entidades abstractas que habitan en los computadores y al evolucionar manipulan otros entes abtractos llamados *datos*. Esta evolución, la evolución de un proceso, es dirigida por un patrón de reglas llamado *programa*. Las personas crean programas para dirigir procesos, y es así como invocamos a los espiritus del computador con nuestros conjuros.
 
-== The Elements of Programming
+De hecho, un proceso computacional es muy parecido a la idea de un espíritu en la brujería. No puede ser visto ni tocado, no está del todo hecho de materia física, sin embargo es bastante real. Puede llevar a cabo trabajo intelectual, contestar preguntas e incluso puede afectar al mundo al distribuir dinero de un banco o al controlar un brazo robot de una fábrica. Los programas que usamos para conjurar procesos son como los conjuros de un brujo. Están compuestos cuidadosamente de expresiones simbólicas creadas en *lenguajes de programación* místicos y esotéricos, que están detrás de las tareas que queremos que nuestro proceso lleve a cabo.
 
-A powerful programming language is more than just a means for instructing a computer to perform tasks. The language also serves as a framework within which we organize our ideas about processes. Thus, when we describe a language, we should pay particular attention to the means that the language provides for combining simple ideas to form more complex ideas. Every powerful language has three mechanisms for accomplishing this:
+Un proceso computacional, en un computador que trabaja correctamente, ejecuta programas de manera precisa y exacta. Entonces, como el aprendiz de un brujo, los programadores novatos deben aprender a entender y anticipar las consecuencias de sus conjuros. Incluso errores en un programa (que usualmente se llaman *bugs* o {fallos}) pueden tener consucuencias complejas e impredecibles.
 
-- *primitive expressions*, which represent the simplest entities the language is concerned with,
-- *means of combination*, by which compound elements are built from simpler ones, and
-- *means of abstraction*, by which compound elements can be named and manipulated as units.
+Por suerte, aprender a programar es, considerablemente, menos peligroso que aprender brujería, pues los espíritus con los que pactamos están contenidos de de una manera segura y conveniente. La programación del mundo real, sin embargo, requiere cuidado, experticia y discernimiento. Un pequeño fallo en un programa asistido y diseñado por computadora puede, por ejemplo, conducir a el colapso catastrófico de un avión o una presa, o incluso a la autodestrucción de un robot industrial.
 
-In programming, we deal with two kinds of elements: procedures and data. (Later we will discover that they are really not so distinct.) Informally, data is "stuff" that we want to manipulate, and procedures are descriptions of the rules for manipulating the data. Thus, any powerful programming language should be able to describe primitive data and primitive procedures and should have methods for combining and abstracting procedures and data.
+Los maestros del software tienen la habilidad de organizar programas de tal manera que pueden, en términos razonables, asegurar que el proceso resultante se encargue de las tareas destinadas. Ellos pueden visualizar el comportamiento de sus sistemas con anticipación. Saben cómo construir programas para que los problemas impredecibles no dejen consecuencias catastróficas, y cuando surgen problemas, pueden *depurar* sus programas. Los sistemas computacionales bien diseñados, así como los autos o reactores nucleares bien diseñados, son diseñados de manera modular, de modo que las partes pueden ser construidas, reemplazadas y depuradas de forma separada.
 
-In this chapter we will deal only with simple numerical data so that we can focus on the rules for building procedures. In later chapters we will see that these same rules allow us to build procedures to manipulate compound data as well.
+==== Programando en Lisp
 
-=== Expressions
+Necesitamos un lenguaje apropiado para describir procesos y para este propósito usaremos el lenguaje de programación Lisp. Así como usualmente, cada uno de nuestros pensamientos son expresados en nuestro lenguaje natural (como el español, el inglés o el japonés) y las descripciones de fenómenos cuantitativos son expresados con notación matemática, nuestros pensamientos procedimentales serán expresados en Lisp. Lisp fue inventado a finales de los años 50 como un formalismo para razonar sobre el uso de ciertos tipos de expresiones lógicas, llamadas *ecuaciones recursivas* como un modelo para computación. El lenguaje fue concevido por John McCarthy y está basado en su artículo "Recursive Functions of Symbolic Expressions and Their Computation by Machine" (McCarthy 1960).
 
-One easy way to get started at programming is to examine some typical interactions with an interpreter for the Scheme dialect of Lisp. Imagine that you are sitting at a computer terminal. You type an *expression*, and the interpreter responds by displaying the result of its *evaluating* that expression.
+A pesar de su génesis como un formalismo matemático, Lisp es un lenguaje de programación práctico. Un *intérprete* de Lisp es una máquina en la que se lleva a cabo procesos descritos en el lenguaje Lisp. El primer intérprete de Lisp fue implementado por McCarthy con la ayuda de colegas y estudiantes del Grupo de Inteligencia Artificial del Laboratorio de Investigación de Electrónica del MIT y del Centro de Computación del MIT. #footnote[El _Lisp 1 Programmer's Manual_ apareció en 1960 y _Lisp 1.5 Programmer's Manual_ (McCarthy et al. 1965) fue publicado en 1962. La reciente historia de Lisp está descrita en McCarthy 1978.] Lisp, cuyo nombre es un acrónimo de LISt Processing, fue diseñado para equipar de capacidades a la manipulación simbólica, esto con el fin de atacar problemas de programación como la diferenciación simbólica y la integración de expresiones algebraicas. Para este propósito se incluyeron nuevos objetos de datos conocidos como átomos y listas, algo que lo diferenciaba notablemente de todos los demás lenguajes de la época.
 
-One kind of primitive expression you might type is a number. (More precisely, the expression that you type consists of the numerals that represent the number in base 10.) If you present Lisp with a number
+Lisp no fue el producto de un esfuerzo de diseño coordinado. En cambio, se desarrolló de una manera informal y experimental como respuesta a las necesidades de los usuarios y a consideraciones de implementación pragmática. La evolución informal de Lisp ha continuado a lo largo de los años, y la comunidad de usuarios de Lisp, tradicionalmente, han resistido los intentos de "oficializar" cualquier definición del lenguaje. Esta evolución, junto con la flexibilidad y elegancia de la concepción inicial, le ha permitido a Lisp ---el segundo lenguaje de programación más antiguo que aún se usa ampliamente (solo Fortran es más antiguo)--- adaptarse continuamente para asimilar la mayoría de ideas modernas del diseño de programas. De modo que Lisp, como una familia de dialectos, mientras comparte la mayoría de las características originales, se diferencia de otros lenguajes de manera significativa. El dialecto de Lisp usado en este libro es llamado Scheme. #footnote[Los dos dialectos en los cuales están escritos la mayoría de programas de 1970 son MacLisp (Moon 1978; Pitman 1983), desarrolado por el MIT Proyecto MAC, y interlisp (Teitelman 1974), desarrollado por Bolt Beranek y Newman Inc. y el Xerox Palo Alto Research Center.] El Portable Standard Lisp (Hearn 1969; Griss 1981) fue un dialecto de Lisp diseñado para ser facilmente portátil entre distintas máquinas. MacLisp produjo un gran número de subdialectos, tales como Franz Lisp, el cual fue desarrollado por la University of California at Berkeley, y Zetalisp (Moon and Weinreb 1981), el cual se basaba en un procesador de propósito especial diseñado en el Laboratorio de Inteligencia Artifical del MIT para ejecutar Lisp de manera eficiente. El dialecto de Lisp usado en este libro, llamado Scheme (Steele and Sussman 1975), fue inventado en 1975 por Guy Lewis Steele Jr. y Gerald Jay Sussman del Laboratorio de Inteligencia Artifical del MIT y luego reimplementado para uso instructivo en el MIT. Scheme se convirtió en un estándar IEEE en 1990 (IEEE 1990). El dialecto Common Lisp (Steele 1982, Steele 1990) fue desarrollado por la comunidad de Lisp para combinar características de los dialectos anteriores de Lisp, como un estádar industrial de Lisp. Common Lisp se convirtió en un estándar ANSI en 1994 (ANSI 1994).
+
+Por su carácter experimental y su énfasis en la manipulación simbólica, el primer Lisp fue muy ineficiente para computaciones numéricas, al menos en comparación con Fortran. Con el paso de los años, sin embargo, los compiladores de Lisp han sido desarrollados para traducir programas a código de máquina que pueda llevar a cabo computaciones numéricas de una manera rezonablemente eficiente. Y para aplicaciones especiales, Lisp ha sido usado con gran efectividad. #footnote[Una de las aplicaciones especiales fue un hito computacional de importancia científica---una integración del movimiento del Sistema Solar que extendió resultados previos por cerca de dos órdenes de magnitud, y demostró que la dinámica del Sistema Solar es caótica. Esta computación fue posible gracias a una nueva integración de algoritmos, un compilador de propósito especial y un computador especializado, todos implementados con la ayuda de herramientas de software escritas en Lisp (Abelson et al. 1992; Sussman and Wisdom 1992).] Aunque Lisp aún no supera su antigua reputación de ineficiencia irremediable, hoy en día Lisp se usa en muchas aplicaciones donde la eficiencia no es la principal preocupación. Por ejemplo, Lisp se ha convertido en un lenguaje preferido para shells de sistemas operativos (operating-system shell) y para lenguajes de extensión para editores y sistemas de diseño asistido por computadora.
+
+Si Lisp no es un lenguaje convencional, ¿por qué lo estamos usando como el marco de nuestra discusión sobre programación? Porque posee características únicas que lo convierten en un excelente medio para estudiar construcciones importantes y estructuras de datos de programación, y para relacionarlas con los rasgos lingüísticos que las sustentan. La característica más significativa es el hecho de que las descripciones de procesos de Lisp, llamados *procedimientos*, pueden ser representadas y manejadas por sí mismas como datos de Lisp. La importancia de esto es que hay técnicas poderosas de diseño de programas que dependen de la habilidad de difuminar la distinción tradicional entre datos "pasivos" y procesos "activos". Como descubriremos, la flexibilidad de Lisp en manejar procedimientos como datos hace de él uno de los lenguajes más convenientes que existen para explorar estas técnicas. La habilidad de representar procedimientos como datos también hace de Lisp un lenguaje excelente para escribir programas que deben manejar otros programas como datos, tales como los intérpretes y compiladores que soportan lenguajes de computadora. Más allá de estas consideraciones, programar en Lisp es muy divertido.
+
+== Los Elementos de la Programación
+
+Un lenguaje de programación poderoso es más que un medio para dar instrucciones a un computador para ejecutar tareas. El lenguaje también funciona como un marco en el cual organizamos nuestras ideas acerca de los procesos. Así pues, al describir un lenguaje, deberíamos prestar especial atención a los medios que este nos proporciona combinar ideas simples y así formar ideas más complejas. Para lograr esto, todo lenguaje poderoso cuenta con tres mecanismos:
+
+- *expresiones primitivas*, que representan las entidades más simples con las que trabaja el lenguaje,
+- *medios de combinación*, los cuales son elementos compuestos construidos a partir de otros más simples, y
+- *medios de abstracción*, los cuales son elementos compuestos que pueden ser nombrados y manejados como unidades.
+
+En programación tratamos con dos tipos de elementos: procedimientos y datos. (más adelante descubriremos que realmente no son tan distintos.) Informalmente, los datos son "cosas" que queremos manipular y los procedimientos son descripciones de reglas para manipular los datos. Entonces, cualquier lenguaje de programación poderoso debería ser capaz de describir datos primitivos y procedimientos primitivos, y debería tener métodos para combinar y abstraer procedimientos y datos.
+
+En este capítulo nos relacionaremos con datos numéricos simples de modo que nos enfocaremos en las reglas para construir procedimientos. #footnote[La caracterización de números como "datos simples" es un engaño descarado. De hecho, el tratamiento de números es uno de los aspectos más intricados y más confunsos de cualquier lenguaje de programación. Algunos problemas típicos involucran lo siguiente: Algunos sistemas distinguen *enteros*, como el 2, de *números reales*, como el 2.71. ¿Es diferente el número real 2.00 del número entero 2? ¿Las operaciones aritméticas usadas para los enteros son las mismas que para los números reales? ¿6 dividido por 2 produce 3, o 3.0? ¿Qué tan grande debe ser un número para poder representarlo? ¿Cuántos decimales de precisión podemos representar? ¿El rango que cubren los enteros es el mismo que el de los números reales? Estas y otras preguntas, por supuesto, forman una colección de problemas que gira en torno al redondeo y truncamiento de errores---toda una ciencia del análisis numérico. Dado que nuestro enfoque en este libro está en el diseño de programas a gran escala más que en técnicas numéricas, vamos a ignorar estos problemas. Los ejemplos numéricos en este capítulo exibirán el comportamiento usual de redondeo que uno observa cuando se están usando operaciones aritméticas que preservan un número limitado de lugares decimales de precisión en operaciones con no enteros.] En capítulos posteriores veremos que estas mismas reglas también nos permiten construir procedimientos para manipular datos compuestos.
+
+=== Expresiones
+
+Una manera sencilla de comenzar a programar es examinar algunas interacciones usuales con un intérprete del dialecto Scheme de Lisp. Imagina que estás frente a la terminal del computador, escribes una *expresión* y el intérprete responde mostrando el resultado de *evaluar* esta expresión. 
+
+Un tipo de expresión primitiva que podrías escribir es un número. (Más precisamente, la expresión que escribes consiste en los dígitos que representan el número en base 10.) Si le presentas a Lisp un número
 
 ```scm
 486
 ```
 
-the interpreter will respond by printing
+el intérprete responderá imprimiendo #footnote[A lo largo del libro, cuando el intérprete desee enfatizar la distinción entre la entrada escrita por el usuario y la respuesta impresa por el intérprete, mostraremos esta última en cursiva.]
 
 ```scm
 486
 ```
 
-Expressions representing numbers may be combined with an expression representing a primitive procedure (such as `+` or `*`) to form a compound expression that represents the application of the procedure to those numbers. For example:
+Las expresiones que representan números pueden ser combinadas con una expresión que representa un procedimiento primitivo (como `+` o `*`) para formar una expresión compuesta que representa la aplicación de este procedimiento a esos números. Por ejemplo:
 
 ```scm
 (+ 137 349)
@@ -157,9 +177,9 @@ Expressions representing numbers may be combined with an expression representing
 12.7
 ```
 
-Expressions such as these, formed by delimiting a list of expressions within parentheses in order to denote procedure application, are called *combinations*. The leftmost element in the list is called the *operator*, and the other elements are called *operands*. The value of a combination is obtained by applying the procedure specified by the operator to the *arguments* that are the values of the operands.
+Expresiones como estas, formadas por una lista delimitada de expresiones con paréntesis para denotar la aplicación de un procedimiento, son llamadas *combinaciones*. El elemento que está más a la izquierda en la lista es llamado el *operador* y los otros elementos son llamados *operandos*. El valor de una combinación es obtenido aplicando el procedimiento especificado por el operador a los *argumentos* que son los valores de los operandos.
 
-The convention of placing the operator to the left of the operands is known as *prefix notation*, and it may be somewhat confusing at first because it departs significantly from the customary mathematical convention. Prefix notation has several advantages, however. One of them is that it can accommodate procedures that may take an arbitrary number of arguments, as in the following examples:
+La convención de ubicar el operador a la izquierda de los operandos es conocida como *notación prefija* y al principio puede ser algo confusa porque se aparta significativamente de la convención matemática habitual. Sin embargo, la notación prefija tiene varias ventajas. Una de ellas es que esto puede admitir procedimientos que tomen un número arbitrario de argumentos, como en los siguientes ejemplos.
 
 ```scm
 (+ 21 35 12 7)
@@ -169,22 +189,22 @@ The convention of placing the operator to the left of the operands is known as *
 1200
 ```
 
-No ambiguity can arise, because the operator is always the leftmost element and the entire combination is delimited by the parentheses.
+No hay ambigüedad, pues el operador siempre es el elemento que está más a la izquierda y la toda combinación está delimitada por los paréntesis.
 
-A second advantage of prefix notation is that it extends in a straightforward way to allow combinations to be *nested*, that is, to have combinations whose elements are themselves combinations:
+Una segunda ventaja de la notación prefija es que se extiende sencillamente a lo largo de las combinaciones *anidadas*, es decir, hay combinaciones cuyos elementos son en sí mismos combinaciones:
 
 ```scm
 (+ (* 3 5) (- 10 6))
 19
 ```
 
-There is no limit (in principle) to the depth of such nesting and to the overall complexity of the expressions that the Lisp interpreter can evaluate. It is we humans who get confused by still relatively simple expressions such as
+No hay un límite (en principio) para la profundidad tales anidaciones y la complejidad en general de las expresiones que el intérprete de Lisp puede evaluar. Somos los humanos los que nos confundimos incluso con expresiones relativamente simples como
 
 ```scm
 (+ (* 3 (+ (* 2 4) (+ 3 5))) (+ (- 10 7) 6))
 ```
 
-which the interpreter would readily evaluate to be 57. We can help ourselves by writing such an expression in the form
+que el intérprete evaluaría fácilmente como 57. Podemos ayudarnos escribiendo tal expresión en la forma
 
 ```scm
 (+ (* 3
@@ -194,21 +214,21 @@ which the interpreter would readily evaluate to be 57. We can help ourselves by 
       6))
 ```
 
-following a formatting convention known as *pretty-printing*, in which each long combination is written so that the operands are aligned vertically. The resulting indentations display clearly the structure of the expression.
+siguiendo un formato convencional conocido como *bonita-impresión* (pretty-printing), en el cual cada combinación larga es escrita de modo que los operadores estén alineados verticalmente. Las indentaciones resultantes muestran claramente la estructura de la expresión. #footnote[Los sistemas de Lisp usualmente proveen características para guiar al usuario en el formato de expresiones. Dos características útiles son: una que automáticamente indenta hasta la posición correcta de bonita-impresión siempre que se empieza una nueva línea y otra que resalta el paréntesis izquierdo que coincide siempre que se escribe un paréntesis derecho.]
 
-Even with complex expressions, the interpreter always operates in the same basic cycle: It reads an expression from the terminal, evaluates the expression, and prints the result. This mode of operation is often expressed by saying that the interpreter runs in a *read-eval-print loop*. Observe in particular that it is not necessary to explicitly instruct the interpreter to print the value of the expression.
+Incluso con expresiones complejas, el intérprete siempre opera en el mismo ciclo básico: Lee una expresión desde la terminal, evalúa la expresión e imprime el resultado. Este modo de operar es expresado usualmente diciendo que el intérprete corre en un *ciclo leer-evaluar-imprimir*. En particular observe que no es necesario instruir explícitamente al intérprete para imprimir el valor de la expresión. #footnote[Lisp obedece la convención de que cada expresión tiene un valor. Esta convención, junto con la vieja reputación de Lisp de ser un lenguaje ineficiente, es la fuente de la ocurrencia de Alan Perlis (parafraseando a Oscar Wilde) de que "Los programadores de Lisp conocen el valor de todo pero no conocen el costo de nada".]
 
-=== Naming and the Environment
+=== Los Nombres y el Entorno
 
-A critical aspect of a programming language is the means it provides for using names to refer to computational objects. We say that the name identifies a *variable* whose *value* is the object.
+Un aspecto crítico de un lenguaje de programación son los medios que este proporciona para usar nombres y referirse a los objetos computacionales. Decimos que el nombre identifica a una *variable* cuyo *valor* es el objeto.
 
-In the Scheme dialect of Lisp, we name things with `define`. Typing
+En el dialecto Scheme de Lisp, nombramos cosas con `define`. Escribiendo
 
 ```scm
 (define size 2)
 ```
 
-causes the interpreter to associate the value 2 with the name `size`. Once the name `size` has been associated with the number 2, we can refer to the value 2 by name:
+hace que el intérprete asocie el valor 2 con el nombre `size`. #footnote[En este libro, no mostramos la respuesta del intérprete evaluando definiciones, pues esto es muy dependiente de la implementación.] Una vez el nombre `size` ha sido asociado con el número 2, podemos referirnos al valor 2 por el nombre:
 
 ```scm
 size
@@ -218,7 +238,7 @@ size
 10
 ```
 
-Here are further examples of the use of `define`:
+Aquí están algunos ejemplos del uso de `define`:
 
 ```scm
 (define pi 3.14159)
@@ -233,31 +253,30 @@ circumference
 62.8318
 ```
 
-`Define` is our language's simplest means of abstraction, for it allows us to use simple names to refer to the results of compound operations, such as the `circumference` computed above. In general, computational objects may have very complex structures, and it would be extremely inconvenient to have to remember and repeat their details each time we want to use them. Indeed, complex programs are constructed by building, step by step, computational objects of increasing complexity. The interpreter makes this step-by-step program construction particularly convenient because name-object associations can be created incrementally in successive interactions. This feature encourages the incremental development and testing of programs and is largely responsible for the fact that a Lisp program usually consists of a large number of relatively simple procedures.
+`Define` es el medio más simple de abstracción en nuestro lenguaje, esto nos permite usar nombres simples para referirnos al resultado de operaciones compuestas, tales como `circumference`, calulado anteriormente. En general, objetos computacionales pueden tener estructuras muy complejas, y sería extremadamente molesto tener que recordar y repetir sus detalles cada vez que queramos usarlos. De hecho, los programas complejos se construyen paso a paso creando objetos computacionales de complejidad creciente. El intérprete hace que esta construcción paso a paso del programa sea particularmente conveniente pues las asociasiones nombre-objeto pueden crearse incrementalmente en iteraciones sucesivas. Esta característica fomenta el desarrollo incremental y el testeo de los programas, y es en gran parte responsable de que un programa de Lisp consista usualmente en un gran número de procedimientos relativamente simples.
 
-It should be clear that the possibility of associating values with symbols and later retrieving them means that the interpreter must maintain some sort of memory that keeps track of the name-object pairs. This memory is called the *environment* (more precisely the *global environment*, since we will see later that a computation may involve a number of different environments).
+Debe quedar claro que la posibilidad de asociar valores con símbolos y luego recuperarlos significa que el intérprete debe mantener algún tipo de memoria que lleve el registro de las parejas nombre-objeto. Esta memoria es llamada el *entorno* (más precisamente el *entorno global*, pues veremos más adelante que un cálculo podría involucrar varios entornos diferentes). #footnote[El Capítulo 3 mostrará que esta noción de entorno es crucial, tanto para entender cómo funciona el intérprete como para implementar intérpretes.]
 
-=== Evaluating Combinations
+=== Evaluando Combinaciones
 
-One of our goals in this chapter is to isolate issues about thinking procedurally. As a case in point, let us consider that, in evaluating combinations, the interpreter is itself following a procedure.
+Una de nuestras metas en este capítulo es aislar los problemas acerca del pensamiento procedimental (o iterativo). Como caso puntual, consideremos que, al evaluar combinaciones, el intérprete sigue en sí mismo un procedimiento. 
 
 #quote(block: true)[
-  To evaluate a combination, do the following:
+  Al evaluar una combinación, hace lo siguiente:
 
-  1. Evaluate the subexpressions of the combination.
-
-  2. Apply the procedure that is the value of the leftmost subexpression (the operator) to the arguments that are the values of the other subexpressions (the operands).
+  1. Evalúa las subexpresiones de la combinación.
+  2. Aplica el procedimiento que tiene como valor la subexpresión que está más a la izquierda (el operador) a los argumentos que son los valores de las otras subexpresiones (los operandos).
 ]
 
-Even this simple rule illustrates some important points about processes in general. First, observe that the first step dictates that in order to accomplish the evaluation process for a combination we must first perform the evaluation process on each element of the combination. Thus, the evaluation rule is *recursive* in nature; that is, it includes, as one of its steps, the need to invoke the rule itself.
+Incluso esta simple regla ilustra algunos puntos importantes acerca de los procesos en general. Primero, observe que el primer paso establece que, para llevar a cabo el proceso de evaluación de una combinación, primero debemos realizar el proceso de evaluación en cada uno de los elementos de la combinación. Es por esto que la regla de evaluación es de naturaleza *recursiva*; esto incluye, como uno de sus pasos, la necesidad de invocar la regla misma. #footnote[Podría parecer extraño que la regla de evaluación diga, como parte de su primer paso, que debemos evaluar el elemento más a la izquierda de la combinación, como puede ser los operadores `+` o `*`, pues representan un procedimiento primitivo incorporado como pueden ser la adición o la multiplicación. Más adelante veremos que es útil para estar poder trabajar con combinaciones cuyos operadores son en sí mismos expresiones compuestas.] 
 
-Notice how succinctly the idea of recursion can be used to express what, in the case of a deeply nested combination, would otherwise be viewed as a rather complicated process. For example, evaluating
+Note como la idea de la recursión puede ser usada para expresar ideas complicadas de manera breve y relativamente simple, especialmente cuando se trata de cosas con muchas capas. Usar otra estrategia probablemente resultaría en que el proceso luzca más complicado. Por ejemplo, la evaluación
 
 ```scm
 (* (+ 2 (* 4 6)) (+ 3 5 7))
 ```
 
-requires that the evaluation rule be applied to four different combinations. We can obtain a picture of this process by representing the combination in the form of a tree. Each combination is represented by a node with branches corresponding to the operator and the operands of the combination stemming from it. The terminal nodes (that is, nodes with no branches stemming from them) represent either operators or numbers. Viewing evaluation in terms of the tree, we can imagine that the values of the operands percolate upward, starting from the terminal nodes and then combining at higher and higher levels. In general, we shall see that recursion is a very powerful technique for dealing with hierarchical, treelike objects. In fact, the "percolate values upward" form of the evaluation rule is an example of a general kind of process known as *tree accumulation*.
+requiere que la regla de evaluación sea aplicada para cuatro combinaciones diferentes. Podemos obtener una visualización de este proceso representando la combinación en forma de un árbol. Cada combinación está representada por un nodo con ramas que corresponden al operador y a los operandos que parten de él. Los nodos terminales (es decir, nodos sin ramas saliendo de ellos) representan operadores o números. Viendo la evaluación en términos del árbol, podemos imaginar los valores de los operandos ascienden gradualmente, empezando desde la desde los nodos terminales y luego combinándose a niveles cada vez más altos. En general, veremos que la recursión es una técnica poderosa para manipular objetos jerárquicos con forma de árbol. De hecho, la forma de "ascenso de valores" de la regla de evaluación es un ejemplo de un tipo general de proceso conocido como *tree accumulation*.
 
 #figure(
   ```
@@ -272,56 +291,56 @@ requires that the evaluation rule be applied to four different combinations. We 
          / | \
         *  4  6
   ```,
-  caption: [Tree representation, showing the value of each subcombination.],
+  caption: [Representación de árbol, mostrando el valor de cada subcombinación.],
 )
 
-Next, observe that the repeated application of the first step brings us to the point where we need to evaluate, not combinations, but primitive expressions such as numerals, built-in operators, or other names. We take care of the primitive cases by stipulating that
+Lo siguiente es observar que la aplicación repetida del primer paso nos conduce al punto en el que necesitamos evaluar, no combinaciones, sino expresiones primitivas tales como numerales, operadores incorporados u otros nombres. Nos cuidamos de los casos primitivos al estipular que:
 
-- the values of numerals are the numbers that they name,
-- the values of built-in operators are the machine instruction sequences that carry out the corresponding operations, and
-- the values of other names are the objects associated with those names in the environment.
+- los valores de los numerales son los números que nombran,
+- los valores de los operadores incorporados son las secuencias de instrucción de máquina que ejecutan las correspondientes operaciones, y
+- los valores de otros nombres son los objetos asociados con estos nombres en el entorno.
 
-We may regard the second rule as a special case of the third one by stipulating that symbols such as `+` and `*` are also included in the global environment, and are associated with the sequences of machine instructions that are their "values." The key point to notice is the role of the environment in determining the meaning of the symbols in expressions. In an interactive language such as Lisp, it is meaningless to speak of the value of an expression such as `(+ x 1)` without specifying any information about the environment that would provide a meaning for the symbol `x` (or even for the symbol `+`).
+Podríamos considerar la segunda regla como un caso especial de la tercera al estipular que los símbolos como `+` y `*` son también incluidos en el entorno global, y están asociados con las secuencias de instrucción de máquina que vienen siendo sus "valores". El punto clave a considerar es el rol del entorno al determinar el significado de los símbolos en expresiones. En un lenguaje interactivo como Lisp, no tiene sentido hablar del valor de una expresión como `(+ x 1)` sin especificar ninguna información acerca del entorno que proporcione un significado para el símbolo `x` (o incluso para el símbolo `+`). Como veremos en el Capítulo 3, la noción general de entorno como aquel que proporciona un contexto en el cual la evaluación tiene lugar jugará un papel importante en nuestro entendimiento de la ejecución de un programa.
 
-Notice that the evaluation rule given above does not handle definitions. For instance, evaluating `(define x 3)` does not apply `define` to two arguments, one of which is the value of the symbol `x` and the other of which is 3, since the purpose of the `define` is precisely to associate `x` with a value. (That is, `(define x 3)` is not a combination.)
+Note que la regla de evaluación anterior no está sujeta a definiciones. Por ejemplo, la evaluación `(define x 3)` no aplica `define` a los dos argumentos, uno de ellos es el valor del símbolo `x` y el otro de ellos es 3, pues el propósito de `define` es precisamente asociar a `x` con un valor. (Es decir, `(define x 3)` no es una combinación.)
 
-Such exceptions to the general evaluation rule are called *special forms*. `Define` is the only example of a special form that we have seen so far, but we will meet others shortly. Each special form has its own evaluation rule. The various kinds of expressions (each with its associated evaluation rule) constitute the syntax of the programming language. In comparison with most other programming languages, Lisp has a very simple syntax.
+Tales excepciones a la regla de evaluación general son llamadas *formas especiales*. `Define` es el único ejemplo de una forma especial que hemos visto hasta ahora, pero pronto encontraremos otras. Cada forma especial tiene su propia regla de evaluación. Los distintos tipos de expresiones (cada uno asociado a su propia regla de evaluación) constituyen la sintaxis del lenguaje de programación. En comparación con la mayoría de otros lenguajes de programación, Lisp tiene una sintaxis muy simple; es decir, la regla de evaluación para expresiones puede ser descrita por una regla general simple junto con reglas especializadas para un pequeño número de formas especiales. #footnote[Las formas sintácticas especiales, que son simplemente estructuras superficiales alternativas para cosas que pueden ser escritas de manera más uniforme, son llamadas *azúcar sintético*, para usar una frase acuñada por Peter Landin. En comparación con usuarios de otros lenguajes, los programadores de Lisp están, por regla general, menos preocupados por cuestiones de sintaxis. (Como contraste, examine cualquier manual de Pascal y note cuánto de él está dedicado a las descripciones de sintaxis.) Este desdén por la sintaxis se debe en parte por la flexibilidad de Lisp, lo cual facilita cambiar la sintaxis superficial, y en parte por la observación de que muchas construcciones sintácticas "convenientes", que hacen el lenguaje menos uniforme, terminan causando más problemas de los que resuelven cuando los programas se vuelven largos y complejos. En palabras de Alan Perlis, "el azúcar sintético causa cáncer de punto y coma" (en inglés: "Syntactic sugar causes cancer of the semicolon").]
 
-=== Compound Procedures
+=== Procedimientos Compuestos
 
-We have identified in Lisp some of the elements that must appear in any powerful programming language:
+Hemos identificado algunos elementos de Lisp que deben aparecer en cualquier lenguaje de programación poderoso:
 
-- Numbers and arithmetic operations are primitive data and procedures.
-- Nesting of combinations provides a means of combining operations.
-- Definitions that associate names with values provide a limited means of abstraction.
+- Los números y las operaciones aritméticas son datos y procedimientos.
+- El anidamiento de combinaciones como método de combinar operaciones.
+- Las definiciones que asocian nombres con valores nos dan un método limitado de abstracción. 
 
-Now we will learn about *procedure definitions*, a much more powerful abstraction technique by which a compound operation can be given a name and then referred to as a unit.
+Ahora aprenderemos el *procedimiento de definir*: una técnica de abstracción mucho más poderosa con la cual se le puede dar nombre a una operación compuesta y luego referirse a ella como unidad.
 
-We begin by examining how to express the idea of "squaring." We might say, "To square something, multiply it by itself." This is expressed in our language as
+Empezaremos examinando cómo expresar la idea de "elevar al cuadrado". Podríamos decir que, "elevar algo al cuadrado es multiplicar ese algo por sí mismo". Esto es expresado en nuestro lenguaje como
 
 ```scm
 (define (square x) (* x x))
 ```
 
-We can understand this in the following way:
+Podemos entender esto de la siguiente manera:
 
-```scm
+```
 (define (square x)    (*       x       x))
   |      |      |      |       |       |
  To square something, multiply it by itself.
 ```
 
-We have here a *compound procedure*, which has been given the name `square`. The procedure represents the operation of multiplying something by itself. The thing to be multiplied is given a local name, `x`, which plays the same role that a pronoun plays in natural language. Evaluating the definition creates this compound procedure and associates it with the name `square`.
+Aquí tenemos un *procedimiento compuesto* que ha sido nombrado como `square`. Este procedimiento representa la operación de multiplicar algo por sí mismo y ese algo que es multiplicado está dado por un nombre local, `x`, que tiene el mismo papel que tiene un pronombre en el lenguaje natural. Evaluar la definición crea este procedimiento compuesto y lo asocia con el nombre `square`. #footnote[Observe que hay dos operaciones distintas que están combinadas: estamos creando el procedimiento y dándole el nombre de `square`. Es posible, y de hecho es muy importante, poder separar estas dos nociones---crear procedimientos sin nombrarlos y dar nombres a procedimientos que realmente ya han sido creados. Veremos cómo hacer esto en la Sección 1.3.2.]
 
-The general form of a procedure definition is
+La forma general de una definición de procedimiento es
 
 ```scm
 (define (<name> <formal parameters>) <body>)
 ```
 
-The `<name>` is a symbol to be associated with the procedure definition in the environment. The `<formal parameters>` are the names used within the body of the procedure to refer to the corresponding arguments of the procedure. The `<body>` is an expression that will yield the value of the procedure application when the formal parameters are replaced by the actual arguments to which the procedure is applied. The `<name>` and the `<formal parameters>` are grouped within parentheses, just as they would be in an actual call to the procedure being defined.
+El `<name>` es un símbolo que se asociará con la definición de procedimiento en el entorno. #footnote[A lo largo de este libro, describiremos la sintaxis general de expresiones usando letras itálicas delimitadas por corchetes angulares---e.g., `<name>`---para denotar los "espacios" que deben llenarse cuando se use realmente una expresión.] Los `<formal parameters>` son los nombres usados dentro del cuerpo del procedimiento para referirse a los argumentos correspondientes del procedimiento. El `<body>` es una expresión que dará como resultado el valor de aplicar el procedimiento cuando los parámetros formales sean sustituidos por los argumentos reales a los que se aplica el procedimiento. #footnote[Generalmente, el cuerpo de los procedimientos puede ser una secuencia de expresiones. En este caso, el intérprete evalúa en orden cada expresión en la secuencia y retorna el valor de la expresión final como el valor de la aplicación del procedimiento.] El `<name>` y los `<formal parameters>` están agrupados con paréntesis, justo como lo estarían en una llamada real del procedimiento que se está definiendo.
 
-Having defined `square`, we can now use it:
+Habiendo definido `square`, podemos aplicarlo:
 
 ```scm
 (square 21)
@@ -334,13 +353,13 @@ Having defined `square`, we can now use it:
 81
 ```
 
-We can also use `square` as a building block in defining other procedures. For example, $x^2 + y^2$ can be expressed as
+También podemos usar `square` como un bloque constructor y así definir otros procedimientos. Por ejemplo, $x^2 + y^2$ puede ser expresado como
 
 ```scm
 (+ (square x) (square y))
 ```
 
-We can easily define a procedure `sum-of-squares` that, given any two numbers as arguments, produces the sum of their squares:
+Fácilmente podemos definir un procedimiento `sum-of-squares` que, dados dos números, proceda a dar la suma de sus cuadrados:
 
 ```scm
 (define (sum-of-squares x y)
@@ -350,7 +369,7 @@ We can easily define a procedure `sum-of-squares` that, given any two numbers as
 25
 ```
 
-Now we can use `sum-of-squares` as a building block in constructing further procedures:
+Ahora podemos usar `sum-of-squares` como un componente básico para construir más procedimientos:
 
 ```scm
 (define (f a)
@@ -360,7 +379,7 @@ Now we can use `sum-of-squares` as a building block in constructing further proc
 136
 ```
 
-Compound procedures are used in exactly the same way as primitive procedures. Indeed, one could not tell by looking at the definition of `sum-of-squares` given above whether `square` was built into the interpreter, like `+` and `*`, or defined as a compound procedure.
+Los procedimientos compuestos se usan de la misma manera que los procedimientos primitivos. De hecho, no podríamos distinguir, solo mirando la definición de `sum-of-squares`, si `square` está integrado en el intérprete, como lo están `+` y `*`, o si está definido como un procedimiento compuesto.
 
 === The Substitution Model for Procedure Application
 
