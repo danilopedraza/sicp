@@ -1,5 +1,5 @@
 {
-  description = "A Typst project that uses Typst packages";
+  description = "Unofficial Spanish translation of Structure and Interpretation of Computer Programs";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
