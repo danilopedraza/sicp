@@ -383,67 +383,67 @@ Ahora podemos usar `sum-of-squares` como un componente básico para construir m�
 
 Los procedimientos compuestos se usan de la misma manera que los procedimientos primitivos. De hecho, no podríamos distinguir, solo mirando la definición de `sum-of-squares`, si `square` está integrado en el intérprete, como lo están `+` y `*`, o si está definido como un procedimiento compuesto.
 
-=== The Substitution Model for Procedure Application
+=== El modelo de sustitución para la aplicación de procedimientos
 
-To evaluate a combination whose operator names a compound procedure, the interpreter follows much the same process as for combinations whose operators name primitive procedures, which we described in Section 1.1.3. That is, the interpreter evaluates the elements of the combination and applies the procedure (which is the value of the operator of the combination) to the arguments (which are the values of the operands of the combination).
+Al evaluar una combinación cuyo operador llama un procedimiento compuesto, el intérprete sigue el mismo proceso que hace para las combinaciones cuyos operadores son procedimientos primitivos, lo cual está descrito en la sección 1.1.3. Es decir, el intérprete evalua los elementos de la combinación y aplica el procedimiento (que es el valor del operador de la combinación) a los argumentos (que son los valores de los operandos de la combinación).
 
-We can assume that the mechanism for applying primitive procedures to arguments is built into the interpreter. For compound procedures, the application process is as follows:
+Podemos asumir que el mecanismo para aplicar procedimientos primitivos a los argumentos está construido dentro del intérprete. Para procedimientos compuestos, la aplicación del proceso es la siguiente:
 
 #quote(block: true)[
-  To apply a compound procedure to arguments, evaluate the body of the procedure with each formal parameter replaced by the corresponding argument.
+  Para aplicar un procedimiento compuesto a los argumentos, evalúe el cuerpo del procedimiento con cada uno de los parámetros reemplazados por en argumento correspondiente.
 ]
 
-To illustrate this process, let's evaluate the combination
+Para ilustrar este proceso, evaluemos la combinación:
 
 ```scm
 (f 5)
 ```
 
-where `f` is the procedure defined in Section 1.1.4. We begin by retrieving the body of `f`:
+donde `f` es el procedimiento definido en la sección 1.1.4. Comenzamos recuperando el cuerpo de `f`:
 
 ```scm
 (sum-of-squares (+ a 1) (* a 2))
 ```
 
-Then we replace the formal parameter `a` by the argument 5:
+Luego reemplazamos el parámetro formal `a` por el argumento 5:
 
 ```scm
 (sum-of-squares (+ 5 1) (* 5 2))
 ```
 
-Thus the problem reduces to the evaluation of a combination with two operands and an operator `sum-of-squares`. Evaluating this combination involves three subproblems. We must evaluate the operator to get the procedure to be applied, and we must evaluate the operands to get the arguments. Now `(+ 5 1)` produces 6 and `(* 5 2)` produces 10, so we must apply the `sum-of-squares` procedure to 6 and 10. These values are substituted for the formal parameters `x` and `y` in the body of `sum-of-squares`, reducing the expression to
+Entonces el problema se reduce a la evaluación de una combinación con dos operandos y un operador `sum-of-squares`. Evaluar esta combinación nos trae tres subproblemas, debemos evaluar el operador para obtener el procedimiento a aplicar, debemos evaluar los operandos para obtener los argumentos y debemos aplicar el procedimiento a esos argumentos. Ahora `(+ 5 1)` produce 6 y `(* 5 2)` produce 10, luego aplicamos el procedimiento `sum-of-squares` a 6 y 10. Estos valores son sustituidos por los parámetros formales `x` y `y` en el cuerpo de `sum-of-squares`, reduciendo la expresión a
 
 ```scm
 (+ (square 6) (square 10))
 ```
 
-If we use the definition of `square`, this reduces to
+Si usamos la definición original de `square`, esto se reduce a
 
 ```scm
 (+ (* 6 6) (* 10 10))
 ```
 
-which reduces by multiplication to
+lo cual, gracias a la multiplicación, se reduce a
 
 ```scm
 (+ 36 100)
 ```
 
-and finally to
+y finalmente obtenemos
 
 ```scm
 136
 ```
 
-The process we have just described is called the *substitution model* for procedure application. It can be taken as a model that determines the "meaning" of procedure application, insofar as the procedures in this chapter are concerned. However, there are two points that should be stressed:
+El proceso que hemos acabado de describir es llamado el *modelo de sustitución* para la aplicación de procedimientos. Puede ser tomado como un modelo que determina el "significado" de aplicación de procedimientos, por ahora para los procedimientos que nos interesan en este capítulo. Sin embargo, hay que enfatizar dos puntos:
 
-- The purpose of the substitution is to help us think about procedure application, not to provide a description of how the interpreter really works. Typical interpreters do not evaluate procedure applications by manipulating the text of a procedure to substitute values for the formal parameters. In practice, the "substitution" is accomplished by using a local environment for the formal parameters.
+- El propósito de la sustitución es ayudarnos a pensar en la aplicación de procedimientos, no a dar una descripción de cómo funciona realmente el intérprete. Usualmente los intérpretes no evaluan aplicaciones de procedimientos al manipular el texto de un procedimiento y al sustituir valores por los parámetros formales. En la prática, la "sustitución" es realizada usando un entorno local para los parámetros formales.
 
-- Over the course of this book, we will present a sequence of increasingly elaborate models of how interpreters work, culminating with a complete implementation of an interpreter and compiler in Chapter 5. The substitution model is only the first of these models---a way to get started thinking formally about the evaluation process.
+- En el transcurso de este libro, presentaremos una secuencia cada vez más elaborada de modelos de cómo funciona el intérprete, culminando en una implementación complera de un intérprete y compilador en el Capítulo 5. El modelo de sustitución es solo el primero de estos modelos---una manera de empezar a pensar formalmente en la evaluación de procesos.
 
-==== Applicative order versus normal order
+==== Orden aplicativo contra orden normal
 
-According to the description of evaluation given in Section 1.1.3, the interpreter first evaluates the operator and operands and then applies the resulting procedure to the resulting arguments. This is not the only way to perform evaluation. An alternative evaluation model would not evaluate the operands until their values were needed. Instead it would first substitute operand expressions for parameters until it obtained an expression involving only primitive operators, and would then perform the evaluation. If we used this method, the evaluation of `(f 5)` would proceed according to the sequence of expansions
+De acuerdo a la descripción de evaluación dada en la Sección 1.1.3, el intérprete primero evalua el operador y los operandos y luego el procedimiento resultante lo aplica a los argumentos resultantes. Pero esta no es la única manera de ejecutar una evaluación. Un modelo de evaluación alternativa podría no evaluar los operandos hasta que se necesiten sus valores. En cambio, primero sustituiría las expresiones de los operandos por parámetros hasta obtener una expresión que involucre solo operadores primitivos, luego ejecutaría la evaluación. Si usamos este método, la evaluación de `(f 5)` procedería de acuerdo a la secuencia de expansiones
 
 ```scm
 (sum-of-squares (+ 5 1) (* 5 2))
@@ -455,7 +455,7 @@ According to the description of evaluation given in Section 1.1.3, the interpret
    (* (* 5 2) (* 5 2)))
 ```
 
-followed by the reductions
+seguida por las reducciones
 
 ```scm
 (+ (* 6 6) 
@@ -466,11 +466,11 @@ followed by the reductions
 136
 ```
 
-This gives the same answer as our previous evaluation model, but the process is different. In particular, the evaluations of `(+ 5 1)` and `(* 5 2)` are each performed twice here, corresponding to the reduction of the expression `(* x x)` with `x` replaced respectively by `(+ 5 1)` and `(* 5 2)`.
+Esto da la misma respuesta que nuestro modelo de evaluación previa, pero el proceso es diferente. En particular, cada una de las evaluaciones de `(+ 5 1)` y `(* 5 2)`  son ejecutadas aquí dos veces, lo que corresponde a la reducción de la expresión `(* x x)` donde `x` es remplazada por `(+ 5 1)` y `(* 5 2)`, respectivamente.
 
-This alternative "fully expand and then reduce" evaluation method is known as *normal-order evaluation*, in contrast to the "evaluate the arguments and then apply" method that the interpreter actually uses, which is called *applicative-order evaluation*. It can be shown that, for procedure applications that can be modeled using substitution (including all the procedures in the first two chapters of this book) and that yield legitimate values, normal-order and applicative-order evaluation produce the same value.
+Este método de evaluación alternativo de "expandir completamente y luego reducir", es conocido como *evaluación de orden normal*, en contraste con el método de "evaluar los argumentos y luego aplicarlos" que el intérprete usa actualmente, que es llamado *evaluación de orden aplicativo*. Esto puede mostrar que, para la aplicación de procedimientos que pueden ser modelados usando sustitución (incluyendo todos los procedimientos de los primeros dos capítulos) y que producen valores válidos, las evaluaciones de orden normal y de orden aplicativo producen el mismo resultado.
 
-Lisp uses applicative-order evaluation, partly because of the additional efficiency obtained from avoiding multiple evaluations of expressions such as those illustrated with `(+ 5 1)` and `(* 5 2)` above and, more significantly, because normal-order evaluation becomes much more complicated to deal with when we leave the realm of procedures that can be modeled by substitution. On the other hand, normal-order evaluation can be an extremely valuable tool, and we will investigate some of its implications in Chapter 3 and Chapter 4.
+Lisp usa la evaluación de orden aplicativo, en parte la por eficiencia adicional que da el evitar múltiples evaluaciones de expresiones como las mencionadas con `(+ 5 1)` y `(* 5 2)` y, de modo más significativo, porque el orden normal de evaluación se vuelve mucho más complicado de manejar cuando dejamos el reino de los procedimientos que pueden ser modelados usando sustitución. Por otro lado, la evaluación de orden normal puede ser una herramienta extremadamente valiosa e investigaremos más sus implicaciones en el Capítulo 3 y 4.
 
 === Conditional Expressions and Predicates
 
