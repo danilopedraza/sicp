@@ -573,7 +573,7 @@ o de manera alternativa como
 ```
 
 #block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.1:* Below is a sequence of expressions. What is the result printed by the interpreter in response to each expression? Assume that the sequence is to be evaluated in the order in which it is presented.
+  *Ejercicio 1.1:* A continuación hay una secuencia de expresiones. ¿Cuál es el resultado que imprimirá el intérprete en respuesta a cada expresión? Asuma que la secuencia es evaluada en el orden en el mismo orden en el que es presentada.
 
   ```scm
   10
@@ -600,18 +600,18 @@ o de manera alternativa como
 ]
 
 #block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.2:* Translate the following expression into prefix form:
+  *Ejercicio 1.2:* Convierta la siguiente expresión a notación prefija:
 
   $ (5 + 4 + (2 - (3 - (6 + 4/5)))) / (3(6 - 2)(2 - 7)) $
 ]
 
 #block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.3:* Define a procedure that takes three numbers as arguments and returns the sum of the squares of the two larger numbers.
+  *Ejercicio 1.3:* Defina un procedimiento que como argumento tome tres números y devuelva la suma de los cuadrados de los dos números mayores.
 ]
 
 #block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.4:* Observe that our model of evaluation allows for combinations whose operators are compound expressions. Use this observation to describe the behavior of the following procedure:
-
+  *Exercise 1.4:* Observe que nuestro modelo de evaluación permite combinaciones cuyos operadores son expresiones compuestas. Use esta observación para describir el comportamiento del siguiente procedimiento:
+  
   ```scm
   (define (a-plus-abs-b a b)
     ((if (> b 0) + -) a b))
@@ -619,7 +619,7 @@ o de manera alternativa como
 ]
 
 #block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.5:* Ben Bitdiddle has invented a test to determine whether the interpreter he is faced with is using applicative-order evaluation or normal-order evaluation. He defines the following two procedures:
+  *Exercise 1.5:* Ben Bitdiddle ha inventado una prueba para determinar si su intérprete está usando una evaluación de orden aplicativo o de orden normal. Él define los siguientes dos procedimientos:
 
   ```scm
   (define (p) (p))
@@ -630,13 +630,13 @@ o de manera alternativa como
         y))
   ```
 
-  Then he evaluates the expression
+  y luego evalúa la expresión
 
   ```scm
   (test 0 (p))
   ```
 
-  What behavior will Ben observe with an interpreter that uses applicative-order evaluation? What behavior will he observe with an interpreter that uses normal-order evaluation? Explain your answer.
+  ¿Cuál es el comportamiento que Ben observará con un intérprete que usa una evaluación de orden aplicativo? ¿Cuál es el comportamiento que Ben observará con un intérprete que usa una evaluación de orden normal? Explica tu respuesta.
 ]
 
 === Example: Square Roots by Newton's Method
