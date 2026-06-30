@@ -472,9 +472,9 @@ Este método de evaluación alternativo de "expandir completamente y luego reduc
 
 Lisp usa la evaluación de orden aplicativo, en parte la por eficiencia adicional que da el evitar múltiples evaluaciones de expresiones como las mencionadas con `(+ 5 1)` y `(* 5 2)` y, de modo más significativo, porque el orden normal de evaluación se vuelve mucho más complicado de manejar cuando dejamos el reino de los procedimientos que pueden ser modelados usando sustitución. Por otro lado, la evaluación de orden normal puede ser una herramienta extremadamente valiosa e investigaremos más sus implicaciones en el Capítulo 3 y 4.
 
-=== Conditional Expressions and Predicates
+=== Expresiones Condicionales y Predicados
 
-The expressive power of the class of procedures that we can define at this point is very limited, because we have no way to make tests and to perform different operations depending on the result of a test. For instance, we cannot define a procedure that computes the absolute value of a number by testing whether the number is positive, negative, or zero and taking different actions in the different cases according to the rule
+En este punto, el poder expresivo de las clases de procedimientos que podemos definir es muy limitado, pues no tenemos manera de hacer pruebas y de ejecutar diferentes operaciones dependiendo del resultado de la prueba. Por lo tanto, no podemos definir procedimientos que calculen el valor absoluto de un número probando si el número es positivo, negativo o cero, y tomando diferentes acciones en los diferentes casos de acuerdo a la regla
 
 $ |x| = cases(
   x & "if" x > 0,
@@ -482,7 +482,7 @@ $ |x| = cases(
   -x & "if" x < 0
 ) $
 
-This construct is called a *case analysis*, and there is a special form in Lisp for notating such a case analysis. It is called `cond` (which stands for "conditional"), and it is used as follows:
+Esta construcción es llamada un *análisis de casos* y en Lisp hay una forma especial para denotar tales análisis de casos, la cual es nombrada como `cond` (que viene de "condicional") y que es usada como sigue:
 
 ```scm
 (define (abs x)
@@ -491,7 +491,7 @@ This construct is called a *case analysis*, and there is a special form in Lisp 
         ((< x 0) (- x))))
 ```
 
-The general form of a conditional expression is
+La forma general para una expresión condicional es:
 
 ```scm
 (cond (<p1> <e1>)
@@ -500,19 +500,19 @@ The general form of a conditional expression is
       (<pn> <en>))
 ```
 
-consisting of the symbol `cond` followed by parenthesized pairs of expressions
+que consiste en el símbolo `cond` seguido de los pares de expresiones entre paréntesis
 
 ```scm
 (<p> <e>)
 ```
 
-called *clauses*. The first expression in each pair is a *predicate*---that is, an expression whose value is interpreted as either true or false.
+llamadas *cláusulas*. La primera expresión en este par es un *predicado*---es decir, una expresión cuyo valor es interpretado como verdadero o falso.
 
-Conditional expressions are evaluated as follows. The predicate $p_1$ is evaluated first. If its value is false, then $p_2$ is evaluated. If $p_2$'s value is also false, then $p_3$ is evaluated. This process continues until a predicate is found whose value is true, in which case the interpreter returns the value of the corresponding *consequent expression* $e$ of the clause as the value of the conditional expression. If none of the $p$'s is found to be true, the value of the `cond` is undefined.
+Las expresiones condicionales se evalúan así: el predicado $p_1$ se evalúa primero, si el valor de este es falso encontes se evalúa $p_2$ y si valor de $p_2$ también es falso se evalúa $p_3$; este proceso continúa hasta encontrar un predicado con valor verdadero, el tal caso el intérprete devuelve el valor de la cláusula que corresponde a la *expresión consecuente* $e$, como el valor de la expresión condicional. Si no se encuentra ningún $p$ verdadero, el valor de `cond` es indefinido. 
 
-The word *predicate* is used for procedures that return true or false, as well as for expressions that evaluate to true or false. The absolute-value procedure `abs` makes use of the primitive predicates `>`, `<`, and `=`. These take two numbers as arguments and test whether the first number is, respectively, greater than, less than, or equal to the second number, returning true or false accordingly.
+La palabra *predicado* es usada para procedimientos que devuelven verdadero o falso, como también para expresiones que al ser evaluadas dan verdadero o falso. El procedimiento valor-absoluto `abs` hace uso de los predicados `>`, `<` y `=`, toma dos números como argumentos y prueba que el primer número sea, respectivamente, mayor que, menor que o igual que el segundo número, devolviendo verdadero o falso según corresponda.
 
-Another way to write the absolute-value procedure is
+Otra manera de escribir el procedimientos valor-absoluto es
 
 ```scm
 (define (abs x)
@@ -520,10 +520,10 @@ Another way to write the absolute-value procedure is
         (else x)))
 ```
 
-which could be expressed in English as "If $x$ is less than zero return $-x$; otherwise return $x$." `Else` is a special symbol that can be used in place of the $p$ in the final clause of a `cond`. This causes the `cond` to return as its value the value of the corresponding $e$ whenever all previous clauses have been bypassed.
+el cual puede ser expresado en español como "Si $x$ es menor que cero devuelve $-x$; de otro modo devuelve $x$." `Else` es un símbolo especial que puede ser usado en lugar de $p$ en la cláusula final de un `cond`. En ese caso el `cond` devuelve como su valor el valor de la correspondiente $e$ siempre que todas las cláusulas hayan sido descartadas (todos los $p$ tienen valor falso).
 
-Here is yet another way to write the absolute-value procedure:
-
+Aquí hay otra manera de escribir el procedimiento del valor-absoluto:
+ 
 ```scm
 (define (abs x)
   (if (< x 0)
@@ -531,41 +531,41 @@ Here is yet another way to write the absolute-value procedure:
       x))
 ```
 
-This uses the special form `if`, a restricted type of conditional that can be used when there are precisely two cases in the case analysis. The general form of an `if` expression is
+Este usa la forma especial `if`, un tipo de condicional restringido que puede ser usado cuando hay precisamente dos casos en el análisis de casos. La forma general de una expresión `if` es
 
 ```scm
-(if <predicate> <consequent> <alternative>)
+(if <predicado> <consecuente> <alternativa>)
 ```
 
-To evaluate an `if` expression, the interpreter starts by evaluating the `<predicate>` part of the expression. If the `<predicate>` evaluates to a true value, the interpreter then evaluates the `<consequent>` and returns its value. Otherwise it evaluates the `<alternative>` and returns its value.
+Al evaluar una expresión `if`, el intérprete empieza evaluando la parte del `<predicado>` de la expresión. Si la evaluación del `<predicado>` da verdadero, entonces el intérprete evalúa el `<consecuente>` y devuelve su valor. De otro modo evalúa la `<alternativa>` y devulve su valor.
 
-In addition to primitive predicates such as `<`, `=`, and `>`, there are logical composition operations, which enable us to construct compound predicates. The three most frequently used are these:
+Además de los predicados primitivos como `<`, `=` y `>`, hay operadores lógicos, que nos permiten construir predicados compuestos. Los tres más usados frecuentemente son estos:
 
 - `(and <e1> ... <en>)`
-  The interpreter evaluates the expressions `<e>` one at a time, in left-to-right order. If any `<e>` evaluates to false, the value of the `and` expression is false, and the rest of the `<e>`'s are not evaluated. If all `<e>`'s evaluate to true values, the value of the `and` expression is the value of the last one.
+  El intérprete evalúa las expresiones `<e>` una a la vez, de izquierda a derecha. Si cualquier evaluación `<e>` es falsa, el valor de la expresión `and` es falso y el resto de las `<e>`'s no son evaluadas. Si todos los valores de las `<e>`'s son verdaderos, el valor de la expresión `and` es el valor de la última expresión `<e>`.
 
 - `(or <e1> ... <en>)`
-  The interpreter evaluates the expressions `<e>` one at a time, in left-to-right order. If any `<e>` evaluates to a true value, that value is returned as the value of the `or` expression, and the rest of the `<e>`'s are not evaluated. If all `<e>`'s evaluate to false, the value of the `or` expression is false.
+  El intérprete evalúa las expresiones `<e>` una a la vez, de izquierda a derecha. Si cualquier evaluación `<e>` es verdadera, dicho valor es devuelto como el valor de la expresión `or` y el resto de las `<e>`'s no son evaluadas. Si todas las evaluaciones de las `<e>` son falsos, el valor de la expresión `<e>` es falso.
 
 - `(not <e>)`
-  The value of a `not` expression is true when the expression `<e>` evaluates to false, and false otherwise.
+  El valor de una expresión `not` es verdadero cuando la expresión `<e>` es evaluada como como falsa y es falso en otro caso.
 
-Notice that `and` and `or` are special forms, not procedures, because the subexpressions are not necessarily all evaluated. `Not` is an ordinary procedure.
+Note que `and` y `or` son formas especiales, no son procedimientos, pues no necesariamente se evalúan todas las subexpresiones; `not` es un procedimiento ordinario.
 
-As an example of how these are used, the condition that a number $x$ be in the range $5 < x < 10$ may be expressed as
+Para ejemplificar cómo usarlas, consideremos la condición de que un número $x$ esté en el rango $5 < x < 10$, esta condición puede ser expresada como
 
 ```scm
 (and (> x 5) (< x 10))
 ```
 
-As another example, we can define a predicate to test whether one number is greater than or equal to another as
+Otro ejemplo podría ser definir un predicado para probar si un número es mayor o igual que otro como
 
 ```scm
 (define (>= x y) 
   (or (> x y) (= x y)))
 ```
 
-or alternatively as
+o de manera alternativa como
 
 ```scm
 (define (>= x y) 
