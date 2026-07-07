@@ -565,7 +565,7 @@ Otro ejemplo podría ser definir un predicado para probar si un número es mayor
   (or (> x y) (= x y)))
 ```
 
-o de manera alternativa como
+o de manera alternativa
 
 ```scm
 (define (>= x y) 
@@ -639,41 +639,41 @@ o de manera alternativa como
   ¿Cuál es el comportamiento que Ben observará con un intérprete que usa una evaluación de orden aplicativo? ¿Cuál es el comportamiento que Ben observará con un intérprete que usa una evaluación de orden normal? Explica tu respuesta.
 ]
 
-=== Example: Square Roots by Newton's Method
+=== Ejemplo: Raíces Cuadradas usando el Método de Newton
 
-Procedures, as introduced above, are much like ordinary mathematical functions. They specify a value that is determined by one or more parameters. But there is an important difference between mathematical functions and computer procedures. Procedures must be effective.
+Los procedimientos, que introdujimos antes, se parecen mucho a las funciones matemáticas ordinarias, especifican un valor que está determinado por uno o más parámetros. Pero hay una diferencia importante entre funciones matemáticas y procedimientos computacionales: los procedimientos deben ser efectivos.
 
-As a case in point, consider the problem of computing square roots. We can define the square-root function as
+Como caso puntual, considere el problema de calcular raíces cuadradas. Podemos definir la función raíz cuadrada como 
 
-$ sqrt(x) = "the" y "such that" y >= 0 "and" y^2 = x $
+$ sqrt(x) = "un" y "tal que" y >= 0 "y" y^2 = x $
 
-This describes a perfectly legitimate mathematical function. We could use it to recognize whether one number is the square root of another, or to derive facts about square roots in general. On the other hand, the definition does not describe a procedure. Indeed, it tells us almost nothing about how to actually find the square root of a given number. It will not help matters to rephrase this definition in pseudo-Lisp:
+Esto describe de forma perfecta y válida una función matemática. Podríamos usar esto para reconocer si un número es la raíz cuadrada de otro o no, o deducir propiedades de las raíces cuadradas en general. Por otro lado, la definición no describe un procedimiento, no nos dice nada acerca de cómo encontrar realmente las raíces de un número dado. No servirá de nada parafrasear esta definición en pseudo-Lisp:
 
 ```scm
 (define (sqrt x)
-  (the y (and (>= y 0) 
-              (= (square y) x))))
+  (un y (tal-que (and (>= y 0)
+                 (= (square y) x)))))
 ```
 
-This only begs the question.
+Pero esto solo plantea la pregunta.
 
-The contrast between function and procedure is a reflection of the general distinction between describing properties of things and describing how to do things, or, as it is sometimes referred to, the distinction between declarative knowledge and imperative knowledge. In mathematics we are usually concerned with declarative (what is) descriptions, whereas in computer science we are usually concerned with imperative (how to) descriptions.
+El contraste entre una función y un procedimiento es un reflejo de la distinción general entre describir propiedades de cosas y describir cómo hacer esas cosas; esto también se conoce como una distinción entre conocimiento declarativo y conocimiento práctico. En matemáticas usualmente nos enfocamos en declarar descripciones (el qué), mientras que en ciencias de la computación en ejecutar descripciones (el cómo). 
 
-How does one compute square roots? The most common way is to use Newton's method of successive approximations, which says that whenever we have a guess $y$ for the value of the square root of a number $x$, we can perform a simple manipulation to get a better guess (one closer to the actual square root) by averaging $y$ with $x/y$. For example, we can compute the square root of 2 as follows. Suppose our initial guess is 1:
+¿Cómo calcular raíces cuadradas? La manera más común para hacerlo es usar el método de Newton de aproximaciones sucesivas, este nos dice que siempre que tengamos una aproximación $y$ para el valor de la raíz cuadrada de un número $x$, podemos ejecutar una simple manipulación y así obtener una mejor aproximación (una más cercana a la verdadera raíz cuadrada) al hacer el promedio entre $y$ y $x/y$. Por ejemplo, podemos calcular la raíz cuadrada de 2 de la siguiente manera. Supongamos que nuestra aproximación inicial es 1:
 
 #table(
   columns: (1fr, 1fr, 2fr),
   stroke: none,
-  [*Guess*], [*Quotient*], [*Average*],
+  [*Aproximación*], [*Cociente*], [*Promedio*],
   [1], [(2/1) = 2], [((2 + 1)/2) = 1.5],
   [1.5], [(2/1.5) = 1.3333], [((1.3333 + 1.5)/2) = 1.4167],
   [1.4167], [(2/1.4167) = 1.4118], [((1.4167 + 1.4118)/2) = 1.4142],
   [1.4142], [...], [...]
 )
 
-Continuing this process, we obtain better and better approximations to the square root.
+Continuando este proceso, cada vez obtenemos mejores aproximaciones de la raíz cuadrada.
 
-Now let's formalize the process in terms of procedures. We start with a value for the radicand (the number whose square root we are trying to compute) and a value for the guess. If the guess is good enough for our purposes, we are done; if not, we must repeat the process with an improved guess. We write this basic strategy as a procedure:
+Ahora formalizaremos el proceso en términos de procedimientos. Empezamos con un valor para el radicando (el número cuya raíz cuadrada estamos tratando de calcular) y un valor para la aproximación. Si la aproximación es lo sufientemente buena para nuestro propósio habremos terminado; si no, debemos repetir el proceso con una mejor aproximación. Escribimos la estrategia básica como un procedimiento:
 
 ```scm
 (define (sqrt-iter guess x)
@@ -682,7 +682,7 @@ Now let's formalize the process in terms of procedures. We start with a value fo
       (sqrt-iter (improve guess x) x)))
 ```
 
-A guess is improved by averaging it with the quotient of the radicand and the old guess:
+Una aproximación es mejorada al promediarla con el conciente entre el radicando y la aproximación anterior:
 
 ```scm
 (define (improve guess x)
@@ -692,21 +692,21 @@ A guess is improved by averaging it with the quotient of the radicand and the ol
   (/ (+ x y) 2))
 ```
 
-We also have to say what we mean by "good enough." The following will do for illustration, but it is not really a very good test. The idea is to improve the answer until it is close enough so that its square differs from the radicand by less than a predetermined tolerance (here 0.001):
+También debemos decir cuál es el significado de que una aproximación sea lo "suficientemente buena." Lo siguiente es una forma de ilustrar esto, pero realmente no es una prueba muy sofisticada. La idea es mejorar la respuesta hasta que su cuadrado esté lo suficientemente cerca del cuadrado del radicando, es decir, que la diferencia entre estos dos cuadrados sea menor que una tolerancia predeterminada (por ejemplo 0.001):
 
 ```scm
 (define (good-enough? guess x)
   (< (abs (- (square guess) x)) 0.001))
 ```
 
-Finally, we need a way to get started. For instance, we can always guess that the square root of any number is 1:
+Finalmente, necesitamos un punto de partida. En principio, siempre podemos suponer que la raíz cuadrada de un número es 1:
 
 ```scm
 (define (sqrt x)
   (sqrt-iter 1.0 x))
 ```
 
-If we type these definitions to the interpreter, we can use `sqrt` just as we can use any procedure:
+Si le escribimos estas definiciones al intérprete, podemos simplemente aplicar `sqrt` tal como aplicamos cualquier procedimiento:
 
 ```scm
 (sqrt 9)
@@ -716,7 +716,7 @@ If we type these definitions to the interpreter, we can use `sqrt` just as we ca
 11.704699917758145
 ```
 
-The `sqrt` program also illustrates that the simple procedural language we have introduced so far is sufficient for writing any purely numerical program that one could write in, say, C or Pascal. This might seem surprising, since we have not included in our language any iterative (looping) constructs that direct the computer to do something over and over again. `Sqrt-iter`, on the other hand, demonstrates how iteration can be accomplished using no special construct other than the ordinary ability to call a procedure.
+El programa `sqrt` también ilustra que el lenguaje procedimental que hemos introducido, es simple y lo suficiente para escribir cualquier programa esencialmente numérico que uno podría escribir en, digamos, C o Pascal. Esto podría parecer sorprendente, pues en nuestro lenguaje no hemos incluido ningún iterador (looping) que le diga directamente al computador que haga algo una y otra vez. Por otro lado, `sqrt-iter` demuestra cómo una iteración puede ser refinada sin usar ninguna construcción especial, más allá de la habilidad ordinaria de llamar un procedimiento.
 
 === Procedures as Black-Box Abstractions
 
