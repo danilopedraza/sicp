@@ -726,13 +726,13 @@ Observe that the problem of computing square roots breaks up naturally into a nu
 
 #figure(
   ```
-                sqrt
-                 |
-             sqrt-iter
-             /       \
-    good-enough     improve
-      /     \           \
-  square    abs       average
+              sqrt
+               |
+           sqrt-iter
+           /       \
+  good-enough     improve
+    /     \           \
+square    abs       average
   ```,
   caption: [Procedural decomposition of the `sqrt` program.],
 )
