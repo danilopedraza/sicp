@@ -725,15 +725,15 @@ El programa `sqrt` también ilustra que el lenguaje procedimental que hemos intr
 Observe that the problem of computing square roots breaks up naturally into a number of subproblems: how to tell whether a guess is "good enough," how to improve a guess, and so on. Each of these tasks is accomplished by a separate procedure. The entire `sqrt` program can be viewed as a cluster of procedures (as shown in Figure 1.2) that mirrors the decomposition of the problem into subproblems.
 
 #figure(
-  grid(
-    columns: 1,
-    gutter: 1em,
-    [`sqrt`],
-    [#sym.arrow.b],
-    [`sqrt-iter`],
-    [#grid(columns: 2, gutter: 2em, [`good-enough?`], [`improve`])],
-    [#grid(columns: 3, gutter: 1em, [`abs`], [`square`], [`average`])]
-  ),
+  ```
+                sqrt
+                 |
+             sqrt-iter
+             /       \
+    good-enough     improve
+      /     \           \
+  square    abs       average
+  ```,
   caption: [Procedural decomposition of the `sqrt` program.],
 )
 
