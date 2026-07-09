@@ -725,18 +725,6 @@ El programa `sqrt` también ilustra que el lenguaje procedimental que hemos intr
 Observe que del problema de calcular raíces cuadradas naturalmente se derivan otros subproblemas: ¿cómo decir que una aproximación es lo "suficientemente buena"? ¿cómo mejorar una aproximación?. Cada una de estas tareas es ejecutada por unos procedimientos aparte. La entrada del programa `sqrt` puede ser vista como una agrupación de procedimientos (como en la Figure 1.2) que refleja la descomposición del problema en subproblemas.
 
 #figure(
-<<<<<<< HEAD
-  ```
-                sqrt
-                 |
-             sqrt-iter
-             /       \
-    good-enough     improve
-      /     \           \
-  square    abs       average
-  ```,
-  caption: [Procedural decomposition of the `sqrt` program.],
-=======
   grid(
     columns: 1,
     gutter: 1em,
@@ -746,8 +734,7 @@ Observe que del problema de calcular raíces cuadradas naturalmente se derivan o
     [#grid(columns: 2, gutter: 2em, [`good-enough?`], [`improve`])],
     [#grid(columns: 3, gutter: 1em, [`abs`], [`square`], [`average`])]
   ),
-  caption: [Descomposición procedimental del programa `sqrt`],
->>>>>>> 8c25c91 (add section 1.1.8)
+  caption: [Procedural decomposition of the `sqrt` program.],
 )
 
 La importancia de esta estrategia de descomponer no es simplemente dividir el problema en partes. Obviamente podríamos tomar un programa extenso y dividirlo en partes---las primeras diez líneas, las siguientes diez líneas y así. Más allá de eso, es crucial que cada procedimiento lleve consigo una tarea específica y pueda ser usado de manera modular en la definición de otros procedimientos. Por ejemplo, cuando definimos el procedimiento `good-enough?` en términos de `square`, podemos considerar `square` como una "caja negra". Por el momento no nos concierne *cómo* calcular el procedimiento su resultado, pero sí el hecho de que sí calcula el cuadrado. Se pueden posponer los detalles de cómo se calcula el cuadrado, los retomaremos más adelante. En efecto, hasta que nos referimos al procedimiento `good-enough?`, `square` no es tanto un procedimiento sino más bien una abstracción de procedimiento, llamado *abstracción procedimental*. Para este nivel de abstracción, cualquier procedimiento que calcule el cuadrado es igual de de bueno.
