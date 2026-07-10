@@ -716,15 +716,16 @@ Si le escribimos estas definiciones al intérprete, podemos simplemente aplicar 
 11.704699917758145
 ```
 
-El programa `sqrt` también ilustra que el lenguaje procedimental que hemos introducido, es simple y lo suficiente para escribir cualquier programa esencialmente numérico que uno podría escribir en, digamos, C o Pascal. Esto podría parecer sorprendente, pues en nuestro lenguaje no hemos incluido ningún iterador (looping) que le diga directamente al computador que haga algo una y otra vez. Por otro lado, `sqrt-iter` demuestra cómo una iteración puede ser refinada sin usar ninguna construcción especial, más allá de la habilidad ordinaria de llamar un procedimiento.
+El programa `sqrt` también ilustra que el lenguaje procedimental que hemos introducido, es simple y suficiente para escribir cualquier programa esencialmente numérico que uno podría escribir en, digamos, C o Pascal. Esto podría parecer sorprendente, pues en nuestro lenguaje no hemos incluido ningún iterador (looping) que le diga directamente al computador que haga algo una y otra vez. Por otro lado, `sqrt-iter` demuestra cómo una iteración puede ser refinada sin usar ninguna construcción especial, más allá de la habilidad ordinaria de llamar un procedimiento.
 
-=== Procedures as Black-Box Abstractions
+=== Prodecimientos como Abstracciones de Caja Negra
 
-`Sqrt` is our first example of a process defined by a set of mutually defined procedures. Notice that the definition of `sqrt-iter` is *recursive*; that is, the procedure is defined in terms of itself. The idea of being able to define a procedure in terms of itself may be disturbing; it may seem unclear how such a "circular" definition could have meaning at all, let alone be an effective way to get a computer to compute something. We will address this more carefully in Section 1.2. But first let's consider some other important points illustrated by the `sqrt` example.
+`sqrt` es nuestro primer ejemplo de un proceso definido por un conjunto de procedimientos que se definen mutamente. Note que la definición de `sqrt-iter` es *recursiva*; es decir, el procedimiento está definido en términos de sí mismo. De entrada la idea de difinir un procedimiento en términos de sí mismo puede ser confusa; no parece muy claro cómo una definición "circular" puede tener un significado completo, e incluso cómo puede ser una manera efectiva de calcular algo en el computador. Abordaremos esto con más cuidado en la Sección 1.2. Primero consideremos otros puntos importantes que nos deja el procedimiento `sqrt`.
 
-Observe that the problem of computing square roots breaks up naturally into a number of subproblems: how to tell whether a guess is "good enough," how to improve a guess, and so on. Each of these tasks is accomplished by a separate procedure. The entire `sqrt` program can be viewed as a cluster of procedures (as shown in Figure 1.2) that mirrors the decomposition of the problem into subproblems.
+Observe que del problema de calcular raíces cuadradas naturalmente se derivan otros subproblemas: ¿cómo decir que una aproximación es lo "suficientemente buena"? ¿cómo mejorar una aproximación?. Cada una de estas tareas es ejecutada por unos procedimientos aparte. La entrada del programa `sqrt` puede ser vista como una agrupación de procedimientos (como en la Figure 1.2) que refleja la descomposición del problema en subproblemas.
 
 #figure(
+<<<<<<< HEAD
   ```
                 sqrt
                  |
@@ -735,28 +736,40 @@ Observe that the problem of computing square roots breaks up naturally into a nu
   square    abs       average
   ```,
   caption: [Procedural decomposition of the `sqrt` program.],
+=======
+  grid(
+    columns: 1,
+    gutter: 1em,
+    [`sqrt`],
+    [#sym.arrow.b],
+    [`sqrt-iter`],
+    [#grid(columns: 2, gutter: 2em, [`good-enough?`], [`improve`])],
+    [#grid(columns: 3, gutter: 1em, [`abs`], [`square`], [`average`])]
+  ),
+  caption: [Descomposición procedimental del programa `sqrt`],
+>>>>>>> 8c25c91 (add section 1.1.8)
 )
 
-The importance of this decomposition strategy is not simply that one is dividing the program into parts. After all, we could take any large program and divide it into parts---the first ten lines, the next ten lines, and so on. Rather, it is crucial that each procedure accomplishes an identifiable task that can be used as a module in defining other procedures. For example, when we define the `good-enough?` procedure in terms of `square`, we are able to regard the `square` procedure as a "black box." We are not at that moment concerned with *how* the procedure computes its result, only with the fact that it computes the square. The details of how the square is computed can be suppressed, to be considered at a later time. Indeed, as far as the `good-enough?` procedure is concerned, `square` is not quite a procedure but rather an abstraction of a procedure, a so-called *procedural abstraction*. At this level of abstraction, any procedure that computes the square is equally good.
+La importancia de esta estrategia de descomponer no es simplemente dividir el problema en partes. Obviamente podríamos tomar un programa extenso y dividirlo en partes---las primeras diez líneas, las siguientes diez líneas y así. Más allá de eso, es crucial que cada procedimiento lleve consigo una tarea específica y pueda ser usado de manera modular en la definición de otros procedimientos. Por ejemplo, cuando definimos el procedimiento `good-enough?` en términos de `square`, podemos considerar `square` como una "caja negra". Por el momento no nos concierne *cómo* calcular el procedimiento su resultado, pero sí el hecho de que sí calcula el cuadrado. Se pueden posponer los detalles de cómo se calcula el cuadrado, los retomaremos más adelante. En efecto, hasta que nos referimos al procedimiento `good-enough?`, `square` no es tanto un procedimiento sino más bien una abstracción de procedimiento, llamado *abstracción procedimental*. Para este nivel de abstracción, cualquier procedimiento que calcule el cuadrado es igual de de bueno.
 
-Thus, a procedure definition should be able to suppress details. The users of the procedure may not have written the procedure themselves, but may have obtained it from another programmer as a black box. A programmer should not need to know how the procedure is implemented in order to use it.
+En la definición de un procedimiento debería estar la posibilidad de posponer detalles. Los usuarios del procedimiento podrían no escribirlo por sí mismo, en cambio podrían obtenerlo de otro programador que toma el lugar de caja negra. No necesariamente un programador debería saber cómo está implementado el procedimiento para poder usarlo.
 
-==== Local names
+==== Nombres Locales
 
-One detail of a procedure's implementation that should not affect the user of the procedure is the implementer's choice of names for the procedure's formal parameters. Thus, the following procedures should not be distinguishable:
+Uno de los detalles de la implementación de un procedimiento que no debería afectar al usuario del procedimiento, es la elección de los nombres de los parámetros formales en la implementación. Luego, los siguientes procedimientos no deberían disferenciarse:
 
 ```scm
 (define (square x) (* x x))
 (define (square y) (* y y))
 ```
 
-This principle---that the meaning of a procedure should be independent of the parameter names used by its author---may seem self-evident, but its consequences are profound. The simplest consequence is that the parameter names of a procedure must be local to the body of the procedure.
+Este principio---el significado de un procedimiento debería ser independiente de los nombres de los parámetros usados por su autor---puede parecer evidente, pero tiene consecuencias profundas. La consecuencia más simple es que los nombres de los parámetros debeb ser locales en el cuerpo del procedimiento.
 
-A formal parameter of a procedure has a very special role in the procedure definition, in that it doesn't matter what name the formal parameter has. Such a name is called a *bound variable*, and we say that the procedure definition *binds* its formal parameters. The meaning of a procedure definition is unchanged if a bound variable is renamed uniformly throughout the definition. If a variable is not bound, we say that it is *free*. The set of expressions for which a binding defines a name is called the *scope* of that name. In a procedure definition, the bound variables declared as the formal parameters of the procedure have the body of the procedure as their scope.
+Un parámetro formal cumple un papel especial en la definición de un procedimiento, sin importar cuál es el nombre que tiene el parámetro. Dicho nombre se denomina *variable ligada* y decimos que la definición de procedimiento *liga* sus parámetros formales. El significado de la definición de procedimiento no cambia si cada mención de la variable ligada es renombrada a lo largo de la definición. Si una variable no está ligada, decimos que es *libre*. El conjunto de expresiones en el que una ligadura define un nombre se conoce como el *alcance* de dicho nombre. En la definición de un procedimiento, las variables ligadas que son declaradas como parámetros formales tienen como alcance el cuerpo del procedimiento.
 
-==== Internal definitions and block structure
+==== Definiciones internas y estructura de bloque
 
-We have one kind of name isolation available to us: The formal parameters of a procedure are local to the body of the procedure. The `sqrt` program illustrates another kind of name isolation that we would like to have. The problem is that the only procedure that is important to users of `sqrt` is `sqrt`. The other procedures (`sqrt-iter`, `good-enough?`, and `improve`) only clutter up their minds. They may not define any other procedure with the name `good-enough?` as part of another program to be used together with the square-root program, because `sqrt` needs it. The problem is especially serious in the construction of large systems by many separate programmers. For example, in the construction of a large numerical library, many auxiliary procedures would be defined, so many names would be exported to the user. We would like to localize the subprocedures, hiding them inside `sqrt` so that `sqrt` could coexist with other successive approximations, each having its own `good-enough?` procedure. To make this possible, we allow a procedure to have internal definitions that are local to that procedure. For example, we can write the `sqrt` procedure as follows:
+Disponemos de un tipo de nombre aislado: los parámetros formales son locales en el cuerpo del procedimiento. El programa `sqrt` ilustra otro tipo de nombre aislado que nos gustaría tener. El problema es que el único procedimiento que es importante para el usuario de `sqrt` es precisamente `sqrt`. Los otros procedimientos (`sqrt-iter`, `good-enough?` y `improve`) solo hacen ruido. No se podría definir otro procedimiento con el nombre `good-enough?` como parte de otro programa porque ya ha sido usado en el programa de la raíz cuadrada, pues `sqrt` lo necesita. El problema se vuelve realmente serio en la construcción de grandes sistemas de muchos programas separados. Por ejemplo, en la construcción de una gran librería numérica, muchos procedimientos auxiliares serían definidos y luego se exportarían muchos nombres por el usuario. Nos gustaría localizar los subprocedimientos, ocultándolos dentro de `sqrt` para que `sqrt` pueda coexistir con otras aproximaciones sucesivas, cada una con su propio procedimiento `good-enough?`. Para que esto sea posible, permitimos que un procedimiento tenga definiciones internas que sean locales con respecto al procedimiento. Por ejemplo, podemos escribir el procedimiento `sqrt` como:
 
 ```scm
 (define (sqrt x)
@@ -771,7 +784,7 @@ We have one kind of name isolation available to us: The formal parameters of a p
   (sqrt-iter 1.0 x))
 ```
 
-Such nesting of definitions, called *block structure*, is basically the right solution to the simplest name-packaging problem. But there is a better idea lurking here. In addition to internalizing the definitions of the auxiliary procedures, we can simplify them. Since `x` is bound in the definition of `sqrt`, the procedures `good-enough?`, `improve`, and `sqrt-iter`, which are defined internally to `sqrt`, are in the scope of `x`. Thus, it is not necessary to pass `x` explicitly to each of these procedures. Instead, we can allow `x` to be a free variable in the internal definitions, as shown below. Then `x` gets its value from the argument with which the enclosing procedure `sqrt` is called. This discipline is called *lexical scoping*.
+Este anidamiento de definiciones, conocido como *estructura de bloque*, basicamente es la solución correcta para el problema simple de empaquetamiento de nombres. Pero hay una mejor idea que está implícita. Además de empacar las definiciones de los procedimientos auxiliares, podemos simplificarlos. Como `x` está ligada en la definición de `sqrt`, los procedimientos `good-enough?`, `improve` y `sqrt-iter`, que son definidos dentro de `sqrt`, están en el alcance de `x`. Es decir, no es necesario pasar explícitamente por `x` en cada uno de estos procedimientos. En cambio podemos permitir que `x` sea una variable libre de las definiciones internas, como se muestra a continuación. De este modo `x` obtiene su valor del argumento con el que se ejecuta el procedimiento-contenedor `sqrt`. Esta disciplina se denomina alcance léxico.
 
 ```scm
 (define (sqrt x)
@@ -786,10 +799,10 @@ Such nesting of definitions, called *block structure*, is basically the right so
   (sqrt-iter 1.0))
 ```
 
-We will use block structure extensively to help us break up large programs into tractable pieces. The idea of block structure originated with the programming language Algol 60. It appears in most modern programming languages and is a crucial tool for helping to organize the construction of large programs.
+Con frecuencia usaremos la estructura de bloque para ayudarnos a romper programas extensos en piezas manejables. La idea de la estructura de bloque se originó con el lenguaje de programación Algol 60. Aparece en lenguajes de programación modernos y es una herramienta determinante para ayudarnos a organizar la construcción de programas extensos.
 
 #block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.6:* Alyssa P. Hacker doesn't see why `if` needs to be a special form. "Why can't I just define it as an ordinary procedure in terms of `cond`?" she asks. Alyssa's friend Eva Lu Ator claims this can indeed be done, and she defines a new version of `if`:
+  *Exercise 1.6:* Alyssa P. Hacker no ve por qué `if` necesariamente es una forma especial. "¿Por qué no puedo simplemente definirlo como un procedimiento ordinario en términos de `cond`?" pregunta ella. La amiga de Alyssa, Eva Lu Ator, argumenta que en efecto esto se puede hacer y define una nueva versióñ de `if`:
 
   ```scm
   (define (new-if predicate consequent alternative)
@@ -797,7 +810,7 @@ We will use block structure extensively to help us break up large programs into 
           (else alternative)))
   ```
 
-  Eva demonstrates the program for Alyssa:
+  Eva pruba el programa para que Alyssa lo vea:
 
   ```scm
   (new-if (= 2 3) 0 5)
@@ -807,7 +820,7 @@ We will use block structure extensively to help us break up large programs into 
   0
   ```
 
-  Delighted, Alyssa uses `new-if` to rewrite the square-root program:
+  Encantada, Alyssa usa `new-if` para reescribir el programa raíz cuadrada:
 
   ```scm
   (define (sqrt-iter guess x)
@@ -816,19 +829,19 @@ We will use block structure extensively to help us break up large programs into 
             (sqrt-iter (improve guess x) x)))
   ```
 
-  What happens when Alyssa attempts to use this to compute square roots? Explain.
+  ¿Qué ocurre cuando Alyssa intente usar esto para calcular raíces cuadradas? Explica.
 ]
 
 #block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.7:* The `good-enough?` test used in computing square roots will not be very effective for finding the square roots of very small numbers. Also, in real computers, arithmetic operations are almost always performed with limited precision. This makes our test inadequate for very large numbers. Explain these statements, with examples showing how the test fails for small and large numbers. An alternative strategy for implementing `good-enough?` is to watch how `guess` changes from one iteration to the next and to stop when the change is a very small fraction of the guess. Design a square-root procedure that uses this kind of end test. Does this work better for small and large numbers?
+  *Exercise 1.7:* El test `good-enough?` usado para calcular raíces cuadradas no será muy efectivo para encontrar las raíces cuadradas de números muy pequeños. Además, en cálculos reales, las operaciones aritméticas casi siempre se realizan con precisión limitada; esto hace que nuestro test sea inadecuado para números grandes. Explica estos enunciados con ejemplos, mostrando que el test falla para números pequeños y grandes. Una estrategia alternativa para implementar `good-enough?` es mirar como cambia la `aproximación` de una iteración a la siguiente y parar cuando el cambio es una fracción muy pequeña de la aproximación. Diseñar un procedimiento raíz-cuadrada que use este tipo de test de parada. ¿Este trabajo funciona mejor para números pequeños y grandes?
 ]
 
 #block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.8:* Newton's method for cube roots is based on the fact that if $y$ is an approximation to the cube root of $x$, then a better approximation is given by the value
+  *Exercise 1.8:* El método de Newton para raíces cúbicas está basado en el hecho de que si $y$ es una aproximación de la raíz cúbica de $x$, entonces una mejor aproximación está dada por el valor de
 
   $ (x/y^2 + 2y) / 3 $
 
-  Use this formula to implement a cube-root procedure analogous to the square-root procedure. (In Section 1.3.4 we will see how to implement Newton's method as an abstraction of these square-root and cube-root procedures.)
+  Usa esta fórmula para implementar un procedimiento raíz-cúbica que sea análogo al procedimienot raíz-cuadrada. (En la Sección 1.3.4 veremos cómo implementar el método de Newton como una abstracción de estos procedimientos raíz-cuadrada y raíz-cúbica.)
 ]
 
 == Procedures and the Processes They Generate
