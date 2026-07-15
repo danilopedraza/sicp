@@ -725,15 +725,15 @@ El programa `sqrt` también ilustra que el lenguaje procedimental que hemos intr
 Observe que del problema de calcular raíces cuadradas naturalmente se derivan otros subproblemas: ¿cómo decir que una aproximación es lo "suficientemente buena"? ¿cómo mejorar una aproximación?. Cada una de estas tareas es ejecutada por unos procedimientos aparte. La entrada del programa `sqrt` puede ser vista como una agrupación de procedimientos (como en la Figure 1.2) que refleja la descomposición del problema en subproblemas.
 
 #figure(
-  grid(
-    columns: 1,
-    gutter: 1em,
-    [`sqrt`],
-    [#sym.arrow.b],
-    [`sqrt-iter`],
-    [#grid(columns: 2, gutter: 2em, [`good-enough?`], [`improve`])],
-    [#grid(columns: 3, gutter: 1em, [`abs`], [`square`], [`average`])]
-  ),
+  ```
+                sqrt
+                 |
+             sqrt-iter
+             /       \
+    good-enough     improve
+      /     \           \
+  square    abs       average
+  ```,
   caption: [Procedural decomposition of the `sqrt` program.],
 )
 
