@@ -841,17 +841,17 @@ Un procedimiento es un patrón en la *evolución local* de un proceso computacio
 
 En esta sección examinaremos algunas "formas" comunes para procesos generados por procedimientos simples. También investigaremos la velocidad a la que estos procesos consumen recursos computacionales importantes de tiempo y espacio. Los procedimientos que consideraremos son muy simples; su papel es el mismo que juegan los patrones de prueba en fotografía: como el prototipo de patrones súper simplificados, mas que ejemplos prácticos en sí mismos.
 
-=== Linear Recursion and Iteration
+=== Recursión Lineal e Iteración
 
-We begin by considering the factorial function, defined by
+Comenzemos considerando la función factorial, definida por
 
-$ n! = n dot (n - 1) dot (n - 2) dots 3 dot 2 dot 1 $
+$ n! = n dot (n - 1) dot (n - 2) dots.c 3 dot 2 dot 1 $
 
-There are many ways to compute factorials. One way is to make use of the observation that $n!$ is equal to $n$ times $(n - 1)!$ for any positive integer $n$:
+Hay muchas maneras de calcular factoriales. Una de ellas es observar que $n!$ es igual a $n$ multiplicado por $(n - 1)!$ para cualquier entero positivo $n$.
 
 $ n! = n dot [(n - 1) dot (n - 2) dots 3 dot 2 dot 1] = n dot (n - 1)! $
 
-Thus, we can compute $n!$ by computing $(n - 1)!$ and multiplying the result by $n$. If we add the stipulation that $1!$ is equal to $1$, this observation translates directly into a procedure:
+Luego, podemos calcular $n!$ calculando $(n - 1)!$ y multiplicando el resultado por $n$. Si añadimos la convención de que $1!$ es igual a $1$, la observación se traduce directamente en un procedimiento:
 
 ```scm
 (define (factorial n)
@@ -860,7 +860,7 @@ Thus, we can compute $n!$ by computing $(n - 1)!$ and multiplying the result by 
       (* n (factorial (- n 1)))))
 ```
 
-We can use the substitution model to watch this procedure in action computing 6!, as shown in Figure 1.3.
+Podemos usar el modelo de sustitución para mirar este procedimiento en acción al calcular 6!, como se muestra en la Figure 1.3.
 
 #figure(
   ```
@@ -877,17 +877,17 @@ We can use the substitution model to watch this procedure in action computing 6!
   (* 6 120)
   720
   ```,
-  caption: [A linear recursive process for computing 6!.],
+  caption: [Un proceso recursivo lineal para calcular 6!.],
 )
 
-Now let's take a different perspective on computing factorials. We could describe a rule for computing $n!$ by specifying that we first multiply 1 by 2, then multiply the result by 3, then by 4, and so on until we reach $n$. More formally, we maintain a running product, together with a counter that counts from 1 up to $n$. We can describe the computation by saying that the counter and the product simultaneously change from one step to the next according to the rule
+Ahora vamos a tomar una perspectiva diferente al calcular factoriales. Podríamos describir una regla para calcular $n!$ especificando que primero multiplicamos 1 por 2, luego multiplicamos el resultado por 3 y luego por 4, y así sucesivamente hasta llegar a $n$. Más formalmente, mantenemos funcionando un producto, junto con un contador que va desde 1 hasta $n$. Podemos describir el cálculo deciendo que el contador y el producto cambian simultáneamente de un paso al siguiente de acuerdo a la siguiente regla
 
-$ "product" arrow.l "counter" dot "product" \
-"counter" arrow.l "counter" + 1 $
+$ "producto" arrow.l "contador" dot "producto" \
+"contador" arrow.l "producto" + 1 $
 
-and stipulating that $n!$ is the value of the product when the counter exceeds $n$.
+y determinando que $n!$ es el valor del producto cuando el contador supera a $n$.
 
-Once again, we can recast our description as a procedure for computing factorials:
+Nuevamente, podemos reformular nuestra descripción de un procedimiento para calcular factoriales:
 
 ```scm
 (define (factorial n) 
@@ -901,7 +901,7 @@ Once again, we can recast our description as a procedure for computing factorial
                  max-count)))
 ```
 
-As before, we can use the substitution model to visualize the process of computing 6!, as shown in Figure 1.4.
+Como antes, podemos usar este modelo de sustitución para visualizar el proceso de calcular 6!, como se muestra en la Figure 1.4.
 
 #figure(
   ```
@@ -915,24 +915,25 @@ As before, we can use the substitution model to visualize the process of computi
   (fact-iter 720 7 6)
   720
   ```,
-  caption: [A linear iterative process for computing 6!.],
+  caption: [Un proceso iterativo lineal para calcular 6!.],
 )
 
-Compare the two processes. From one point of view, they seem hardly different at all. Both compute the same mathematical function on the same domain, and each requires a number of steps proportional to $n$ to compute $n!$. Indeed, both processes even carry out the same sequence of multiplications, obtaining the same sequence of partial products. On the other hand, when we consider the "shapes" of the two processes, we find that they evolve quite differently.
+Compare los dos procesos. Desde cierto punto vista, parecen práctimente indistinguibles. Ambos calculan la misma función matemática sobre el mismo dominio y cada una requiere un número de pasos proporcional a $n$ para calcular $n!$. De hecho, ambos procedimientos llegan a acumular la misma secuencia de multiplicaciones, obteniendo así la misma secuencia de productos parciales. Por otro lado, cuando consideramos las "formas" de los dos procesos, encontramos que tienen un desarrollo distinto.
 
-Consider the first process. The substitution model reveals a shape of expansion followed by contraction, indicated by the arrow in Figure 1.3. The expansion occurs as the process builds up a chain of *deferred operations* (in this case, a chain of multiplications). The contraction occurs as the operations are actually performed. This type of process, characterized by a chain of deferred operations, is called a *recursive process*. Carrying out this process requires that the interpreter keep track of the operations to be performed later on. In the computation of $n!$, the length of the chain of deferred multiplications, and hence the amount of information needed to keep track of it, grows linearly with $n$ (is proportional to $n$), just like the number of steps. Such a process is called a *linear recursive process*.
 
-By contrast, the second process does not grow and shrink. At each step, all we need to keep track of, for any $n$, are the current values of the variables `product`, `counter`, and `max-count`. We call this an *iterative process*. In general, an iterative process is one whose state can be summarized by a fixed number of *state variables*, together with a fixed rule that describes how the state variables should be updated as the process moves from state to state and an (optional) end test that specifies conditions under which the process should terminate. In computing $n!$, the number of steps required grows linearly with $n$. Such a process is called a *linear iterative process*.
+Considere el primer proceso. El modelo de sustitución revela una forma de expansión seguida de una contracción,  como se ve en la forma de flecha de la Figura 1.3. La expansión ocurre cuando el proceso se contruye bajo una cadena de *operaciones pospuestas* (revisar) (en este caso, una cadena de multiplicaciones). La contracción ocurre cuando las operaciones ya han sido ejecutadas. Este tipo de proceso, que se caracteriza por una cadena de operaciones pospuestas, es llamado *proceso recursivo*. Llevar a cabo este proceso requiere que el intérprete vaya registrando las operaciones para que después sean ejecutadas. En el cálculo de $n!$, la longitud de la cadena de multiplicaciones pospuestas, y por lo tanto el monto de información necesaria para registrarlas, crece linealmente con respecto a $n$ (es proporcional a $n$), al igual que el número de pasos. En tal caso el proceso es llamado *proceso recursivo lineal*.
 
-The contrast between the two processes can be seen in another way. In the iterative case, the program variables provide a complete description of the state of the process at any point. If we stopped the computation between steps, all we would need to do to resume the computation is to supply the interpreter with the values of the three program variables. Not so with the recursive process. In this case there is some additional "hidden" information, maintained by the interpreter and not contained in the program variables, which indicates "where the process is" in negotiating the chain of deferred operations. The longer the chain, the more information must be maintained.
+En cambio el segundo proceso no crece ni se contrae. En cada paso, para cualquier $n$, todo lo que necesitamos registrar son los valores de las variable `product`, `counter` y `max-count`. Llamamos a este proceso un *proceso iterativo*. En general, un proceso es iterativo cuando se puede resumir en un número fijo de *variables de estado*, junto con un número fijo de reglas que describen cómo se deben actualizar dichas variables, mientras que el proceso avanza de estado en estado, y, de manera opcional, una prueba que especifica condiciones bajo las cuales el proceso debería terminar. En el cálculo de $n!$, el número de pasos requeridos crece linealmente con $n$. Este proceso es llamado *proceso iterativo lineal*.
 
-In contrasting iteration and recursion, we must be careful not to confuse the notion of a recursive *process* with the notion of a recursive *procedure*. When we describe a procedure as recursive, we are referring to the syntactic fact that the procedure definition refers (either directly or indirectly) to the procedure itself. But when we describe a process as following a pattern that is, say, linearly recursive, we are speaking about how the process evolves, not about the syntax of how a procedure is written. It may seem disturbing that we refer to a recursive procedure such as `fact-iter` as generating an iterative process. However, the process really is iterative: Its state is captured completely by its three state variables, and an interpreter need keep track of only three variables in order to execute the process.
+El contraste entre estos dos procesos puede ser visto de otro modo. En el caso iterativo, las variables del programa dan una descripción completa del estado del proceso en cualquier punto. Si detuvieramos la ejecución entre pasos, todo lo que necesitarimos para reanudar la ejecución es darle al intérprete los valores de las tres variable del programa. No ocurre lo mismo con el proceso recursivo. En este caso hay algo de información adicional que está "oculta", mantenida por el intérprete y no contenida en las variables del programa, que indica "dónde va el proceso" al recorrer la cadena de operaciones pospuestas. Entre más grande la cadena se debe mantener más información.
 
-One reason that the distinction between process and procedure may be confusing is that most implementations of common languages (including Ada, Pascal, and C) are designed in such a way that the interpretation of any recursive procedure consumes an amount of memory that grows with the number of procedure calls, even when the process described is, in principle, iterative. As a consequence, these languages can describe iterative processes only by resorting to special-purpose "looping constructs" such as `do`, `repeat`, `until`, `for`, and `while`. The implementation of Scheme we shall consider in Chapter 5 does not share this defect. It will execute an iterative process in constant space, even if the iterative process is described by a recursive procedure. An implementation with this property is called *tail-recursive*. With a tail-recursive implementation, iteration can be expressed using the ordinary procedure call mechanism, so that special iteration constructs are useful only as syntactic sugar.
+Al contrastar iteración con recursión, debemos tener cuidado de no confundir la noción de un *proceso* recursivo con la de un *procedimiento* recursivo. Cuando decimos que un procedimiento es recursivo, nos referimos a la sintaxis que señala la definición de un procedimiento (ya sea directa o indirectamente) para el procedimiento en sí mismo. Pero cuando decimos que un proceso está siguiendo un patrón que es linealmente recursivo, estamos hablando de cómo evoluciona el proceso, no de la sintaxis con la que es escrito el procedimiento. Podría parecer desconcertante que nos refiramos a un procedimiento recursivo como `fact-iter` como generador de un proceso iterativo. Sin embargo, el proceso realmente es iterativo: su estado es completamente capturado por sus tres variables de estado y un intérprete que necesita mantener solo el registro de las tres variables para ejecutar el proceso. (REVISAR)
+
+Una razón por la cual la distinción entre proceso y procedimiento podría ser confusa, es que la mayoría de implementaciones de lenguajes comunes (incluyendo Ada, Pascal y C) son deseñados de tal manera que la interpretacióñ de cualquier procedimiento recursivo consume una cantidad de memoria que crece con el número de llamadas del procedimiento, incluso cuando, en principio, el proceso descrito es iterativo. Como consecuencia, estos lenguajes solo pueden describir procedimientos iterativos recurriendo a "constructores de bucles" de propósito especial como lo son `do`, `repeat`, `until`, `for` y `while`. La implementación de Scheme que consideramos en el Capítulo 5 no comparte este defecto. Scheme ejecutará un proceso iterativo en un espacio constante, incluso si el proceso iterativo es descrito por un procedimiento recursivo. Decimos que una implementación con esta propiedad es de *cola recursiva*. Con una implementación de cola recursiva, la iteración puede ser expresada usando la llamada ordinaria del procedimiento, de modo que las construcciones especiales de iteración solo son útiles como azúcar sintáctico. (este chiste solo lo entiende la madre del autor)
 
 #block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.9:* Each of the following two procedures defines a method for adding two positive integers in terms of the procedures `inc`, which increments its argument by 1, and `dec`, which decrements its argument by 1.
-
+  *Exercise 1.9:* Cada uno de los siguientes dos procedimientos definen un método para sumar dos enteros positivos en términos de los procedimientos `inc`, el cual aumenta 1 al argumento, y `dec`, que resta 1 al argumento.
+  
   ```scm
   (define (+ a b)
     (if (= a 0) 
@@ -945,11 +946,11 @@ One reason that the distinction between process and procedure may be confusing i
         (+ (dec a) (inc b))))
   ```
 
-  Using the substitution model, illustrate the process generated by each procedure in evaluating `(+ 4 5)`. Are these processes iterative or recursive?
+  Usando el modelo de sustitución, desarrollar el proceso generado por cada uno de los procedimientos al evaluar `(+ 4 5)`.  ¿Estos son procedimientos iterativos o recursivos?
 ]
 
 #block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.10:* The following procedure computes a mathematical function called Ackermann's function.
+  *Exercise 1.10:* El siguiente procediminento implementa una función matemática llamada la función de Ackermann.
 
   ```scm
   (define (A x y)
@@ -960,7 +961,7 @@ One reason that the distinction between process and procedure may be confusing i
                    (A x (- y 1))))))
   ```
 
-  What are the values of the following expressions?
+  ¿Cuáles son los valores de las siguientes expresiones?
 
   ```scm
   (A 1 10)
@@ -968,7 +969,7 @@ One reason that the distinction between process and procedure may be confusing i
   (A 3 3)
   ```
 
-  Consider the following procedures, where `A` is the procedure defined above:
+  Considere los siguientes procedimientos, donde `A` es el anterior procedimiento:
 
   ```scm
   (define (f n) (A 0 n))
@@ -977,7 +978,7 @@ One reason that the distinction between process and procedure may be confusing i
   (define (k n) (* 5 n n))
   ```
 
-  Give concise mathematical definitions for the functions computed by the procedures `f`, `g`, and `h` for positive integer values of $n$. For example, `(k n)` computes $5 n^2$.
+  Dar definiciones matemáticas concisas para las funciones implementadas por los procesos `f`, `g` y `h`para valores de enteros positivos $n$. Por ejemplo, `(k n)` calcula $5 n^2$. 
 ]
 
 === Tree Recursion
