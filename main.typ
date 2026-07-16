@@ -14,6 +14,8 @@
 
 #set heading(numbering: "1.")
 
+#set figure(numbering: none)
+
 // Title Page
 #align(center + horizon)[
   #text(16pt, weight: "bold")[Structure and Interpretation \ of Computer Programs]
