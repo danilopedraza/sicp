@@ -14,6 +14,25 @@
 
 #set heading(numbering: "1.")
 
+#let exercise-counter = counter("exercise")
+#let exercise(body) = {
+  exercise-counter.step()
+  block(fill: luma(240), inset: 10pt, radius: 4pt, width: 100%)[
+    #context {
+      let chap = counter(heading).at(here()).first()
+      let num = exercise-counter.at(here()).first()
+      strong[Ejercicio #chap.#num]
+    }
+    
+    #body
+  ]
+}
+
+#show heading.where(level: 1): it => {
+  it
+  exercise-counter.update(0)
+}
+
 #set figure(numbering: none)
 
 // Title Page
@@ -576,8 +595,7 @@ o de manera alternativa
   (not (< x y)))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Ejercicio 1.1:* A continuación hay una secuencia de expresiones. ¿Cuál es el resultado que imprimirá el intérprete en respuesta a cada expresión? Asuma que la secuencia es evaluada en el orden en el mismo orden en el que es presentada.
+#exercise[A continuación hay una secuencia de expresiones. ¿Cuál es el resultado que imprimirá el intérprete en respuesta a cada expresión? Asuma que la secuencia es evaluada en el orden en el mismo orden en el que es presentada.
 
   ```scm
   10
@@ -603,18 +621,15 @@ o de manera alternativa
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Ejercicio 1.2:* Convierta la siguiente expresión a notación prefija:
+#exercise[Convierta la siguiente expresión a notación prefija:
 
   $ (5 + 4 + (2 - (3 - (6 + 4/5)))) / (3(6 - 2)(2 - 7)) $
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Ejercicio 1.3:* Defina un procedimiento que como argumento tome tres números y devuelva la suma de los cuadrados de los dos números mayores.
+#exercise[Defina un procedimiento que como argumento tome tres números y devuelva la suma de los cuadrados de los dos números mayores.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.4:* Observe que nuestro modelo de evaluación permite combinaciones cuyos operadores son expresiones compuestas. Use esta observación para describir el comportamiento del siguiente procedimiento:
+#exercise[Observe que nuestro modelo de evaluación permite combinaciones cuyos operadores son expresiones compuestas. Use esta observación para describir el comportamiento del siguiente procedimiento:
   
   ```scm
   (define (a-plus-abs-b a b)
@@ -622,8 +637,7 @@ o de manera alternativa
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.5:* Ben Bitdiddle ha inventado una prueba para determinar si su intérprete está usando una evaluación de orden aplicativo o de orden normal. Él define los siguientes dos procedimientos:
+#exercise[Ben Bitdiddle ha inventado una prueba para determinar si su intérprete está usando una evaluación de orden aplicativo o de orden normal. Él define los siguientes dos procedimientos:
 
   ```scm
   (define (p) (p))
@@ -792,8 +806,7 @@ Este anidamiento de definiciones, conocido como *estructura de bloque*, basicame
 
 Con frecuencia usaremos la estructura de bloque para ayudarnos a romper programas extensos en piezas manejables. La idea de la estructura de bloque se originó con el lenguaje de programación Algol 60. Aparece en lenguajes de programación modernos y es una herramienta determinante para ayudarnos a organizar la construcción de programas extensos.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.6:* Alyssa P. Hacker no ve por qué `if` necesariamente es una forma especial. "¿Por qué no puedo simplemente definirlo como un procedimiento ordinario en términos de `cond`?" pregunta ella. La amiga de Alyssa, Eva Lu Ator, argumenta que en efecto esto se puede hacer y define una nueva versióñ de `if`:
+#exercise[Alyssa P. Hacker no ve por qué `if` necesariamente es una forma especial. "¿Por qué no puedo simplemente definirlo como un procedimiento ordinario en términos de `cond`?" pregunta ella. La amiga de Alyssa, Eva Lu Ator, argumenta que en efecto esto se puede hacer y define una nueva versióñ de `if`:
 
   ```scm
   (define (new-if predicate consequent alternative)
@@ -823,12 +836,10 @@ Con frecuencia usaremos la estructura de bloque para ayudarnos a romper programa
   ¿Qué ocurre cuando Alyssa intente usar esto para calcular raíces cuadradas? Explica.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.7:* El test `good-enough?` usado para calcular raíces cuadradas no será muy efectivo para encontrar las raíces cuadradas de números muy pequeños. Además, en cálculos reales, las operaciones aritméticas casi siempre se realizan con precisión limitada; esto hace que nuestro test sea inadecuado para números grandes. Explica estos enunciados con ejemplos, mostrando que el test falla para números pequeños y grandes. Una estrategia alternativa para implementar `good-enough?` es mirar como cambia la `aproximación` de una iteración a la siguiente y parar cuando el cambio es una fracción muy pequeña de la aproximación. Diseñar un procedimiento raíz-cuadrada que use este tipo de test de parada. ¿Este trabajo funciona mejor para números pequeños y grandes?
+#exercise[La prueba `good-enough?` usado para calcular raíces cuadradas no será muy efectivo para encontrar las raíces cuadradas de números muy pequeños. Además, en cálculos reales, las operaciones aritméticas casi siempre se realizan con precisión limitada; esto hace que nuestro test sea inadecuado para números grandes. Explica estos enunciados con ejemplos, mostrando que el test falla para números pequeños y grandes. Una estrategia alternativa para implementar `good-enough?` es mirar como cambia la `aproximación` de una iteración a la siguiente y parar cuando el cambio es una fracción muy pequeña de la aproximación. Diseñar un procedimiento raíz-cuadrada que use este tipo de test de parada. ¿Este trabajo funciona mejor para números pequeños y grandes?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.8:* El método de Newton para raíces cúbicas está basado en el hecho de que si $y$ es una aproximación de la raíz cúbica de $x$, entonces una mejor aproximación está dada por el valor de
+#exercise[El método de Newton para raíces cúbicas está basado en el hecho de que si $y$ es una aproximación de la raíz cúbica de $x$, entonces una mejor aproximación está dada por el valor de
 
   $ (x/y^2 + 2y) / 3 $
 
@@ -935,8 +946,7 @@ Al contrastar iteración con recursión, debemos tener cuidado de no confundir l
 
 Una razón por la cual la distinción entre proceso y procedimiento podría ser confusa, es que la mayoría de implementaciones de lenguajes comunes (incluyendo Python, Java y C) son diseñados de tal manera que la interpretación de cualquier procedimiento recursivo consume una cantidad de memoria que crece con el número de llamadas del procedimiento, incluso cuando, en principio, el proceso descrito es iterativo. Como consecuencia, estos lenguajes solo pueden describir procedimientos iterativos recurriendo a "constructores de bucles" de propósito especial como lo son `do`, `repeat`, `until`, `for` y `while`. La implementación de Scheme que consideramos en el Capítulo 5 no comparte este defecto. Scheme ejecutará un proceso iterativo en un espacio constante, incluso si el proceso iterativo es descrito por un procedimiento recursivo. Decimos que una implementación con esta propiedad es de *recursión de cola*. Con una implementación de recursión de cola, la iteración puede ser expresada usando la llamada ordinaria del procedimiento, de modo que las construcciones especiales de iteración solo son útiles como azúcar sintáctico.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.9:* Cada uno de los siguientes dos procedimientos definen un método para sumar dos enteros positivos en términos de los procedimientos `inc`, el cual aumenta 1 al argumento, y `dec`, que resta 1 al argumento.
+#exercise[Cada uno de los siguientes dos procedimientos definen un método para sumar dos enteros positivos en términos de los procedimientos `inc`, el cual aumenta 1 al argumento, y `dec`, que resta 1 al argumento.
   
   ```scm
   (define (+ a b)
@@ -953,8 +963,7 @@ Una razón por la cual la distinción entre proceso y procedimiento podría ser 
   Usando el modelo de sustitución, desarrollar el proceso generado por cada uno de los procedimientos al evaluar `(+ 4 5)`.  ¿Estos son procedimientos iterativos o recursivos?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.10:* El siguiente procediminento implementa una función matemática llamada la función de Ackermann.
+#exercise[El siguiente procediminento implementa una función matemática llamada la función de Ackermann.
 
   ```scm
   (define (A x y)
@@ -1118,12 +1127,10 @@ We can easily translate this description into a recursive procedure:
 
 `Count-change` generates a tree-recursive process with redundancies similar to those in our first implementation of `fib`. (It will take quite a while for that 292 to be computed.) On the other hand, it is not obvious how to design a better algorithm for computing the result, and we leave this problem as a challenge. The observation that a tree-recursive process may be highly inefficient but often easy to specify and understand has led people to propose that one could get the best of both worlds by designing a "smart compiler" that could transform tree-recursive procedures into more efficient procedures that compute the same result.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.11:* A function $f$ is defined by the rule that $f(n) = n$ if $n < 3$ and $f(n) = f(n-1) + 2 f(n-2) + 3 f(n-3)$ if $n >= 3$. Write a procedure that computes $f$ by means of a recursive process. Write a procedure that computes $f$ by means of an iterative process.
+#exercise[A function $f$ is defined by the rule that $f(n) = n$ if $n < 3$ and $f(n) = f(n-1) + 2 f(n-2) + 3 f(n-3)$ if $n >= 3$. Write a procedure that computes $f$ by means of a recursive process. Write a procedure that computes $f$ by means of an iterative process.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.12:* The following pattern of numbers is called *Pascal's triangle*.
+#exercise[The following pattern of numbers is called *Pascal's triangle*.
 
   ```
            1
@@ -1137,8 +1144,7 @@ We can easily translate this description into a recursive procedure:
   The numbers at the edge of the triangle are all 1, and each number inside the triangle is the sum of the two numbers above it. Write a procedure that computes elements of Pascal's triangle by means of a recursive process.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.13:* Prove that $"Fib"(n)$ is the closest integer to $phi^n / sqrt(5)$, where $phi = (1 + sqrt(5)) / 2$. Hint: Let $psi = (1 - sqrt(5)) / 2$. Use induction and the definition of the Fibonacci numbers to prove that $"Fib"(n) = (phi^n - psi^n) / sqrt(5)$.
+#exercise[Prove that $"Fib"(n)$ is the closest integer to $phi^n / sqrt(5)$, where $phi = (1 + sqrt(5)) / 2$. Hint: Let $psi = (1 - sqrt(5)) / 2$. Use induction and the definition of the Fibonacci numbers to prove that $"Fib"(n) = (phi^n - psi^n) / sqrt(5)$.
 ]
 
 === Orders of Growth
@@ -1153,12 +1159,10 @@ For instance, with the linear recursive process for computing factorial describe
 
 Orders of growth provide only a crude description of the behavior of a process. For example, a process requiring $n^2$ steps and a process requiring $1000n^2$ steps and a process requiring $3n^2 + 10n + 17$ steps all have $Theta(n^2)$ order of growth. On the other hand, order of growth provides a useful indication of how we may expect the behavior of the process to change as we change the size of the problem. For a $Theta(n)$ (linear) process, doubling the size will roughly double the amount of resources used. For an exponential process, each increment in problem size will multiply the resource utilization by a constant factor. In the remainder of Section 1.2 we will examine two algorithms whose order of growth is logarithmic, so that doubling the problem size increases the resource requirement by a constant amount.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.14:* Draw the tree illustrating the process generated by the `count-change` procedure of Section 1.2.2 in making change for 11 cents. What are the orders of growth of the space and number of steps used by this process as the amount to be changed increases?
+#exercise[Draw the tree illustrating the process generated by the `count-change` procedure of Section 1.2.2 in making change for 11 cents. What are the orders of growth of the space and number of steps used by this process as the amount to be changed increases?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.15:* The sine of an angle (specified in radians) can be computed by making use of the approximation $sin x approx x$ if $x$ is sufficiently small, and the trigonometric identity
+#exercise[The sine of an angle (specified in radians) can be computed by making use of the approximation $sin x approx x$ if $x$ is sufficiently small, and the trigonometric identity
   
   $ sin x = 3 sin x/3 - 4 sin^3 x/3 $
 
@@ -1248,12 +1252,10 @@ The process evolved by `fast-expt` grows logarithmically with $n$ in both space 
 
 The difference between $Theta(log n)$ growth and $Theta(n)$ growth becomes striking as $n$ becomes large. For example, `fast-expt` for $n = 1000$ requires only 14 multiplications.#footnote[You may wonder why anyone would care about raising numbers to the 1000th power. See Section 1.2.6.] It is also possible to use the idea of successive squaring to devise an iterative algorithm that computes exponentials with a logarithmic number of steps (see Exercise 1.16), although, as is often the case with iterative algorithms, this is not written down so straightforwardly as the recursive algorithm.#footnote[This iterative algorithm is ancient. It appears in the _Chandah-sutra_ by Acharya Pingala, written before 200 B.C. See Knuth (1981), section 4.6.3, for a full discussion and analysis of this and other methods of exponentiation.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.16:* Design a procedure that evolves an iterative exponentiation process that uses successive squaring and uses a logarithmic number of steps, as does `fast-expt`. (Hint: Using the observation that $(b^(n/2))^2 = (b^2)^(n/2)$, keep, along with the exponent $n$ and the base $b$, an additional state variable $a$, and define the state transformation in such a way that the product $a b^n$ is unchanged from state to state. At the beginning of the process $a$ is taken to be 1, and the answer is given by the value of $a$ at the end of the process. In general, the technique of defining an *invariant quantity* that remains unchanged from state to state is a powerful way to think about the design of iterative algorithms.)
+#exercise[Design a procedure that evolves an iterative exponentiation process that uses successive squaring and uses a logarithmic number of steps, as does `fast-expt`. (Hint: Using the observation that $(b^(n/2))^2 = (b^2)^(n/2)$, keep, along with the exponent $n$ and the base $b$, an additional state variable $a$, and define the state transformation in such a way that the product $a b^n$ is unchanged from state to state. At the beginning of the process $a$ is taken to be 1, and the answer is given by the value of $a$ at the end of the process. In general, the technique of defining an *invariant quantity* that remains unchanged from state to state is a powerful way to think about the design of iterative algorithms.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.17:* The exponentiation algorithms in this section are based on performing exponentiation by means of repeated multiplication. In a similar way, one can perform integer multiplication by means of repeated addition. The following multiplication procedure (in which it is assumed that our language can only add, not multiply) is analogous to the `expt` procedure:
+#exercise[The exponentiation algorithms in this section are based on performing exponentiation by means of repeated multiplication. In a similar way, one can perform integer multiplication by means of repeated addition. The following multiplication procedure (in which it is assumed that our language can only add, not multiply) is analogous to the `expt` procedure:
 
   ```scm
   (define (* a b)
@@ -1265,12 +1267,10 @@ The difference between $Theta(log n)$ growth and $Theta(n)$ growth becomes strik
   This algorithm takes a number of steps that is linear in `b`. Now suppose we include, together with addition, operations `double`, which doubles an integer, and `halve`, which divides an (even) integer by 2. Using these, design a multiplication procedure analogous to `fast-expt` that uses a logarithmic number of steps.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.18:* Using the results of Exercise 1.16 and Exercise 1.17, devise a procedure that generates an iterative process for multiplying two integers in terms of adding, doubling, and halving and uses a logarithmic number of steps.#footnote[This algorithm, which is sometimes known as the "Russian peasant method" of multiplication, is ancient. Examples of its use are found in the Rhind Papyrus, one of the two oldest mathematical documents in existence, written about 1700 B.C. (and copied from an even older document) by an Egyptian scribe named A'h-mose.]
+#exercise[Using the results of Exercise 1.16 and Exercise 1.17, devise a procedure that generates an iterative process for multiplying two integers in terms of adding, doubling, and halving and uses a logarithmic number of steps.#footnote[This algorithm, which is sometimes known as the "Russian peasant method" of multiplication, is ancient. Examples of its use are found in the Rhind Papyrus, one of the two oldest mathematical documents in existence, written about 1700 B.C. (and copied from an even older document) by an Egyptian scribe named A'h-mose.]
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.19:* There is a clever algorithm for computing the Fibonacci numbers in a logarithmic number of steps. Recall the transformation of the state variables $a$ and $b$ in the `fib-iter` process of Section 1.2.2: $a <- a + b$ and $b <- a$. Call this transformation $T$, and observe that applying $T$ over and over again $n$ times, starting with 1 and 0, produces the pair $F i b(n+1)$ and $F i b(n)$. In other words, the Fibonacci numbers are produced by applying $T^n$, the $n^"th"$ power of the transformation $T$, starting with the pair (1, 0). Now consider $T$ to be the special case of $p=0$ and $q=1$ in a family of transformations $T_(p q)$, where $T_(p q)$ transforms the pair $(a, b)$ according to $a <- b q + a q + a p$ and $b <- b p + a q$. Show that if we apply such a transformation $T_(p q)$ twice, the effect is the same as using a single transformation $T_(p' q')$ of the same form, and compute $p'$ and $q'$ in terms of $p$ and $q$. This gives us an explicit way to square these transformations, and thus we can compute $T^n$ using successive squaring, as in the `fast-expt` procedure. Put this all together to complete the following procedure, which runs in a logarithmic number of steps:#footnote[This exercise was suggested to us by Joe Stoy, based on an example in Kaldewaij (1990).]
+#exercise[There is a clever algorithm for computing the Fibonacci numbers in a logarithmic number of steps. Recall the transformation of the state variables $a$ and $b$ in the `fib-iter` process of Section 1.2.2: $a <- a + b$ and $b <- a$. Call this transformation $T$, and observe that applying $T$ over and over again $n$ times, starting with 1 and 0, produces the pair $F i b(n+1)$ and $F i b(n)$. In other words, the Fibonacci numbers are produced by applying $T^n$, the $n^"th"$ power of the transformation $T$, starting with the pair (1, 0). Now consider $T$ to be the special case of $p=0$ and $q=1$ in a family of transformations $T_(p q)$, where $T_(p q)$ transforms the pair $(a, b)$ according to $a <- b q + a q + a p$ and $b <- b p + a q$. Show that if we apply such a transformation $T_(p q)$ twice, the effect is the same as using a single transformation $T_(p' q')$ of the same form, and compute $p'$ and $q'$ in terms of $p$ and $q$. This gives us an explicit way to square these transformations, and thus we can compute $T^n$ using successive squaring, as in the `fast-expt` procedure. Put this all together to complete the following procedure, which runs in a logarithmic number of steps:#footnote[This exercise was suggested to us by Joe Stoy, based on an example in Kaldewaij (1990).]
 
   ```scm
   (define (fib n)
@@ -1333,8 +1333,7 @@ The fact that the number of steps required by Euclid's Algorithm has logarithmic
 
 We can use this theorem to get an order-of-growth estimate for Euclid's Algorithm. Let $n$ be the smaller of the two inputs to the procedure. If the process takes $k$ steps, then we must have $n >= F i b(k) approx phi^k / sqrt(5)$. Therefore the number of steps $k$ grows as the logarithm (to the base $phi$) of $n$. Hence, the order of growth is $Theta(log n)$.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.20:* The process that a procedure generates is of course dependent on the rules used by the interpreter. As an example, consider the iterative `gcd` procedure given above. Suppose we were to interpret this procedure using normal-order evaluation, as discussed in Section 1.1.5. (The normal-order-evaluation rule for `if` is described in Exercise 1.5.) Using the substitution method (for normal order), illustrate the process generated in evaluating `(gcd 206 40)` and indicate the `remainder` operations that are actually performed. How many `remainder` operations are actually performed in the normal-order evaluation of `(gcd 206 40)`? In the applicative-order evaluation?
+#exercise[The process that a procedure generates is of course dependent on the rules used by the interpreter. As an example, consider the iterative `gcd` procedure given above. Suppose we were to interpret this procedure using normal-order evaluation, as discussed in Section 1.1.5. (The normal-order-evaluation rule for `if` is described in Exercise 1.5.) Using the substitution method (for normal order), illustrate the process generated in evaluating `(gcd 206 40)` and indicate the `remainder` operations that are actually performed. How many `remainder` operations are actually performed in the normal-order evaluation of `(gcd 206 40)`? In the applicative-order evaluation?
 ]
 
 === Example: Testing for Primality
@@ -1429,12 +1428,10 @@ There are variations of the Fermat test that cannot be fooled. In these tests, a
 
 The existence of tests for which one can prove that the chance of error becomes arbitrarily small has sparked interest in algorithms of this type, which have come to be known as *probabilistic algorithms*. There is a great deal of research activity in this area, and probabilistic algorithms have been fruitfully applied to many fields.#footnote[One of the most striking applications of probabilistic prime testing has been to the field of cryptography. Although it is now computationally infeasible to factor an arbitrary 200-digit number, the primality of such a number can be checked in a few seconds with the Fermat test. This fact forms the basis of a technique for constructing "unbreakable codes" suggested by Rivest et al. (1977). The resulting *RSA algorithm* has become a widely used technique for enhancing the security of electronic communications. Because of this and related developments, the study of prime numbers, once considered the epitome of a topic in "pure" mathematics to be studied only for its own sake, now turns out to have important practical applications to cryptography, electronic funds transfer, and information retrieval.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.21:* Use the `smallest-divisor` procedure to find the smallest divisor of each of the following numbers: 199, 1999, 19999.
+#exercise[Use the `smallest-divisor` procedure to find the smallest divisor of each of the following numbers: 199, 1999, 19999.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.22:* Most Lisp implementations include a primitive called `runtime` that returns an integer that specifies the amount of time the system has been running (measured, for example, in microseconds). The following `timed-prime-test` procedure, when called with an integer $n$, prints $n$ and checks to see if $n$ is prime. If $n$ is prime, the procedure prints three asterisks followed by the amount of time used in performing the test.
+#exercise[Most Lisp implementations include a primitive called `runtime` that returns an integer that specifies the amount of time the system has been running (measured, for example, in microseconds). The following `timed-prime-test` procedure, when called with an integer $n$, prints $n$ and checks to see if $n$ is prime. If $n$ is prime, the procedure prints three asterisks followed by the amount of time used in performing the test.
 
   ```scm
   (define (timed-prime-test n)
@@ -1455,16 +1452,13 @@ The existence of tests for which one can prove that the chance of error becomes 
   Using this procedure, write a procedure `search-for-primes` that checks the primality of consecutive odd integers in a specified range. Use your procedure to find the three smallest primes larger than 1000; larger than 10,000; larger than 100,000; larger than 1,000,000. Note the time needed to test each prime. Since the testing algorithm has order of growth of $Theta(sqrt(n))$, you should expect that testing for primes around 10,000 should take about $sqrt(10)$ times as long as testing for primes around 1000. Do your timing data bear this out? How well do the data for 100,000 and 1,000,000 support the $Theta(sqrt(n))$ prediction? Is your result compatible with the notion that programs on your machine run in time proportional to the number of steps required for the computation?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.23:* The `smallest-divisor` procedure shown at the start of this section does lots of needless testing: After it checks to see if the number is divisible by 2 there is no point in checking to see if it is divisible by any larger even numbers. This suggests that the values used for `test-divisor` should not be 2, 3, 4, 5, 6, ..., but rather 2, 3, 5, 7, 9, .... To implement this change, define a procedure `next` that returns 3 if its input is equal to 2 and otherwise returns its input plus 2. Modify the `smallest-divisor` procedure to use `(next test-divisor)` instead of `(+ test-divisor 1)`. With `timed-prime-test` incorporating this modified version of `smallest-divisor`, run the test for each of the 12 primes found in Exercise 1.22. Since this modification halves the number of test steps, you should expect it to run about twice as fast. Is this expectation confirmed? If not, what is the observed ratio of the speeds of the two algorithms, and how do you explain the fact that it is different from 2?
+#exercise[The `smallest-divisor` procedure shown at the start of this section does lots of needless testing: After it checks to see if the number is divisible by 2 there is no point in checking to see if it is divisible by any larger even numbers. This suggests that the values used for `test-divisor` should not be 2, 3, 4, 5, 6, ..., but rather 2, 3, 5, 7, 9, .... To implement this change, define a procedure `next` that returns 3 if its input is equal to 2 and otherwise returns its input plus 2. Modify the `smallest-divisor` procedure to use `(next test-divisor)` instead of `(+ test-divisor 1)`. With `timed-prime-test` incorporating this modified version of `smallest-divisor`, run the test for each of the 12 primes found in Exercise 1.22. Since this modification halves the number of test steps, you should expect it to run about twice as fast. Is this expectation confirmed? If not, what is the observed ratio of the speeds of the two algorithms, and how do you explain the fact that it is different from 2?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.24:* Modify the `timed-prime-test` procedure of Exercise 1.22 to use `fast-prime?` (the Fermat method), and test each of the 12 primes you found in that exercise. Since the Fermat test has $Theta(log n)$ growth, how would you expect the time to test primes near 1,000,000 to compare with the time needed to test primes near 1000? Do your data bear this out? Can you explain any discrepancy you find?
+#exercise[Modify the `timed-prime-test` procedure of Exercise 1.22 to use `fast-prime?` (the Fermat method), and test each of the 12 primes you found in that exercise. Since the Fermat test has $Theta(log n)$ growth, how would you expect the time to test primes near 1,000,000 to compare with the time needed to test primes near 1000? Do your data bear this out? Can you explain any discrepancy you find?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.25:* Alyssa P. Hacker complains that we went to a lot of extra work in writing `expmod`. After all, she says, since we already know how to compute exponentials, we could have simply written
+#exercise[Alyssa P. Hacker complains that we went to a lot of extra work in writing `expmod`. After all, she says, since we already know how to compute exponentials, we could have simply written
 
   ```scm
   (define (expmod base exp m)
@@ -1474,8 +1468,7 @@ The existence of tests for which one can prove that the chance of error becomes 
   Is she correct? Would this procedure serve as well for our fast prime tester? Explain.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.26:* Louis Reasoner is having great difficulty doing Exercise 1.24. His `fast-prime?` test seems to run more slowly than his `prime?` test. Louis calls his friend Eva Lu Ator over to help. When they examine Louis's code, they find that he has rewritten the `expmod` procedure to use an explicit multiplication, rather than calling `square`:
+#exercise[Louis Reasoner is having great difficulty doing Exercise 1.24. His `fast-prime?` test seems to run more slowly than his `prime?` test. Louis calls his friend Eva Lu Ator over to help. When they examine Louis's code, they find that he has rewritten the `expmod` procedure to use an explicit multiplication, rather than calling `square`:
 
   ```scm
   (define (expmod base exp m)
@@ -1495,12 +1488,10 @@ The existence of tests for which one can prove that the chance of error becomes 
   "I don't see what difference that could make," says Louis. "I do." says Eva. "By writing the procedure like that, you have transformed the $Theta(log n)$ process into a $Theta(n)$ process." Explain.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.27:* Demonstrate that the Carmichael numbers listed in the footnote really do fool the Fermat test. That is, write a procedure that takes an integer $n$ and tests whether $a^n$ is congruent to $a$ modulo $n$ for every $a < n$, and try your procedure on the given Carmichael numbers.
+#exercise[Demonstrate that the Carmichael numbers listed in the footnote really do fool the Fermat test. That is, write a procedure that takes an integer $n$ and tests whether $a^n$ is congruent to $a$ modulo $n$ for every $a < n$, and try your procedure on the given Carmichael numbers.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.28:* One variant of the Fermat test that cannot be fooled is called the *Miller-Rabin test* (Miller 1976; Rabin 1980). This starts from an alternate form of Fermat's Little Theorem, which states that if $n$ is a prime number and $a$ is any positive integer less than $n$, then $a$ raised to the $(n-1)$-st power is congruent to 1 modulo $n$. To test the primality of a number $n$ by the Miller-Rabin test, we pick a random number $a < n$ and raise $a$ to the $(n-1)$-st power modulo $n$ using the `expmod` procedure. However, whenever we perform the squaring step in `expmod`, we check to see if we have discovered a "nontrivial square root of 1 modulo $n$," that is, a number not equal to 1 or $n-1$ whose square is equal to 1 modulo $n$. It is possible to prove that if such a nontrivial square root of 1 exists, then $n$ is not prime. It is also possible to prove that if $n$ is an odd number that is not prime, then, for at least half the numbers $a < n$, computing $a^(n-1)$ in this way will reveal a nontrivial square root of 1 modulo $n$. (This is why the Miller-Rabin test cannot be fooled.) Modify the `expmod` procedure to signal if it discovers a nontrivial square root of 1, and use this to implement the Miller-Rabin test with a procedure analogous to `fermat-test`. Check your procedure by testing various known primes and non-primes. Hint: One convenient way to make `expmod` signal is to have it return 0.
+#exercise[One variant of the Fermat test that cannot be fooled is called the *Miller-Rabin test* (Miller 1976; Rabin 1980). This starts from an alternate form of Fermat's Little Theorem, which states that if $n$ is a prime number and $a$ is any positive integer less than $n$, then $a$ raised to the $(n-1)$-st power is congruent to 1 modulo $n$. To test the primality of a number $n$ by the Miller-Rabin test, we pick a random number $a < n$ and raise $a$ to the $(n-1)$-st power modulo $n$ using the `expmod` procedure. However, whenever we perform the squaring step in `expmod`, we check to see if we have discovered a "nontrivial square root of 1 modulo $n$," that is, a number not equal to 1 or $n-1$ whose square is equal to 1 modulo $n$. It is possible to prove that if such a nontrivial square root of 1 exists, then $n$ is not prime. It is also possible to prove that if $n$ is an odd number that is not prime, then, for at least half the numbers $a < n$, computing $a^(n-1)$ in this way will reveal a nontrivial square root of 1 modulo $n$. (This is why the Miller-Rabin test cannot be fooled.) Modify the `expmod` procedure to signal if it discovers a nontrivial square root of 1, and use this to implement the Miller-Rabin test with a procedure analogous to `fermat-test`. Check your procedure by testing various known primes and non-primes. Hint: One convenient way to make `expmod` signal is to have it return 0.
 ]
 
 == Formulating Abstractions with Higher-Order Procedures
@@ -1656,16 +1647,14 @@ for small values of $d x$. We can express this directly as a procedure:
 
 (The exact value of the integral of `cube` between 0 and 1 is 1/4.)
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.29:* Simpson's Rule is a more accurate method of numerical integration than the method illustrated above. Using Simpson's Rule, the integral of a function $f$ between $a$ and $b$ is approximated as
+#exercise[Simpson's Rule is a more accurate method of numerical integration than the method illustrated above. Using Simpson's Rule, the integral of a function $f$ between $a$ and $b$ is approximated as
 
   $ h/3 (y_0 + 4 y_1 + 2 y_2 + 4 y_3 + 2 y_4 + dots + 2 y_(n-2) + 4 y_(n-1) + y_n) $
 
   where $h = (b - a)/n$, for some even integer $n$, and $y_k = f(a + k h)$. (Increasing $n$ increases the accuracy of the approximation.) Define a procedure that takes as arguments $f$, $a$, $b$, and $n$ and returns the value of the integral, computed using Simpson's Rule. Use your procedure to integrate `cube` between 0 and 1 (with $n = 100$ and $n = 1000$), and compare the results to those of the `integral` procedure shown above.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.30:* The `sum` procedure above generates a linear recursion. The procedure can be rewritten so that the sum is performed iteratively. Show how to do this by filling in the missing expressions in the following definition:
+#exercise[The `sum` procedure above generates a linear recursion. The procedure can be rewritten so that the sum is performed iteratively. Show how to do this by filling in the missing expressions in the following definition:
 
   ```scm
   (define (sum term a next b)
@@ -1677,8 +1666,7 @@ for small values of $d x$. We can express this directly as a procedure:
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.31:*
+#exercise[
 
   a. The `sum` procedure is only the simplest of a vast number of similar abstractions that can be captured as higher-order procedures.#footnote[The intent of Exercise 1.31 through Exercise 1.33 is to demonstrate the expressive power that is attained by using an appropriate abstraction to consolidate many seemingly disparate operations. However, though accumulation and filtering are elegant ideas, our hands are somewhat tied in using them at this point since we do not yet have data structures to provide suitable means of combination for these abstractions. We will return to these ideas in Section 2.2.3 when we show how to use *sequences* as interfaces for combining filters and accumulators to build even more powerful abstractions. We will see there how these methods really come into their own as a powerful and elegant approach to designing programs.] Write an analogous procedure called `product` that returns the product of the values of a function at points over a given range. Show how to define `factorial` in terms of `product`. Also use `product` to compute approximations to $pi$ using the formula#footnote[This formula was discovered by the seventeenth-century English mathematician John Wallis.]
 
@@ -1687,8 +1675,7 @@ for small values of $d x$. We can express this directly as a procedure:
   b. If your `product` procedure generates a recursive process, write one that generates an iterative process. If it generates an iterative process, write one that generates a recursive process.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.32:*
+#exercise[
 
   a. Show that `sum` and `product` (Exercise 1.31) are both special cases of a still more general notion called `accumulate` that combines a collection of terms, using some general accumulation function:
 
@@ -1701,8 +1688,7 @@ for small values of $d x$. We can express this directly as a procedure:
   b. If your `accumulate` procedure generates a recursive process, write one that generates an iterative process. If it generates an iterative process, write one that generates a recursive process.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.33:* You can obtain an even more general version of `accumulate` (Exercise 1.32) by introducing the notion of a *filter* on the terms to be combined. That is, combine only those terms derived from values in the range that satisfy a specified condition. The resulting `filtered-accumulate` abstraction takes the same arguments as accumulate, together with an additional predicate of one argument that specifies the filter. Write `filtered-accumulate` as a procedure. Show how to express the following using `filtered-accumulate`:
+#exercise[You can obtain an even more general version of `accumulate` (Exercise 1.32) by introducing the notion of a *filter* on the terms to be combined. That is, combine only those terms derived from values in the range that satisfy a specified condition. The resulting `filtered-accumulate` abstraction takes the same arguments as accumulate, together with an additional predicate of one argument that specifies the filter. Write `filtered-accumulate` as a procedure. Show how to express the following using `filtered-accumulate`:
 
   a. the sum of the squares of the prime numbers in the interval $a$ to $b$ (assuming that you have a `prime?` predicate already written)
 
@@ -1893,8 +1879,7 @@ Sometimes we can use internal definitions to get the same effect as with `let`. 
 
 We prefer, however, to use `let` in situations like this and to use internal `define` only for internal procedures.#footnote[Understanding internal definitions well enough to be sure a program means what we intend it to mean requires a more elaborate model of the evaluation process than we have presented in this chapter. The subtleties do not arise with internal definitions of procedures, however. We will return to this issue in Section 4.1.6, after we learn more about evaluation.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.34:* Suppose we define the procedure
+#exercise[Suppose we define the procedure
 
   ```scm
   (define (f g) (g 2))
@@ -2040,16 +2025,13 @@ One way to control such oscillations is to prevent the guesses from changing so 
 
 With this modification, the square-root procedure works. In fact, if we unravel the definitions, we can see that the sequence of approximations to the square root generated here is precisely the same as the one generated by our original square-root procedure of Section 1.1.7. This approach of averaging successive approximations to a solution, a technique that we call *average damping*, often aids the convergence of fixed-point searches.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.35:* Show that the golden ratio $phi$ (Section 1.2.2) is a fixed point of the transformation $x arrow.bar 1 + 1 / x$, and use this fact to compute $phi$ by means of the `fixed-point` procedure.
+#exercise[Show that the golden ratio $phi$ (Section 1.2.2) is a fixed point of the transformation $x arrow.bar 1 + 1 / x$, and use this fact to compute $phi$ by means of the `fixed-point` procedure.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.36:* Modify `fixed-point` so that it prints the sequence of approximations it generates, using the `newline` and `display` primitives shown in Exercise 1.22. Then find a solution to $x^x = 1000$ by finding a fixed point of $x arrow.bar log(1000) / log(x)$. (Use Scheme's primitive `log` procedure, which computes natural logarithms.) Compare the number of steps this takes with and without average damping. (Note that you cannot start `fixed-point` with a guess of 1, as this would cause division by $log(1) = 0$.)
+#exercise[Modify `fixed-point` so that it prints the sequence of approximations it generates, using the `newline` and `display` primitives shown in Exercise 1.22. Then find a solution to $x^x = 1000$ by finding a fixed point of $x arrow.bar log(1000) / log(x)$. (Use Scheme's primitive `log` procedure, which computes natural logarithms.) Compare the number of steps this takes with and without average damping. (Note that you cannot start `fixed-point` with a guess of 1, as this would cause division by $log(1) = 0$.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.37:*
+#exercise[
 
   a. An infinite *continued fraction* is an expression of the form
   
@@ -2072,12 +2054,10 @@ With this modification, the square-root procedure works. In fact, if we unravel 
   b. If your `cont-frac` procedure generates a recursive process, write one that generates an iterative process. If it generates an iterative process, write one that generates a recursive process.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.38:* In 1737, the Swiss mathematician Leonhard Euler published a memoir _De Fractionibus Continuis_, which included a continued fraction expansion for $e - 2$, where $e$ is the base of the natural logarithms. In this fraction, the $N_i$ are all 1, and the $D_i$ are successively 1, 2, 1, 1, 4, 1, 1, 6, 1, 1, 8, dots. Write a program that uses your `cont-frac` procedure from Exercise 1.37 to approximate $e$, based on Euler's expansion.
+#exercise[In 1737, the Swiss mathematician Leonhard Euler published a memoir _De Fractionibus Continuis_, which included a continued fraction expansion for $e - 2$, where $e$ is the base of the natural logarithms. In this fraction, the $N_i$ are all 1, and the $D_i$ are successively 1, 2, 1, 1, 4, 1, 1, 6, 1, 1, 8, dots. Write a program that uses your `cont-frac` procedure from Exercise 1.37 to approximate $e$, based on Euler's expansion.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.39:* A continued fraction representation of the tangent function was published in 1770 by the German mathematician J.H. Lambert:
+#exercise[A continued fraction representation of the tangent function was published in 1770 by the German mathematician J.H. Lambert:
   
   $ tan x = x / (1 - x^2 / (3 - x^2 / (5 - dots))) $
 
@@ -2230,8 +2210,7 @@ In general, programming languages impose restrictions on the ways in which compu
 
 Lisp, unlike other common programming languages, awards procedures full first-class status. This poses challenges for efficient implementation, but the resulting gain in expressive power is enormous.#footnote[The major implementation cost of first-class procedures is that allowing procedures to be returned as values requires reserving storage for a procedure's free variables even while the procedure is not executing. In the Scheme implementation we will study in Section 4.1, these variables are stored in the procedure's environment.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.40:* Define a procedure `cubic` that can be used together with the `newtons-method` procedure in expressions of the form
+#exercise[Define a procedure `cubic` that can be used together with the `newtons-method` procedure in expressions of the form
 
   ```scm
   (newtons-method (cubic a b c) 1)
@@ -2240,16 +2219,14 @@ Lisp, unlike other common programming languages, awards procedures full first-cl
   to approximate zeros of the cubic $x^3 + a x^2 + b x + c$.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.41:* Define a procedure `double` that takes a procedure of one argument as argument and returns a procedure that applies the original procedure twice. For example, if `inc` is a procedure that adds 1 to its argument, then `(double inc)` should be a procedure that adds 2. What value is returned by
+#exercise[Define a procedure `double` that takes a procedure of one argument as argument and returns a procedure that applies the original procedure twice. For example, if `inc` is a procedure that adds 1 to its argument, then `(double inc)` should be a procedure that adds 2. What value is returned by
 
   ```scm
   (((double (double double)) inc) 5)
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.42:* Let $f$ and $g$ be two one-argument functions. The *composition* $f$ after $g$ is defined to be the function $x arrow.bar f(g(x))$. Define a procedure `compose` that implements composition. For example, if `inc` is a procedure that adds 1 to its argument,
+#exercise[Let $f$ and $g$ be two one-argument functions. The *composition* $f$ after $g$ is defined to be the function $x arrow.bar f(g(x))$. Define a procedure `compose` that implements composition. For example, if `inc` is a procedure that adds 1 to its argument,
 
   ```scm
   ((compose square inc) 6)
@@ -2257,8 +2234,7 @@ Lisp, unlike other common programming languages, awards procedures full first-cl
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.43:* If $f$ is a numerical function and $n$ is a positive integer, then we can form the $n^"th"$ repeated application of $f$, which is defined to be the function whose value at $x$ is $f(f(...(f(x))...))$. For example, if $f$ is the function $x arrow.bar x + 1$, then the $n^"th"$ repeated application of $f$ is the function $x arrow.bar x + n$. If $f$ is the operation of squaring a number, then the $n^"th"$ repeated application of $f$ is the function that raises its argument to the $2^n$-th power. Write a procedure that takes as inputs a procedure that computes $f$ and a positive integer $n$ and returns the procedure that computes the $n^"th"$ repeated application of $f$. Your procedure should be able to be used as follows:
+#exercise[If $f$ is a numerical function and $n$ is a positive integer, then we can form the $n^"th"$ repeated application of $f$, which is defined to be the function whose value at $x$ is $f(f(...(f(x))...))$. For example, if $f$ is the function $x arrow.bar x + 1$, then the $n^"th"$ repeated application of $f$ is the function $x arrow.bar x + n$. If $f$ is the operation of squaring a number, then the $n^"th"$ repeated application of $f$ is the function that raises its argument to the $2^n$-th power. Write a procedure that takes as inputs a procedure that computes $f$ and a positive integer $n$ and returns the procedure that computes the $n^"th"$ repeated application of $f$. Your procedure should be able to be used as follows:
 
   ```scm
   ((repeated square 2) 5)
@@ -2268,16 +2244,13 @@ Lisp, unlike other common programming languages, awards procedures full first-cl
   Hint: You may find it convenient to use `compose` from Exercise 1.42.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.44:* The idea of *smoothing* a function is an important concept in signal processing. If $f$ is a function and $d x$ is some small number, then the smoothed version of $f$ is the function whose value at a point $x$ is the average of $f(x - d x)$, $f(x)$, and $f(x + d x)$. Write a procedure `smooth` that takes as input a procedure that computes $f$ and returns a procedure that computes the smoothed $f$. It is sometimes valuable to repeatedly smooth a function (that is, smooth the smoothed function, and so on) to obtain the *n-fold smoothed function*. Show how to generate the $n$-fold smoothed function of any given function using `smooth` and `repeated` from Exercise 1.43.
+#exercise[The idea of *smoothing* a function is an important concept in signal processing. If $f$ is a function and $d x$ is some small number, then the smoothed version of $f$ is the function whose value at a point $x$ is the average of $f(x - d x)$, $f(x)$, and $f(x + d x)$. Write a procedure `smooth` that takes as input a procedure that computes $f$ and returns a procedure that computes the smoothed $f$. It is sometimes valuable to repeatedly smooth a function (that is, smooth the smoothed function, and so on) to obtain the *n-fold smoothed function*. Show how to generate the $n$-fold smoothed function of any given function using `smooth` and `repeated` from Exercise 1.43.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.45:* We saw in Section 1.3.3 that attempting to compute square roots by naively finding a fixed point of $y arrow.bar x / y$ does not converge, and that this can be fixed by average damping. The same method works for finding cube roots as fixed points of the average-damped $y arrow.bar x / y^2$. Unfortunately, the process does not work for fourth roots---a single average damp is not enough to make a fixed-point search for $y arrow.bar x / y^3$ converge. On the other hand, if we average damp twice (i.e., use the average damp of the average damp of $y arrow.bar x / y^3$) the fixed-point search does converge. Do some experiments to determine how many average damps are required to compute $n^"th"$ roots as a fixed-point search based upon repeated average damping of $y arrow.bar x / y^(n-1)$. Use this to implement a simple procedure for computing $n^"th"$ roots using `fixed-point`, `average-damp`, and the `repeated` procedure of Exercise 1.43. Assume that any arithmetic operations you need are available as primitives.
+#exercise[We saw in Section 1.3.3 that attempting to compute square roots by naively finding a fixed point of $y arrow.bar x / y$ does not converge, and that this can be fixed by average damping. The same method works for finding cube roots as fixed points of the average-damped $y arrow.bar x / y^2$. Unfortunately, the process does not work for fourth roots---a single average damp is not enough to make a fixed-point search for $y arrow.bar x / y^3$ converge. On the other hand, if we average damp twice (i.e., use the average damp of the average damp of $y arrow.bar x / y^3$) the fixed-point search does converge. Do some experiments to determine how many average damps are required to compute $n^"th"$ roots as a fixed-point search based upon repeated average damping of $y arrow.bar x / y^(n-1)$. Use this to implement a simple procedure for computing $n^"th"$ roots using `fixed-point`, `average-damp`, and the `repeated` procedure of Exercise 1.43. Assume that any arithmetic operations you need are available as primitives.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 1.46:* Several of the numerical methods described in this chapter are instances of an extremely general computational strategy known as *iterative improvement*. Iterative improvement says that, to compute something, we start with an initial guess for the answer, test if the guess is good enough, and otherwise improve the guess and continue the process using the improved guess as the new guess. Write a procedure `iterative-improve` that takes two procedures as arguments: a method for telling whether a guess is good enough and a method for improving a guess. `Iterative-improve` should return as its value a procedure that takes a guess as argument and keeps improving the guess until it is good enough. Rewrite the `sqrt` procedure of Section 1.1.7 and the `fixed-point` procedure of Section 1.3.3 in terms of `iterative-improve`.
+#exercise[Several of the numerical methods described in this chapter are instances of an extremely general computational strategy known as *iterative improvement*. Iterative improvement says that, to compute something, we start with an initial guess for the answer, test if the guess is good enough, and otherwise improve the guess and continue the process using the improved guess as the new guess. Write a procedure `iterative-improve` that takes two procedures as arguments: a method for telling whether a guess is good enough and a method for improving a guess. `Iterative-improve` should return as its value a procedure that takes a guess as argument and keeps improving the guess until it is good enough. Rewrite the `sqrt` procedure of Section 1.1.7 and the `fixed-point` procedure of Section 1.3.3 in terms of `iterative-improve`.
 ]
 
 #pagebreak()
@@ -2470,8 +2443,7 @@ Now we have
 
 as desired. This modification was accomplished by changing the constructor `make-rat` without changing any of the procedures (such as `add-rat` and `mul-rat`) that implement the actual operations.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.1:* Define a better version of `make-rat` that handles both positive and negative arguments. `Make-rat` should normalize the sign so that if the rational number is positive, both the numerator and denominator are positive, and if the rational number is negative, only the numerator is negative.
+#exercise[Define a better version of `make-rat` that handles both positive and negative arguments. `Make-rat` should normalize the sign so that if the rational number is positive, both the numerator and denominator are positive, and if the rational number is negative, only the numerator is negative.
 ]
 
 === Abstraction Barriers
@@ -2520,8 +2492,7 @@ The difference between this implementation and the previous one lies in when we 
 
 Constraining the dependence on the representation to a few interface procedures helps us design programs as well as modify them, because it allows us to maintain the flexibility to consider alternate implementations. To continue with our simple example, suppose we are designing a rational-number package and we can't decide initially whether to perform the `gcd` at construction time or at selection time. The data-abstraction methodology gives us a way to defer that decision without losing the ability to make progress on the rest of the system.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.2:* Consider the problem of representing line segments in a plane. Each segment is represented as a pair of points: a starting point and an ending point. Define a constructor `make-segment` and selectors `start-segment` and `end-segment` that define the representation of segments in terms of points. Furthermore, a point can be represented as a pair of numbers: the $x$ coordinate and the $y$ coordinate. Accordingly, specify a constructor `make-point` and selectors `x-point` and `y-point` that define this representation. Finally, using your selectors and constructors, define a procedure `midpoint-segment` that takes a line segment as argument and returns its midpoint (the point whose coordinates are the average of the coordinates of the endpoints). To try your procedures, you'll need a way to print points:
+#exercise[Consider the problem of representing line segments in a plane. Each segment is represented as a pair of points: a starting point and an ending point. Define a constructor `make-segment` and selectors `start-segment` and `end-segment` that define the representation of segments in terms of points. Furthermore, a point can be represented as a pair of numbers: the $x$ coordinate and the $y$ coordinate. Accordingly, specify a constructor `make-point` and selectors `x-point` and `y-point` that define this representation. Finally, using your selectors and constructors, define a procedure `midpoint-segment` that takes a line segment as argument and returns its midpoint (the point whose coordinates are the average of the coordinates of the endpoints). To try your procedures, you'll need a way to print points:
 
   ```scm
   (define (print-point p)
@@ -2534,8 +2505,7 @@ Constraining the dependence on the representation to a few interface procedures 
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.3:* Implement a representation for rectangles in a plane. (Hint: You may want to make use of Exercise 2.2.) In terms of your constructors and selectors, create procedures that compute the perimeter and the area of a given rectangle. Now implement a different representation for rectangles. Can you design your system with suitable abstraction barriers, so that the same perimeter and area procedures will work using either representation?
+#exercise[Implement a representation for rectangles in a plane. (Hint: You may want to make use of Exercise 2.2.) In terms of your constructors and selectors, create procedures that compute the perimeter and the area of a given rectangle. Now implement a different representation for rectangles. Can you design your system with suitable abstraction barriers, so that the same perimeter and area procedures will work using either representation?
 ]
 
 === What Is Meant by Data?
@@ -2569,8 +2539,7 @@ The subtle point to notice is that the value returned by `(cons x y)` is a proce
 
 The point of exhibiting the procedural representation of pairs is not that our language works this way (Scheme, and Lisp systems in general, implement pairs directly, for efficiency reasons) but that it could work this way. The procedural representation, although obscure, is a perfectly adequate way to represent pairs, since it fulfills the only conditions that pairs need to fulfill. This example also demonstrates that the ability to manipulate procedures as objects automatically provides the ability to represent compound data. This may seem a curiosity now, but procedural representations of data will play a central role in our programming repertoire. This style of programming is often called *message passing*, and we will be using it as a basic tool in Chapter 3 when we address the issues of modeling and simulation.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.4:* Here is an alternative procedural representation of pairs. For this representation, verify that `(car (cons x y))` yields `x` for any objects `x` and `y`.
+#exercise[Here is an alternative procedural representation of pairs. For this representation, verify that `(car (cons x y))` yields `x` for any objects `x` and `y`.
 
   ```scm
   (define (cons x y) 
@@ -2583,12 +2552,10 @@ The point of exhibiting the procedural representation of pairs is not that our l
   What is the corresponding definition of `cdr`? (Hint: To verify that this works, make use of the substitution model of Section 1.1.5.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.5:* Show that we can represent pairs of nonnegative integers using only numbers and arithmetic operations if we represent the pair $a$ and $b$ as the integer that is the product $2^a 3^b$. Give the corresponding definitions of the procedures `cons`, `car`, and `cdr`.
+#exercise[Show that we can represent pairs of nonnegative integers using only numbers and arithmetic operations if we represent the pair $a$ and $b$ as the integer that is the product $2^a 3^b$. Give the corresponding definitions of the procedures `cons`, `car`, and `cdr`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.6:* In case representing pairs as procedures wasn't mind-boggling enough, consider that, in a language that can manipulate procedures, we can get by without numbers (at least insofar as nonnegative integers are concerned) by implementing 0 and the operation of adding 1 as
+#exercise[In case representing pairs as procedures wasn't mind-boggling enough, consider that, in a language that can manipulate procedures, we can get by without numbers (at least insofar as nonnegative integers are concerned) by implementing 0 and the operation of adding 1 as
 
   ```scm
   (define zero (lambda (f) (lambda (x) x)))
@@ -2650,8 +2617,7 @@ To divide two intervals, Alyssa multiplies the first by the reciprocal of the se
                  (/ 1.0 (lower-bound y)))))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.7:* Alyssa's program is incomplete because she has not specified the implementation of the interval abstraction. Here is a definition of the interval constructor:
+#exercise[Alyssa's program is incomplete because she has not specified the implementation of the interval abstraction. Here is a definition of the interval constructor:
 
   ```scm
   (define (make-interval a b) (cons a b))
@@ -2660,20 +2626,16 @@ To divide two intervals, Alyssa multiplies the first by the reciprocal of the se
   Define selectors `upper-bound` and `lower-bound` to complete the implementation.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.8:* Using reasoning analogous to Alyssa's, describe how the difference of two intervals may be computed. Define a corresponding subtraction procedure, called `sub-interval`.
+#exercise[Using reasoning analogous to Alyssa's, describe how the difference of two intervals may be computed. Define a corresponding subtraction procedure, called `sub-interval`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.9:* The *width* of an interval is half of the difference between its upper and lower bounds. The width is a measure of the uncertainty of the number specified by the interval. For some arithmetic operations the width of the result of combining two intervals is a function only of the widths of the argument intervals, whereas for others the width of the combination is not a function of the widths of the argument intervals. Show that the width of the sum (or difference) of two intervals is a function only of the widths of the intervals being added (or subtracted). Give examples to show that this is not true for multiplication or division.
+#exercise[The *width* of an interval is half of the difference between its upper and lower bounds. The width is a measure of the uncertainty of the number specified by the interval. For some arithmetic operations the width of the result of combining two intervals is a function only of the widths of the argument intervals, whereas for others the width of the combination is not a function of the widths of the argument intervals. Show that the width of the sum (or difference) of two intervals is a function only of the widths of the intervals being added (or subtracted). Give examples to show that this is not true for multiplication or division.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.10:* Ben Bitdiddle, an expert systems programmer, looks over Alyssa's shoulder and comments that it is not clear what it means to divide by an interval that spans zero. Modify Alyssa's code to check for this condition and to signal an error if it occurs.
+#exercise[Ben Bitdiddle, an expert systems programmer, looks over Alyssa's shoulder and comments that it is not clear what it means to divide by an interval that spans zero. Modify Alyssa's code to check for this condition and to signal an error if it occurs.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.11:* In passing, Ben also cryptically comments: "By testing the signs of the endpoints of the intervals, it is possible to break `mul-interval` into nine cases, only one of which requires more than two multiplications." Rewrite this procedure using Ben's suggestion.
+#exercise[In passing, Ben also cryptically comments: "By testing the signs of the endpoints of the intervals, it is possible to break `mul-interval` into nine cases, only one of which requires more than two multiplications." Rewrite this procedure using Ben's suggestion.
 
   After debugging her program, Alyssa shows it to a potential user, who complains that her program solves the wrong problem. He wants a program that can deal with numbers represented as a center value and an additive tolerance; for example, he wants to work with intervals such as $3.5 plus.minus 0.15$ rather than $[3.35, 3.65]$. Alyssa returns to her desk and fixes this problem by supplying an alternate constructor and alternate selectors:
 
@@ -2695,12 +2657,10 @@ To divide two intervals, Alyssa multiplies the first by the reciprocal of the se
   Unfortunately, most of Alyssa's users are engineers. Real engineering situations usually involve measurements with only a small uncertainty, measured as the ratio of the width of the interval to the midpoint of the interval. Engineers usually specify percentage tolerances on the parameters of devices, as in the resistor specifications given earlier.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.12:* Define a constructor `make-center-percent` that takes a center and a percentage tolerance and produces the desired interval. You must also define a selector `percent` that produces the percentage tolerance for a given interval. The `center` selector is the same as the one shown above.
+#exercise[Define a constructor `make-center-percent` that takes a center and a percentage tolerance and produces the desired interval. You must also define a selector `percent` that produces the percentage tolerance for a given interval. The `center` selector is the same as the one shown above.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.13:* Show that under the assumption of small percentage tolerances there is a simple formula for the approximate percentage tolerance of the product of two intervals in terms of the tolerances of the factors. You may simplify the problem by assuming that all numbers are positive.
+#exercise[Show that under the assumption of small percentage tolerances there is a simple formula for the approximate percentage tolerance of the product of two intervals in terms of the tolerances of the factors. You may simplify the problem by assuming that all numbers are positive.
 
   After considerable work, Alyssa P. Hacker delivers her finished system. Several years later, after she has forgotten all about it, she gets a frenzied call from an irate user, Lem E. Tweakit. It seems that Lem has noticed that the formula for parallel resistors can be written in two algebraically equivalent ways:
   
@@ -2730,19 +2690,16 @@ To divide two intervals, Alyssa multiplies the first by the reciprocal of the se
   Lem complains that Alyssa's program gives different answers for the two ways of computing. This is a serious complaint.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.14:* Demonstrate that Lem is right. Investigate the behavior of the system on various domains. Make a program to examine the results of the two systems in various conditions. Explore the behavior of the system on various domains. Investigate the behavior of the system on various domains. Make a program to examine the results of the two systems in various conditions. 
+#exercise[Demonstrate that Lem is right. Investigate the behavior of the system on various domains. Make a program to examine the results of the two systems in various conditions. Explore the behavior of the system on various domains. Investigate the behavior of the system on various domains. Make a program to examine the results of the two systems in various conditions. 
 
 
   Investigate the behavior of the system on a variety of arithmetic expressions. Make some intervals $A$ and $B$, and use them in computing the expressions $A / A$ and $A / B$. You will get the most insight by using intervals whose width is a small percentage of the center value. Examine the results of the computation in center-percent form (see Exercise 2.12).
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.15:* Eva Lu Ator, another user, has also noticed the different intervals computed by different but algebraically equivalent expressions. She says that a formula to compute with intervals using Alyssa's system will produce tighter error bounds if it can be written in such a form that no variable that represents an uncertain number is repeated. Thus, she says, `par2` is a "better" program for parallel resistances than `par1`. Is she right? Why?
+#exercise[Eva Lu Ator, another user, has also noticed the different intervals computed by different but algebraically equivalent expressions. She says that a formula to compute with intervals using Alyssa's system will produce tighter error bounds if it can be written in such a form that no variable that represents an uncertain number is repeated. Thus, she says, `par2` is a "better" program for parallel resistances than `par1`. Is she right? Why?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.16:* Explain, in general, why equivalent algebraic expressions may lead to different answers. Can you devise an interval-arithmetic package that does not have this shortcoming, or is this task impossible? (Warning: This problem is very difficult.)
+#exercise[Explain, in general, why equivalent algebraic expressions may lead to different answers. Can you devise an interval-arithmetic package that does not have this shortcoming, or is this task impossible? (Warning: This problem is very difficult.)
 ]
 
 == Hierarchical Data and the Closure Property
@@ -2942,8 +2899,7 @@ Another conventional programming technique is to "cons up" an answer list while 
                     list2))))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.17:* Define a procedure `last-pair` that returns the list that contains only the last element of a given (nonempty) list:
+#exercise[Define a procedure `last-pair` that returns the list that contains only the last element of a given (nonempty) list:
 
   ```scm
   (last-pair (list 23 72 149 34))
@@ -2951,8 +2907,7 @@ Another conventional programming technique is to "cons up" an answer list while 
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.18:* Define a procedure `reverse` that takes a list as argument and returns a list of the same elements in reverse order:
+#exercise[Define a procedure `reverse` that takes a list as argument and returns a list of the same elements in reverse order:
 
   ```scm
   (reverse (list 1 4 9 16 25))
@@ -2960,8 +2915,7 @@ Another conventional programming technique is to "cons up" an answer list while 
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.19:* Consider the change-counting program of Section 1.2.2. It would be nice to be able to easily change the currency used by the program, so that we could compute the number of ways to change a British pound, for example. As the program is written, the knowledge of the currency is distributed partly into the procedure `first-denomination` and partly into the procedure `count-change` (which knows that there are five kinds of U.S. coins). It would be nicer to be able to supply a list of coins to be used for making change.
+#exercise[Consider the change-counting program of Section 1.2.2. It would be nice to be able to easily change the currency used by the program, so that we could compute the number of ways to change a British pound, for example. As the program is written, the knowledge of the currency is distributed partly into the procedure `first-denomination` and partly into the procedure `count-change` (which knows that there are five kinds of U.S. coins). It would be nicer to be able to supply a list of coins to be used for making change.
 
   We want to rewrite the procedure `cc` so that its second argument is a list of the values of the coins to use rather than an integer specifying which coins to use. We could then have lists that defined each kind of currency:
 
@@ -3004,8 +2958,7 @@ Another conventional programming technique is to "cons up" an answer list while 
   Define the procedures `first-denomination`, `except-first-denomination` and `no-more?` in terms of primitive operations on list structures. Does the order of the list `coin-values` affect the answer produced by `cc`? Why or why not?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.20:* The procedures `+`, `*`, and `list` take arbitrary numbers of arguments. One way to define such procedures is to use `define` with *dotted-tail notation*. In a procedure definition, a parameter list that has a dot before the last parameter name indicates that, when the procedure is called, the initial parameters (if any) will have as values the initial arguments, as usual, but the final parameter's value will be a *list* of any remaining arguments. For instance, given the definition
+#exercise[The procedures `+`, `*`, and `list` take arbitrary numbers of arguments. One way to define such procedures is to use `define` with *dotted-tail notation*. In a procedure definition, a parameter list that has a dot before the last parameter name indicates that, when the procedure is called, the initial parameters (if any) will have as values the initial arguments, as usual, but the final parameter's value will be a *list* of any remaining arguments. For instance, given the definition
 
   ```scm
   (define (f x y . z) <body>)
@@ -3100,8 +3053,7 @@ Now we can give a new definition of `scale-list` in terms of `map`:
 
 `Map` is an important construct, not only because it captures a common pattern, but because it establishes a higher level of abstraction in dealing with lists. In the original definition of `scale-list`, the recursive structure of the program draws attention to the element-by-element processing of the list. Defining `scale-list` in terms of `map` suppresses that level of detail and emphasizes that scaling transforms a list of elements to a list of results. The difference between the two definitions is not that the computer is performing a different process (it isn't) but that we think about the process differently. In effect, `map` helps establish an abstraction barrier that isolates the implementation of procedures that transform lists from the details of how the elements of the list are extracted and combined. Like the barriers shown in Figure 2.1, this abstraction gives us the flexibility to change the low-level details of how sequences are implemented, while preserving the conceptual framework of operations that transform sequences to sequences. Section 2.2.3 expands on this use of sequences as a framework for organizing programs.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.21:* The procedure `square-list` takes a list of numbers as argument and returns a list of the squares of those numbers.
+#exercise[The procedure `square-list` takes a list of numbers as argument and returns a list of the squares of those numbers.
 
   ```scm
   (square-list (list 1 2 3 4))
@@ -3121,8 +3073,7 @@ Now we can give a new definition of `scale-list` in terms of `map`:
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.22:* Louis Reasoner tries to rewrite the first `square-list` procedure of Exercise 2.21 so that it evolves an iterative process:
+#exercise[Louis Reasoner tries to rewrite the first `square-list` procedure of Exercise 2.21 so that it evolves an iterative process:
 
   ```scm
   (define (square-list items)
@@ -3154,8 +3105,7 @@ Now we can give a new definition of `scale-list` in terms of `map`:
   This doesn't work either. Explain.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.23:* The procedure `for-each` is similar to `map`. It takes as arguments a procedure and a list of elements. However, rather than forming a list of the results, `for-each` just applies the procedure to each of the elements in turn, from left to right. The values returned by applying the procedure to the elements are not used at all---`for-each` is used with procedures that perform an action, such as printing. For example,
+#exercise[The procedure `for-each` is similar to `map`. It takes as arguments a procedure and a list of elements. However, rather than forming a list of the results, `for-each` just applies the procedure to each of the elements in turn, from left to right. The values returned by applying the procedure to the elements are not used at all---`for-each` is used with procedures that perform an action, such as printing. For example,
 
   ```scm
   (for-each 
@@ -3274,12 +3224,10 @@ To aid in writing recursive procedures on trees, Scheme provides the primitive p
                  (count-leaves (cdr x))))))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.24:* Suppose we evaluate the expression `(list 1 (list 2 (list 3 4)))`. Give the result printed by the interpreter, the corresponding box-and-pointer structure, and the interpretation of this as a tree (as in Figure 2.6).
+#exercise[Suppose we evaluate the expression `(list 1 (list 2 (list 3 4)))`. Give the result printed by the interpreter, the corresponding box-and-pointer structure, and the interpretation of this as a tree (as in Figure 2.6).
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.25:* Give combinations of `car`s and `cdr`s that will pick 7 from each of the following lists:
+#exercise[Give combinations of `car`s and `cdr`s that will pick 7 from each of the following lists:
 
   ```scm
   (1 3 (5 7) 9)
@@ -3288,8 +3236,7 @@ To aid in writing recursive procedures on trees, Scheme provides the primitive p
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.26:* Suppose we define `x` and `y` to be two lists:
+#exercise[Suppose we define `x` and `y` to be two lists:
 
   ```scm
   (define x (list 1 2 3))
@@ -3305,8 +3252,7 @@ To aid in writing recursive procedures on trees, Scheme provides the primitive p
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.27:* Modify your `reverse` procedure of Exercise 2.18 to produce a `deep-reverse` procedure that takes a list as argument and returns as its value the list with its elements reversed and with all sublists deep-reversed as well. For example,
+#exercise[Modify your `reverse` procedure of Exercise 2.18 to produce a `deep-reverse` procedure that takes a list as argument and returns as its value the list with its elements reversed and with all sublists deep-reversed as well. For example,
 
   ```scm
   (define x 
@@ -3323,8 +3269,7 @@ To aid in writing recursive procedures on trees, Scheme provides the primitive p
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.28:* Write a procedure `fringe` that takes as argument a tree (represented as a list) and returns a list whose elements are all the leaves of the tree arranged in left-to-right order. For example,
+#exercise[Write a procedure `fringe` that takes as argument a tree (represented as a list) and returns a list whose elements are all the leaves of the tree arranged in left-to-right order. For example,
 
   ```scm
   (define x 
@@ -3338,8 +3283,7 @@ To aid in writing recursive procedures on trees, Scheme provides the primitive p
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.29:* A binary mobile consists of two branches, a left branch and a right branch. Each branch is a rod of a certain length, from which hangs either a weight or another binary mobile. We can represent a binary mobile using compound data by constructing it from two branches (for example, using `list`):
+#exercise[A binary mobile consists of two branches, a left branch and a right branch. Each branch is a rod of a certain length, from which hangs either a weight or another binary mobile. We can represent a binary mobile using compound data by constructing it from two branches (for example, using `list`):
 
   ```scm
   (define (make-mobile left right)
@@ -3407,8 +3351,7 @@ Another way to implement `scale-tree` is to regard the tree as a sequence of sub
 
 Many tree operations can be implemented by similar combinations of sequence operations and recursion.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.30:* Define a procedure `square-tree` analogous to the `square-list` procedure of Exercise 2.21. That is, `square-tree` should behave as follows:
+#exercise[Define a procedure `square-tree` analogous to the `square-list` procedure of Exercise 2.21. That is, `square-tree` should behave as follows:
 
   ```scm
   (square-tree
@@ -3421,8 +3364,7 @@ Many tree operations can be implemented by similar combinations of sequence oper
   Define `square-tree` both directly (i.e., without using any higher-order procedures) and also by using `map` and recursion.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.31:* Abstract your answer to Exercise 2.30 to produce a procedure `tree-map` with the property that `square-tree` could be defined as
+#exercise[Abstract your answer to Exercise 2.30 to produce a procedure `tree-map` with the property that `square-tree` could be defined as
 
   ```scm
   (define (square-tree tree) 
@@ -3430,8 +3372,7 @@ Many tree operations can be implemented by similar combinations of sequence oper
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.32:* We can represent a set as a list of distinct elements, and we can represent the set of all subsets of the set as a list of lists. For example, if the set is `(1 2 3)`, then the set of all subsets is `(() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3))`. Complete the following definition of a procedure that generates the set of subsets of a set and give a clear explanation of why it works:
+#exercise[We can represent a set as a list of distinct elements, and we can represent the set of all subsets of the set as a list of lists. For example, if the set is `(1 2 3)`, then the set of all subsets is `(() (3) (2) (2 3) (1) (1 3) (1 2) (1 2 3))`. Complete the following definition of a procedure that generates the set of subsets of a set and give a clear explanation of why it works:
 
   ```scm
   (define (subsets s)
@@ -3661,8 +3602,7 @@ These examples give just a hint of the vast range of operations that can be expr
 
 Sequences, implemented here as lists, serve as a conventional interface that permits us to combine processing modules. Additionally, when we uniformly represent structures as sequences, we have localized the data-structure dependencies in our programs to a small number of sequence operations. By changing these, we can experiment with alternative representations of sequences, while leaving the overall design of our programs intact. We will exploit this capability in Section 3.5, when we generalize the sequence-processing paradigm to admit infinite sequences.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.33:* Fill in the missing expressions to complete the following definitions of some basic list-manipulation operations as accumulations:
+#exercise[Fill in the missing expressions to complete the following definitions of some basic list-manipulation operations as accumulations:
 
   ```scm
   (define (map p sequence)
@@ -3677,8 +3617,7 @@ Sequences, implemented here as lists, serve as a conventional interface that per
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.34:* Evaluating a polynomial in $x$ at a given value of $x$ can be formulated as an accumulation. we evaluate the polynomial
+#exercise[Evaluating a polynomial in $x$ at a given value of $x$ can be formulated as an accumulation. we evaluate the polynomial
   
   $ a_n x^n + a_(n-1) x^(n-1) + dots + a_1 x + a_0 $
   
@@ -3707,8 +3646,7 @@ Sequences, implemented here as lists, serve as a conventional interface that per
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.35:* Redefine `count-leaves` from Section 2.2.2 as an accumulation:
+#exercise[Redefine `count-leaves` from Section 2.2.2 as an accumulation:
 
   ```scm
   (define (count-leaves t)
@@ -3716,8 +3654,7 @@ Sequences, implemented here as lists, serve as a conventional interface that per
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.36:* The procedure `accumulate-n` is similar to `accumulate` except that it takes as its third argument a sequence of sequences, which are all assumed to have the same number of elements. It applies the designated accumulation procedure to combine all the first elements of the sequences, all the second elements of the sequences, and so on, and returns a sequence of the results. For instance, if `s` is a sequence containing four sequences, `((1 2 3) (4 5 6) (7 8 9) (10 11 12)),` then the value of `(accumulate-n + 0 s)` should be the sequence `(22 26 30)`. Fill in the missing expressions in the following definition of `accumulate-n`:
+#exercise[The procedure `accumulate-n` is similar to `accumulate` except that it takes as its third argument a sequence of sequences, which are all assumed to have the same number of elements. It applies the designated accumulation procedure to combine all the first elements of the sequences, all the second elements of the sequences, and so on, and returns a sequence of the results. For instance, if `s` is a sequence containing four sequences, `((1 2 3) (4 5 6) (7 8 9) (10 11 12)),` then the value of `(accumulate-n + 0 s)` should be the sequence `(22 26 30)`. Fill in the missing expressions in the following definition of `accumulate-n`:
 
   ```scm
   (define (accumulate-n op init seqs)
@@ -3728,8 +3665,7 @@ Sequences, implemented here as lists, serve as a conventional interface that per
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.37:* Suppose we represent vectors $v = (v_i)$ as sequences of numbers, and matrices $m = (m_(i j))$ as sequences of vectors (the rows of the matrix). For example, the matrix
+#exercise[Suppose we represent vectors $v = (v_i)$ as sequences of numbers, and matrices $m = (m_(i j))$ as sequences of vectors (the rows of the matrix). For example, the matrix
   
   $ mat(1, 2, 3, 4; 4, 5, 6, 6; 6, 7, 8, 9) $
 
@@ -3762,8 +3698,7 @@ Sequences, implemented here as lists, serve as a conventional interface that per
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.38:* The `accumulate` procedure is also known as `fold-right`, because it combines the first element of the sequence with the result of combining all the elements to the right. There is also a `fold-left`, which is similar to `fold-right`, except that it combines elements working in the opposite direction:
+#exercise[The `accumulate` procedure is also known as `fold-right`, because it combines the first element of the sequence with the result of combining all the elements to the right. There is also a `fold-left`, which is similar to `fold-right`, except that it combines elements working in the opposite direction:
 
   ```scm
   (define (fold-left op initial sequence)
@@ -3787,8 +3722,7 @@ Sequences, implemented here as lists, serve as a conventional interface that per
   Give a property that `op` should satisfy to guarantee that `fold-right` and `fold-left` will produce the same values for any sequence.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.39:* Complete the following definitions of `reverse` (Exercise 2.18) in terms of `fold-right` and `fold-left` from Exercise 2.38:
+#exercise[Complete the following definitions of `reverse` (Exercise 2.18) in terms of `fold-right` and `fold-left` from Exercise 2.38:
 
   ```scm
   (define (reverse sequence)
@@ -3893,16 +3827,13 @@ Notice how this strategy reduces the problem of generating permutations of $S$ t
           sequence))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.40:* Define a procedure `unique-pairs` that, given an integer $n$, generates the sequence of pairs $(i, j)$ with $1 <= j < i <= n$. Use `unique-pairs` to simplify the definition of `prime-sum-pairs` given above.
+#exercise[Define a procedure `unique-pairs` that, given an integer $n$, generates the sequence of pairs $(i, j)$ with $1 <= j < i <= n$. Use `unique-pairs` to simplify the definition of `prime-sum-pairs` given above.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.41:* Write a procedure to find all ordered triples of distinct positive integers $i$, $j$, and $k$ less than or equal to a given integer $n$ that sum to a given integer $s$.
+#exercise[Write a procedure to find all ordered triples of distinct positive integers $i$, $j$, and $k$ less than or equal to a given integer $n$ that sum to a given integer $s$.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.42:* The "eight-queens puzzle" asks how to place eight queens on a chessboard so that no queen is in check from any other (i.e., no two queens are in the same row, column, or diagonal). One possible solution is shown in Figure 2.8. One way to solve the puzzle is to work across the board, placing a queen in each column. Once we have placed $k - 1$ queens, we must place the $k^"th"$ queen in a position where it does not check any of the queens already on the board. We can formulate this approach recursively: Assume that we have already generated the sequence of all possible ways to place $k - 1$ queens in the first $k - 1$ columns of the board. For each of these ways, generate an extended set of positions by placing a queen in each row of the $k^"th"$ column. Now filter these, keeping only the positions for which the queen in the $k^"th"$ column is safe with respect to the other queens. This produces the sequence of all ways to place $k$ queens in the first $k$ columns. By continuing this process, we will produce not only one solution, but all solutions to the puzzle.
+#exercise[The "eight-queens puzzle" asks how to place eight queens on a chessboard so that no queen is in check from any other (i.e., no two queens are in the same row, column, or diagonal). One possible solution is shown in Figure 2.8. One way to solve the puzzle is to work across the board, placing a queen in each column. Once we have placed $k - 1$ queens, we must place the $k^"th"$ queen in a position where it does not check any of the queens already on the board. We can formulate this approach recursively: Assume that we have already generated the sequence of all possible ways to place $k - 1$ queens in the first $k - 1$ columns of the board. For each of these ways, generate an extended set of positions by placing a queen in each row of the $k^"th"$ column. Now filter these, keeping only the positions for which the queen in the $k^"th"$ column is safe with respect to the other queens. This produces the sequence of all ways to place $k$ queens in the first $k$ columns. By continuing this process, we will produce not only one solution, but all solutions to the puzzle.
 
   #figure(
     grid(
@@ -3949,8 +3880,7 @@ Notice how this strategy reduces the problem of generating permutations of $S$ t
   In this procedure `rest-of-queens` is a way to place $k - 1$ queens in the first $k - 1$ columns, and `new-row` is a proposed row in which to place the queen for the $k^"th"$ column. Complete the program by implementing the representation for sets of board positions, including the procedure `adjoin-position`, which adjoins a new row-column position to a set of positions, and `empty-board`, which represents an empty set of positions. You must also write the procedure `safe?`, which determines for a set of positions, whether the queen in the $k^"th"$ column is safe with respect to the others. (Note that we need only check whether the new queen is safe---the other queens are already guaranteed safe with respect to each other.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.43:* Louis Reasoner is having a terrible time doing Exercise 2.42. His `queens` procedure seems to work, but it runs extremely slowly. (Louis never does manage to wait long enough for it to solve even the $6 times 6$ case.) When Louis asks Eva Lu Ator for help, she points out that he has interchanged the order of the nested mappings in the `flatmap`, writing it as
+#exercise[Louis Reasoner is having a terrible time doing Exercise 2.42. His `queens` procedure seems to work, but it runs extremely slowly. (Louis never does manage to wait long enough for it to solve even the $6 times 6$ case.) When Louis asks Eva Lu Ator for help, she points out that he has interchanged the order of the nested mappings in the `flatmap`, writing it as
 
   ```scm
   (flatmap
@@ -4134,8 +4064,7 @@ By placing four copies of a `corner-split` appropriately, we obtain a pattern ca
       (below (flip-vert half) half))))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.44:* Define the procedure `up-split` used by `corner-split`. It is similar to `right-split`, except that it switches the roles of `below` and `beside`.
+#exercise[Define the procedure `up-split` used by `corner-split`. It is similar to `right-split`, except that it switches the roles of `below` and `beside`.
 ]
 
 ==== Higher-order operations
@@ -4183,8 +4112,7 @@ and `square-limit` can be expressed as#footnote[`Rotate180` rotates a painter by
     (combine4 (corner-split painter n))))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.45:* `Right-split` and `up-split` can be expressed as instances of a general splitting operation. Define a procedure `split` with the property that evaluating
+#exercise[`Right-split` and `up-split` can be expressed as instances of a general splitting operation. Define a procedure `split` with the property that evaluating
 
   ```scm
   (define right-split (split beside below))
@@ -4239,16 +4167,14 @@ returns the same vector as
 (origin-frame a-frame)
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.46:* A two-dimensional vector $v$ running from the origin to a point can be represented as a pair consisting of an $x$-coordinate and a $y$-coordinate. Implement a data abstraction for vectors by giving a constructor `make-vect` and corresponding selectors `xcor-vect` and `ycor-vect`. In terms of your selectors and constructor, implement procedures `add-vect`, `sub-vect`, and `scale-vect` that perform the operations vector addition, vector subtraction, and multiplying a vector by a scalar:
+#exercise[A two-dimensional vector $v$ running from the origin to a point can be represented as a pair consisting of an $x$-coordinate and a $y$-coordinate. Implement a data abstraction for vectors by giving a constructor `make-vect` and corresponding selectors `xcor-vect` and `ycor-vect`. In terms of your selectors and constructor, implement procedures `add-vect`, `sub-vect`, and `scale-vect` that perform the operations vector addition, vector subtraction, and multiplying a vector by a scalar:
 
   $ (x_1, y_1) + (x_2, y_2) &= (x_1 + x_2, y_1 + y_2) \
     (x_1, y_1) - (x_2, y_2) &= (x_1 - x_2, y_1 - y_2) \
     s dot (x, y) &= (s x, s y) $
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.47:* Here are two possible constructors for frames:
+#exercise[Here are two possible constructors for frames:
 
   ```scm
   (define (make-frame origin edge1 edge2)
@@ -4284,12 +4210,10 @@ The segments are given using coordinates with respect to the unit square. For ea
 
 Representing painters as procedures erects a powerful abstraction barrier in the picture language. We can create and intermix all sorts of primitive painters, based on a variety of graphics capabilities. The details of their implementation do not matter. Any procedure can serve as a painter, provided that it takes a frame as argument and draws something scaled to fit the frame.#footnote[For example, the `rogers` painter of Figure 2.11 was constructed from a gray-level image. For each point in a given frame, the `rogers` painter determines the point in the image that is mapped to it under the frame coordinate map, and shades it accordingly. By allowing different types of painters, we are capitalizing on the abstract data idea discussed in Section 2.1.3, where we argued that a rational-number representation could be anything at all that satisfies an appropriate condition. Here we're using the fact that a painter can be implemented in any way at all, so long as it draws something in the designated frame. Section 2.1.3 also showed how pairs could be implemented as procedures. Painters are our second example of a procedural representation for data.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.48:* A directed line segment in the plane can be represented as a pair of vectors---the vector running from the origin to the start-point of the segment, and the vector running from the origin to the end-point of the segment. Use your vector representation from Exercise 2.46 to define a representation for segments with a constructor `make-segment` and selectors `start-segment` and `end-segment`.
+#exercise[A directed line segment in the plane can be represented as a pair of vectors---the vector running from the origin to the start-point of the segment, and the vector running from the origin to the end-point of the segment. Use your vector representation from Exercise 2.46 to define a representation for segments with a constructor `make-segment` and selectors `start-segment` and `end-segment`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.49:* Use `segments->painter` to define the following primitive painters:
+#exercise[Use `segments->painter` to define the following primitive painters:
 
   a. The painter that draws the outline of the designated frame.
   b. The painter that draws an "X" by connecting opposite corners of the frame.
@@ -4379,12 +4303,10 @@ Frame transformation is also the key to defining means of combining two or more 
 
 Observe how the painter data abstraction, and in particular the representation of painters as procedures, makes `beside` easy to implement. The `beside` procedure need not know anything about the details of the component painters other than that each painter will draw something in its designated frame.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.50:* Define the transformation `flip-horiz`, which flips painters horizontally, and transformations that rotate painters counterclockwise by 180 degrees and 270 degrees.
+#exercise[Define the transformation `flip-horiz`, which flips painters horizontally, and transformations that rotate painters counterclockwise by 180 degrees and 270 degrees.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.51:* Define the `below` operation for painters. `Below` takes two painters as arguments. The resulting painter, given a frame, draws with the first painter in the bottom of the frame and with the second painter in the top. Define `below` in two different ways---first by writing a procedure that is analogous to the `beside` procedure given above, and again in terms of `beside` and suitable rotation operations (from Exercise 2.50).
+#exercise[Define the `below` operation for painters. `Below` takes two painters as arguments. The resulting painter, given a frame, draws with the first painter in the bottom of the frame and with the second painter in the top. Define `below` in two different ways---first by writing a procedure that is analogous to the `beside` procedure given above, and again in terms of `beside` and suitable rotation operations (from Exercise 2.50).
 ]
 
 ==== Levels of language for robust design
@@ -4399,8 +4321,7 @@ As a tiny example of stratification, our picture language uses primitive element
 
 Stratified design helps make programs *robust*, that is, it makes it likely that small changes in a specification will require correspondingly small changes in the program. For instance, suppose we wanted to change the image based on `wave` shown in Figure 2.9. We could work at the lowest level to change the detailed appearance of the `wave` element; we could work at the middle level to change the way `corner-split` replicates the `wave`; we could work at the highest level to change how `square-limit` arranges the four copies of the corner. In general, each level of a stratified design provides a different vocabulary for expressing the characteristics of the system, and a different kind of ability to change it.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.52:* Make changes to the square limit of `wave` shown in Figure 2.9 by working at each of the levels described above. In particular:
+#exercise[Make changes to the square limit of `wave` shown in Figure 2.9 by working at each of the levels described above. In particular:
 
   a. Add some segments to the primitive `wave` painter of Exercise 2.49 (to add a smile, for example).
   b. Change the pattern constructed by `corner-split` (for example, by using only one copy of the `up-split` and `right-split` images instead of two).
@@ -4490,8 +4411,7 @@ is false, whereas the value of
 
 is `(apple pear)`.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.53:* What would the interpreter print in response to evaluating each of the following expressions?
+#exercise[What would the interpreter print in response to evaluating each of the following expressions?
 
   ```scm
   (list 'a 'b 'c)
@@ -4504,8 +4424,7 @@ is `(apple pear)`.
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.54:* Two lists are said to be `equal?` if they contain equal elements arranged in the same order. For example,
+#exercise[Two lists are said to be `equal?` if they contain equal elements arranged in the same order. For example,
 
   ```scm
   (equal? '(this is a list) 
@@ -4522,8 +4441,7 @@ is `(apple pear)`.
   is false. To be more precise, we can define `equal?` recursively in terms of the basic `eq?` equality of symbols by saying that `a` and `b` are `equal?` if they are both symbols and the symbols are `eq?`, or if they are both lists such that `(car a)` is `equal?` to `(car b)` and `(cdr a)` is `equal?` to `(cdr b)`. Using this idea, implement `equal?` as a procedure.#footnote[In practice, programmers use `equal?` to compare lists that contain numbers as well as symbols. Numbers are not considered to be symbols. The question of whether two numerically equal numbers (as tested by `=`) are also `eq?` is highly implementation-dependent. A better definition of `equal?` (such as the one that comes as a primitive in Scheme) would also stipulate that if `a` and `b` are both numbers, then `a` and `b` are `equal?` if they are numerically equal.]
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.55:* Eva Lu Ator types to the interpreter the expression
+#exercise[Eva Lu Ator types to the interpreter the expression
 
   ```scm
   (car ''abracadabra)
@@ -4708,16 +4626,14 @@ y
 
 Although this is quite an improvement, the third example shows that there is still a long way to go before we get a program that puts expressions into a form that we might agree is "simplest." The problem of algebraic simplification is complex because, among other reasons, a form that may be simplest for one purpose may not be for another.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.56:* Show how to extend the basic differentiator to handle more kinds of expressions. For instance, implement the differentiation rule
+#exercise[Show how to extend the basic differentiator to handle more kinds of expressions. For instance, implement the differentiation rule
 
   $ d(u^n) / d x = n u^(n-1) d u / d x $
 
   by adding a new clause to the `deriv` program and defining appropriate procedures `exponentiation?`, `base`, `exponent`, and `make-exponentiation`. (You may use the symbol `**` to denote exponentiation.) Build in the rules that anything raised to the power 0 is 1 and anything raised to the power 1 is the thing itself.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.57:* Extend the differentiation program to handle sums and products of arbitrary numbers of (two or more) terms. Then the last example above could be expressed as
+#exercise[Extend the differentiation program to handle sums and products of arbitrary numbers of (two or more) terms. Then the last example above could be expressed as
 
   ```scm
   (deriv '(* x y (+ x 3)) 'x)
@@ -4726,8 +4642,7 @@ Although this is quite an improvement, the third example shows that there is sti
   Try to do this by changing only the representation for sums and products, without changing the `deriv` procedure at all. For example, the `addend` of a sum would be the first term, and the `augend` would be the sum of the rest of the terms.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.58:* Suppose we want to modify the differentiation program so that it works with ordinary mathematical notation, in which `+` and `*` are infix rather than prefix operators. Since the differentiation program is defined in terms of abstract data, we can modify it to work with different representations of expressions solely by changing the predicates, selectors, and constructors that define the representation of the algebraic expressions on which the differentiator is to operate.
+#exercise[Suppose we want to modify the differentiation program so that it works with ordinary mathematical notation, in which `+` and `*` are infix rather than prefix operators. Since the differentiation program is defined in terms of abstract data, we can modify it to work with different representations of expressions solely by changing the predicates, selectors, and constructors that define the representation of the algebraic expressions on which the differentiator is to operate.
 
   a. Show how to do this in order to differentiate algebraic expressions presented in infix form, such as `(x + (3 * (x + (y + 2))))`. To simplify the task, assume that `+` and `*` always take two arguments and that expressions are fully parenthesized.
 
@@ -4780,12 +4695,10 @@ For `intersection-set` we can use a recursive strategy. If we know how to form t
 
 In designing a representation, one of the issues we should be concerned with is efficiency. Consider the number of steps required by our set operations. Since they all use `element-of-set?`, the speed of this operation has a major impact on the efficiency of the set implementation as a whole. Now, in order to check whether an object is a member of a set, `element-of-set?` may have to scan the entire set. (In the worst case, the object turns out not to be in the set.) Hence, if the set has $n$ elements, `element-of-set?` might take up to $n$ steps. Thus, the number of steps required grows as $Theta(n)$. The number of steps required by `adjoin-set`, which uses this operation, also grows as $Theta(n)$. For `intersection-set`, which does an `element-of-set?` check for each element of `set1`, the number of steps required grows as the product of the sizes of the sets involved, or $Theta(n^2)$ for two sets of size $n$. The same will be true of `union-set`.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.59:* Implement the `union-set` operation for the unordered-list representation of sets.
+#exercise[Implement the `union-set` operation for the unordered-list representation of sets.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.60:* We specified that a set would be represented as a list with no duplicates. Now suppose we allow duplicates. For instance, the set ${1, 2, 3}$ could be represented as the list `(2 3 2 1 3 2 2)`. Design procedures `element-of-set?`, `adjoin-set`, `union-set`, and `intersection-set` that operate on this representation. How does the efficiency of each compare with the corresponding procedure for the non-duplicate representation? Are there applications for which you would use this representation in preference to the non-duplicate one?
+#exercise[We specified that a set would be represented as a list with no duplicates. Now suppose we allow duplicates. For instance, the set ${1, 2, 3}$ could be represented as the list `(2 3 2 1 3 2 2)`. Design procedures `element-of-set?`, `adjoin-set`, `union-set`, and `intersection-set` that operate on this representation. How does the efficiency of each compare with the corresponding procedure for the non-duplicate representation? Are there applications for which you would use this representation in preference to the non-duplicate one?
 ]
 
 ==== Sets as ordered lists
@@ -4825,12 +4738,10 @@ We obtain a more impressive speedup with `intersection-set`. In the unordered re
 
 To estimate the number of steps required by this process, observe that at each step we reduce the intersection problem to computing intersections of smaller sets---removing the first element from `set1` or `set2` or both. Thus, the number of steps required is at most the sum of the sizes of `set1` and `set2`, rather than the product of the sizes as with the unordered representation. This is $Theta(n)$ growth rather than $Theta(n^2)$---a considerable speedup, even for sets of moderate size.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.61:* Give an implementation of `adjoin-set` using the ordered representation. By analogy with `element-of-set?` show how to take advantage of the ordering to produce a procedure that requires on the average about half as many steps as with the unordered representation.
+#exercise[Give an implementation of `adjoin-set` using the ordered representation. By analogy with `element-of-set?` show how to take advantage of the ordering to produce a procedure that requires on the average about half as many steps as with the unordered representation.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.62:* Give a $Theta(n)$ implementation of `union-set` for sets represented as ordered lists.
+#exercise[Give a $Theta(n)$ implementation of `union-set` for sets represented as ordered lists.
 ]
 
 ==== Sets as binary trees
@@ -4935,8 +4846,7 @@ The above claim that searching the tree can be performed in a logarithmic number
   caption: [Unbalanced tree produced by adjoining 1 through 7 in sequence.],
 ) <fig-2-17>
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.63:* Each of the following two procedures converts a binary tree to a list.
+#exercise[Each of the following two procedures converts a binary tree to a list.
 
   ```scm
   (define (tree->list-1 tree)
@@ -4967,8 +4877,7 @@ The above claim that searching the tree can be performed in a logarithmic number
   b. Do the two procedures have the same order of growth in the number of steps required to convert a balanced tree with $n$ elements to a list? If not, which one grows more slowly?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.64:* The following procedure `list->tree` converts an ordered list to a balanced binary tree. The helper procedure `partial-tree` takes as arguments an integer $n$ and list of at least $n$ elements and constructs a balanced tree containing the first $n$ elements of the list. The result returned by `partial-tree` is a pair (formed with `cons`) whose `car` is the constructed tree and whose `cdr` is the list of elements not included in the tree.
+#exercise[The following procedure `list->tree` converts an ordered list to a balanced binary tree. The helper procedure `partial-tree` takes as arguments an integer $n$ and list of at least $n$ elements and constructs a balanced tree containing the first $n$ elements of the list. The result returned by `partial-tree` is a pair (formed with `cons`) whose `car` is the constructed tree and whose `cdr` is the list of elements not included in the tree.
 
   ```scm
   (define (list->tree elements)
@@ -5010,8 +4919,7 @@ The above claim that searching the tree can be performed in a logarithmic number
   b. What is the order of growth in the number of steps required by `list->tree` to convert a list of $n$ elements?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.65:* Use the results of Exercise 2.63 and Exercise 2.64 to give $Theta(n)$ implementations of `union-set` and `intersection-set` for sets implemented as (balanced) binary trees.#footnote[Exercise 2.63 through Exercise 2.65 are due to Paul Hilfinger.]
+#exercise[Use the results of Exercise 2.63 and Exercise 2.64 to give $Theta(n)$ implementations of `union-set` and `intersection-set` for sets implemented as (balanced) binary trees.#footnote[Exercise 2.63 through Exercise 2.65 are due to Paul Hilfinger.]
 ]
 
 ==== Sets and information retrieval
@@ -5035,8 +4943,7 @@ Now we represent the data base as a set of records. To locate the record with a 
 
 Of course, there are better ways to represent large sets than as unordered lists. Information-retrieval systems in which records have to be "randomly accessed" are typically implemented by a tree-based method, such as the binary-tree representation discussed previously. In designing such a system the methodology of data abstraction can be a great help. The designer can create an initial implementation using a simple, straightforward representation such as unordered lists. This will be unsuitable for the eventual system, but it can be useful in providing a "quick and dirty" data base with which to test the rest of the system. Later on, the data representation can be modified to be more sophisticated. If the data base is accessed in terms of abstract selectors and constructors, this change in representation will not require any changes to the rest of the system.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.66:* Implement the `lookup` procedure for the case where the set of records is structured as a binary tree, ordered by the numerical values of the keys.
+#exercise[Implement the `lookup` procedure for the case where the set of records is structured as a binary tree, ordered by the numerical values of the keys.
 ]
 
 === Example: Huffman Encoding Trees
@@ -5203,8 +5110,7 @@ The following procedure takes a list of symbol-frequency pairs such as `((A 4) (
          (make-leaf-set (cdr pairs))))))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.67:* Define an encoding tree and a sample message:
+#exercise[Define an encoding tree and a sample message:
 
   ```scm
   (define sample-tree
@@ -5223,8 +5129,7 @@ The following procedure takes a list of symbol-frequency pairs such as `((A 4) (
   Use the `decode` procedure to decode the message, and give the result.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.68:* The `encode` procedure takes as arguments a message and a tree and produces the list of bits that gives the encoded message.
+#exercise[The `encode` procedure takes as arguments a message and a tree and produces the list of bits that gives the encoded message.
 
   ```scm
   (define (encode message tree)
@@ -5239,8 +5144,7 @@ The following procedure takes a list of symbol-frequency pairs such as `((A 4) (
   `Encode-symbol` is a procedure, which you must write, that returns the list of bits that encodes a given symbol according to a given tree. You should design `encode-symbol` so that it signals an error if the symbol is not in the tree at all. Test your procedure by encoding the result you obtained in Exercise 2.67 with the sample tree and seeing whether it is the same as the original sample message.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.69:* The following procedure takes as its argument a list of symbol-frequency pairs (where no symbol appears in more than one pair) and generates a Huffman encoding tree according to the Huffman algorithm.
+#exercise[The following procedure takes as its argument a list of symbol-frequency pairs (where no symbol appears in more than one pair) and generates a Huffman encoding tree according to the Huffman algorithm.
 
   ```scm
   (define (generate-huffman-tree pairs)
@@ -5251,8 +5155,7 @@ The following procedure takes a list of symbol-frequency pairs such as `((A 4) (
   `Make-leaf-set` is the procedure given above that transforms the list of pairs into an ordered set of leaves. `Successive-merge` is the procedure you must write, using `make-code-tree` to successively merge the smallest-weight elements of the set until there is only one element left, which is the desired Huffman tree. (This procedure is slightly tricky, but not really complicated. If you find yourself designing a complex procedure, then you are almost certainly doing something wrong. You can take significant advantage of the fact that we are using an ordered set representation.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.70:* The following eight-symbol alphabet with associated relative frequencies was designed to efficiently encode the lyrics of 1950s rock songs. (Note that the "symbols" of an "alphabet" need not be individual letters.)
+#exercise[The following eight-symbol alphabet with associated relative frequencies was designed to efficiently encode the lyrics of 1950s rock songs. (Note that the "symbols" of an "alphabet" need not be individual letters.)
 
   #align(center)[
     A 2 #h(2em) NA 16 \
@@ -5276,12 +5179,10 @@ The following procedure takes a list of symbol-frequency pairs such as `((A 4) (
   How many bits are required for the encoding? What is the smallest number of bits that would be needed to encode this song if we used a fixed-length code for the eight-symbol alphabet?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.71:* Suppose we have a Huffman tree for an alphabet of $n$ symbols, and that the relative frequencies of the symbols are $1, 2, 4, ..., 2^(n-1)$. Sketch the tree for $n=5$; for $n=10$. In such a tree (for general $n$) how many bits are required to encode the most frequent symbol? The least frequent symbol?
+#exercise[Suppose we have a Huffman tree for an alphabet of $n$ symbols, and that the relative frequencies of the symbols are $1, 2, 4, ..., 2^(n-1)$. Sketch the tree for $n=5$; for $n=10$. In such a tree (for general $n$) how many bits are required to encode the most frequent symbol? The least frequent symbol?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.72:* Consider the encoding procedure that you designed in Exercise 2.68. What is the order of growth in the number of steps needed to encode a symbol? Be sure to include the number of steps needed to search the symbol list at each node encountered. To answer this question in general is difficult. Consider the special case where the relative frequencies of the $n$ symbols are as described in Exercise 2.71, and give the order of growth (as a function of $n$) of the number of steps needed to encode the most frequent and least frequent symbols in the alphabet.
+#exercise[Consider the encoding procedure that you designed in Exercise 2.68. What is the order of growth in the number of steps needed to encode a symbol? Be sure to include the number of steps needed to search the symbol list at each node encountered. To answer this question in general is difficult. Consider the special case where the relative frequencies of the $n$ symbols are as described in Exercise 2.71, and give the order of growth (as a function of $n$) of the number of steps needed to encode the most frequent and least frequent symbols in the alphabet.
 ]
 
 #pagebreak()
@@ -5740,8 +5641,7 @@ We can also extract from the table the constructors to be used by the programs e
    r a))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.73:* Section 2.3.2 described a program that performs symbolic differentiation:
+#exercise[Section 2.3.2 described a program that performs symbolic differentiation:
 
   ```scm
   (define (deriv exp var)
@@ -5796,8 +5696,7 @@ We can also extract from the table the constructors to be used by the programs e
   What corresponding changes to the derivative system are required?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.74:* Insatiable Enterprises, Inc., is a highly decentralized conglomerate company consisting of a large number of independent divisions located all over the world. The company's computer facilities have just been interconnected by means of a clever network-interfacing scheme that makes the entire network appear to any user to be a single computer. Insatiable's president, in her first attempt to exploit the ability of the network to extract administrative information from division files, is dismayed to discover that, although all the division files have been implemented as data structures in Scheme, the particular data structure used varies from division to division. A meeting of division managers is hastily called to search for a strategy to integrate the files that will satisfy headquarters' needs while preserving the existing autonomy of the divisions.
+#exercise[Insatiable Enterprises, Inc., is a highly decentralized conglomerate company consisting of a large number of independent divisions located all over the world. The company's computer facilities have just been interconnected by means of a clever network-interfacing scheme that makes the entire network appear to any user to be a single computer. Insatiable's president, in her first attempt to exploit the ability of the network to extract administrative information from division files, is dismayed to discover that, although all the division files have been implemented as data structures in Scheme, the particular data structure used varies from division to division. A meeting of division managers is hastily called to search for a strategy to integrate the files that will satisfy headquarters' needs while preserving the existing autonomy of the divisions.
 
   Show how such a strategy can be implemented with data-directed programming. As an example, suppose that each division's personnel records consist of a single file, which contains a set of records keyed on employees' names. The structure of the set varies from division to division. Furthermore, each employee's record is itself a set (structured differently from division to division) that contains information keyed under identifiers such as `address` and `salary`. In particular:
 
@@ -5839,12 +5738,10 @@ Note that the value returned by `make-from-real-imag` is a procedure---the inter
 
 This style of programming is called *message passing*. The name comes from the image that a data object is an entity that receives the requested operation name as a "message." We have already seen an example of message passing in Section 2.1.3, where we saw how `cons`, `car`, and `cdr` could be defined with no data objects but only procedures. Here we see that message passing is not a mathematical trick but a useful technique for organizing systems with generic operations. In the remainder of this chapter we will continue to use data-directed programming, rather than message passing, to discuss generic arithmetic operations. In Chapter 3 we will return to message passing, and we will see that it can be a powerful tool for structuring simulation programs.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.75:* Implement the constructor `make-from-mag-ang` in message-passing style. This procedure should be analogous to the `make-from-real-imag` procedure given above.
+#exercise[Implement the constructor `make-from-mag-ang` in message-passing style. This procedure should be analogous to the `make-from-real-imag` procedure given above.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.76:* As a large system with generic operations evolves, new types of data objects or new operations may be needed. For each of the three strategies---generic operations with explicit dispatch, data-directed style, and message-passing-style---describe the changes that must be made to a system in order to add new types or new operations. Which organization would be most appropriate for a system in which new types must often be added? Which would be most appropriate for a system in which new operations must often be added?
+#exercise[As a large system with generic operations evolves, new types of data objects or new operations may be needed. For each of the three strategies---generic operations with explicit dispatch, data-directed style, and message-passing-style---describe the changes that must be made to a system in order to add new types or new operations. Which organization would be most appropriate for a system in which new types must often be added? Which would be most appropriate for a system in which new operations must often be added?
 ]
 
 #pagebreak()
@@ -6034,8 +5931,7 @@ What we have here is a two-level tag system. A typical complex number, such as $
 
 In the above packages, we used `add-rat`, `add-complex`, and the other arithmetic procedures exactly as originally written. Once these definitions are internal to different installation procedures, however, they no longer need names that are distinct from each other: we could simply name them `add`, `sub`, `mul`, and `div` in both packages.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.77:* Louis Reasoner tries to evaluate the expression `(magnitude z)` where `z` is the object shown in Figure 2.24. To his surprise, instead of the answer 5 he gets an error message from `apply-generic`, saying there is no method for the operation `magnitude` on the types `(complex)`. He shows this interaction to Alyssa P. Hacker, who says "The problem is that the complex-number selectors were never defined for `complex` numbers, just for `polar` and `rectangular` numbers. All you have to do to make this work is add the following to the `complex` package:"
+#exercise[Louis Reasoner tries to evaluate the expression `(magnitude z)` where `z` is the object shown in Figure 2.24. To his surprise, instead of the answer 5 he gets an error message from `apply-generic`, saying there is no method for the operation `magnitude` on the types `(complex)`. He shows this interaction to Alyssa P. Hacker, who says "The problem is that the complex-number selectors were never defined for `complex` numbers, just for `polar` and `rectangular` numbers. All you have to do to make this work is add the following to the `complex` package:"
 
   ```scm
   (put 'real-part '(complex) real-part)
@@ -6047,16 +5943,13 @@ In the above packages, we used `add-rat`, `add-complex`, and the other arithmeti
   Describe in detail why this works. As an example, trace through all the procedures called in evaluating the expression `(magnitude z)` where `z` is the object shown in Figure 2.24. In particular, how many times is `apply-generic` invoked? What procedure is dispatched to in each case?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.78:* The internal procedures in the `scheme-number` package are essentially nothing more than calls to the primitive procedures `+`, `-`, etc. It was not possible to use the primitives of the language directly because our type-tag system requires that each data object have a type attached to it. In fact, however, all Lisp implementations do have a type system, which they use internally. Primitive predicates such as `symbol?` and `number?` determine whether data objects have particular types. Modify the definitions of `type-tag`, `contents`, and `attach-tag` from Section 2.4.2 so that our generic system takes advantage of Scheme's internal type system. That is to say, the system should work as before except that ordinary numbers should be represented simply as Scheme numbers rather than as pairs whose `car` is the symbol `scheme-number`.
+#exercise[The internal procedures in the `scheme-number` package are essentially nothing more than calls to the primitive procedures `+`, `-`, etc. It was not possible to use the primitives of the language directly because our type-tag system requires that each data object have a type attached to it. In fact, however, all Lisp implementations do have a type system, which they use internally. Primitive predicates such as `symbol?` and `number?` determine whether data objects have particular types. Modify the definitions of `type-tag`, `contents`, and `attach-tag` from Section 2.4.2 so that our generic system takes advantage of Scheme's internal type system. That is to say, the system should work as before except that ordinary numbers should be represented simply as Scheme numbers rather than as pairs whose `car` is the symbol `scheme-number`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.79:* Define a generic equality predicate `equ?` that tests the equality of two numbers, and install it in the generic arithmetic package. This operation should work for ordinary numbers, rational numbers, and complex numbers.
+#exercise[Define a generic equality predicate `equ?` that tests the equality of two numbers, and install it in the generic arithmetic package. This operation should work for ordinary numbers, rational numbers, and complex numbers.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.80:* Define a generic predicate `=zero?` that tests if its argument is zero, and install it in the generic arithmetic package. This operation should work for ordinary numbers, rational numbers, and complex numbers.
+#exercise[Define a generic predicate `=zero?` that tests if its argument is zero, and install it in the generic arithmetic package. This operation should work for ordinary numbers, rational numbers, and complex numbers.
 ]
 
 == Combining Data of Different Types
@@ -6178,8 +6071,7 @@ If the data types in our system can be naturally arranged in a tower, this great
   caption: [Relations among types of geometric figures.],
 ) <fig-2-26>
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.81:* Louis Reasoner has noticed that `apply-generic` may try to coerce the arguments to each other's type even if they already have the same type. Therefore, he reasons, we need to put procedures in the coercion table to *coerce* arguments of each type to their own type. For example, in addition to the `scheme-number->complex` coercion shown above, he would do:
+#exercise[Louis Reasoner has noticed that `apply-generic` may try to coerce the arguments to each other's type even if they already have the same type. Therefore, he reasons, we need to put procedures in the coercion table to *coerce* arguments of each type to their own type. For example, in addition to the `scheme-number->complex` coercion shown above, he would do:
 
   ```scm
   (define (scheme-number->scheme-number n) n)
@@ -6217,24 +6109,19 @@ If the data types in our system can be naturally arranged in a tower, this great
   c. Modify `apply-generic` so that it doesn't try coercion if the two arguments have the same type.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.82:* Show how to generalize `apply-generic` to handle coercion in the general case of multiple arguments. One strategy is to attempt to coerce all the arguments to the type of the first argument, then to the type of the second argument, and so on. Give an example of a situation where this strategy (and likewise the two-argument version given above) is not sufficiently general. (Hint: Consider the case where there are some suitable mixed-type operations present in the table that will not be tried.)
+#exercise[Show how to generalize `apply-generic` to handle coercion in the general case of multiple arguments. One strategy is to attempt to coerce all the arguments to the type of the first argument, then to the type of the second argument, and so on. Give an example of a situation where this strategy (and likewise the two-argument version given above) is not sufficiently general. (Hint: Consider the case where there are some suitable mixed-type operations present in the table that will not be tried.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.83:* Suppose you are designing a generic arithmetic system for dealing with the tower of types shown in Figure 2.25: integer, rational, real, complex. For each type (except complex), design a procedure that raises objects of that type one level in the tower. Show how to install a generic `raise` operation that will work for each type (except complex).
+#exercise[Suppose you are designing a generic arithmetic system for dealing with the tower of types shown in Figure 2.25: integer, rational, real, complex. For each type (except complex), design a procedure that raises objects of that type one level in the tower. Show how to install a generic `raise` operation that will work for each type (except complex).
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.84:* Using the `raise` operation of Exercise 2.83, modify the `apply-generic` procedure so that it coerces its arguments to have the same type by the method of successive raising, as discussed in this section. You will need to devise a way to test which of two types is higher in the tower. Do this in a manner that is "compatible" with the rest of the system and will not lead to problems in adding new levels to the tower.
+#exercise[Using the `raise` operation of Exercise 2.83, modify the `apply-generic` procedure so that it coerces its arguments to have the same type by the method of successive raising, as discussed in this section. You will need to devise a way to test which of two types is higher in the tower. Do this in a manner that is "compatible" with the rest of the system and will not lead to problems in adding new levels to the tower.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.85:* This section mentioned a method for "simplifying" a data object by lowering it in the tower of types as far as possible. Design a procedure `drop` that accomplishes this for the tower described in Exercise 2.83. The key is to decide, in some general way, whether an object can be lowered. For example, the complex number $1.5 + 0 i$ can be lowered as far as `real`, the complex number $1 + 0 i$ can be lowered as far as `integer`, and the complex number $2 + 3 i$ cannot be lowered at all. Here is a plan for determining whether an object can be lowered: Begin by defining a generic operation `project` that "pushes" an object down in the tower. For example, projecting a complex number would involve throwing away the imaginary part. Then a number can be dropped if, when we `project` it and `raise` the result back to the type we started with, we end up with something equal to what we started with. Show how to implement this idea in detail, by writing a `drop` procedure that drops an object as far as possible. You will need to design the various projection operations#footnote[A real number can be projected to an integer using the `round` primitive, which returns the closest integer to its argument.] and install `project` as a generic operation in the system. You will also need to make use of a generic equality predicate, such as described in Exercise 2.79. Finally, use `drop` to rewrite `apply-generic` from Exercise 2.84 so that it "simplifies" its answers.
+#exercise[This section mentioned a method for "simplifying" a data object by lowering it in the tower of types as far as possible. Design a procedure `drop` that accomplishes this for the tower described in Exercise 2.83. The key is to decide, in some general way, whether an object can be lowered. For example, the complex number $1.5 + 0 i$ can be lowered as far as `real`, the complex number $1 + 0 i$ can be lowered as far as `integer`, and the complex number $2 + 3 i$ cannot be lowered at all. Here is a plan for determining whether an object can be lowered: Begin by defining a generic operation `project` that "pushes" an object down in the tower. For example, projecting a complex number would involve throwing away the imaginary part. Then a number can be dropped if, when we `project` it and `raise` the result back to the type we started with, we end up with something equal to what we started with. Show how to implement this idea in detail, by writing a `drop` procedure that drops an object as far as possible. You will need to design the various projection operations#footnote[A real number can be projected to an integer using the `round` primitive, which returns the closest integer to its argument.] and install `project` as a generic operation in the system. You will also need to make use of a generic equality predicate, such as described in Exercise 2.79. Finally, use `drop` to rewrite `apply-generic` from Exercise 2.84 so that it "simplifies" its answers.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.86:* Suppose we want to handle complex numbers whose real parts, imaginary parts, magnitudes, and angles can be either ordinary numbers, rational numbers, or other numbers we might wish to add to the system. Describe and implement the changes to the system needed to accommodate this. You will have to define operations such as `sine` and `cosine` that are generic over ordinary numbers and rational numbers.
+#exercise[Suppose we want to handle complex numbers whose real parts, imaginary parts, magnitudes, and angles can be either ordinary numbers, rational numbers, or other numbers we might wish to add to the system. Describe and implement the changes to the system needed to accommodate this. You will have to define operations such as `sine` and `cosine` that are generic over ordinary numbers and rational numbers.
 ]
 
 == Example: Symbolic Algebra
@@ -6435,24 +6322,19 @@ Users of the polynomial package will create (tagged) polynomials by means of the
   ((get 'make 'polynomial) var terms))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.87:* Install `=zero?` for polynomials in the generic arithmetic package. This will allow `adjoin-term` to work for polynomials with coefficients that are themselves polynomials.
+#exercise[Install `=zero?` for polynomials in the generic arithmetic package. This will allow `adjoin-term` to work for polynomials with coefficients that are themselves polynomials.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.88:* Extend the polynomial system to include subtraction of polynomials. (Hint: You may find it helpful to define a generic negation operation.)
+#exercise[Extend the polynomial system to include subtraction of polynomials. (Hint: You may find it helpful to define a generic negation operation.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.89:* Define procedures that implement the term-list representation described above as appropriate for dense polynomials.
+#exercise[Define procedures that implement the term-list representation described above as appropriate for dense polynomials.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.90:* Suppose we want to have a polynomial system that is efficient for both sparse and dense polynomials. One way to do this is to allow both kinds of term-list representations in our system. The situation is analogous to the complex-number example of Section 2.4, where we allowed both rectangular and polar representations. To do this we must distinguish different types of term lists and make the operations on term lists generic. Redesign the polynomial system to implement this generalization. This is a major effort, not a local change.
+#exercise[Suppose we want to have a polynomial system that is efficient for both sparse and dense polynomials. One way to do this is to allow both kinds of term-list representations in our system. The situation is analogous to the complex-number example of Section 2.4, where we allowed both rectangular and polar representations. To do this we must distinguish different types of term lists and make the operations on term lists generic. Redesign the polynomial system to implement this generalization. This is a major effort, not a local change.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.91:* A univariate polynomial can be divided by another one to produce a polynomial quotient and a polynomial remainder. For example,
+#exercise[A univariate polynomial can be divided by another one to produce a polynomial quotient and a polynomial remainder. For example,
 
   $ (x^5 - 1) / (x^2 - 1) = x^3 + x, quad "remainder" quad x - 1 $
 
@@ -6489,8 +6371,7 @@ On the other hand, polynomial algebra is a system for which the data types canno
 
 It should not be surprising that controlling coercion is a serious problem in the design of large-scale algebraic-manipulation systems. Much of the complexity of such systems is concerned with relationships among diverse types. Indeed, it is fair to say that we do not yet completely understand coercion. In fact, we do not yet completely understand the concept of a data type. Nevertheless, what we know provides us with powerful structuring and modularity principles to support the design of large systems.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.92:* By imposing an ordering on variables, extend the polynomial package so that addition and multiplication of polynomials works for polynomials in different variables. (This is not easy!)
+#exercise[By imposing an ordering on variables, extend the polynomial package so that addition and multiplication of polynomials works for polynomials in different variables. (This is not easy!)
 ]
 
 ==== Extended exercise: Rational functions
@@ -6507,8 +6388,7 @@ $ (x + 1) / (x^3 - 1) + x / (x^2 - 1) = (x^3 + 2 x^2 + 3 x + 1) / (x^4 + x^3 - x
 
 If we modify our rational-arithmetic package so that it uses generic operations, then it will do what we want, except for the problem of reducing fractions to lowest terms.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.93:* Modify the rational-arithmetic package to use generic operations, but change `make-rat` so that it does not attempt to reduce fractions to lowest terms. Test your system by calling `make-rational` on two polynomials to produce a rational function:
+#exercise[Modify the rational-arithmetic package to use generic operations, but change `make-rat` so that it does not attempt to reduce fractions to lowest terms. Test your system by calling `make-rational` on two polynomials to produce a rational function:
 
   ```scm
   (define p1 (make-polynomial 'x '((2 1) (0 1))))
@@ -6539,8 +6419,7 @@ Using this, we could make the obvious modification to define a GCD operation tha
 
 where `remainder-terms` picks out the remainder component of the list returned by the term-list division operation `div-terms` that was implemented in Exercise 2.91.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.94:* Using `div-terms`, implement the procedure `remainder-terms` and use this to define `gcd-terms` as above. Now write a procedure `gcd-poly` that computes the polynomial GCD of two polys. (The procedure should signal an error if the two polys are not in the same variable.) Install in the system a generic operation `greatest-common-divisor` that reduces to `gcd-poly` for polynomials and to ordinary `gcd` for ordinary numbers. As a test, try
+#exercise[Using `div-terms`, implement the procedure `remainder-terms` and use this to define `gcd-terms` as above. Now write a procedure `gcd-poly` that computes the polynomial GCD of two polys. (The procedure should signal an error if the two polys are not in the same variable.) Install in the system a generic operation `greatest-common-divisor` that reduces to `gcd-poly` for polynomials and to ordinary `gcd` for ordinary numbers. As a test, try
 
   ```scm
   (define p1 
@@ -6557,8 +6436,7 @@ where `remainder-terms` picks out the remainder component of the list returned b
   and check your result by hand.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.95:* Define $P_1$, $P_2$, and $P_3$ to be the polynomials
+#exercise[Define $P_1$, $P_2$, and $P_3$ to be the polynomials
 
   $ P_1:  &   x^2 - 2 x + 1, \
     P_2:  &   11 x^2 + 7,    \
@@ -6571,8 +6449,7 @@ We can solve the problem exhibited in Exercise 2.95 if we use the following modi
 
 More precisely, if $P$ and $Q$ are polynomials, let $O_1$ be the order of $P$ (i.e., the order of the largest term of $P$) and let $O_2$ be the order of $Q$. Let $c$ be the leading coefficient of $Q$. Then it can be shown that, if we multiply $P$ by the *integerizing factor* $c^(1 + O_1 - O_2)$, the resulting polynomial can be divided by $Q$ by using the `div-terms` algorithm without introducing any fractions. The operation of multiplying the dividend by this constant and then dividing is sometimes called the *pseudodivision* of $P$ by $Q$. The remainder of the division is called the *pseudoremainder*.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.96:*
+#exercise[
 
   a. Implement the procedure `pseudoremainder-terms`, which is just like `remainder-terms` except that it multiplies the dividend by the integerizing factor described above before calling `div-terms`. Modify `gcd-terms` to use `pseudoremainder-terms`, and verify that `greatest-common-divisor` now produces an answer with integer coefficients on the example in Exercise 2.95.
 
@@ -6586,8 +6463,7 @@ Thus, here is how to reduce a rational function to lowest terms:
 - When you obtain the GCD, multiply both numerator and denominator by the same integerizing factor before dividing through by the GCD, so that division by the GCD will not introduce any noninteger coefficients. As the factor you can use the leading coefficient of the GCD raised to the power $1 + O_1 - O_2$, where $O_2$ is the order of the GCD and $O_1$ is the maximum of the orders of the numerator and denominator. This will ensure that dividing the numerator and denominator by the GCD will not introduce any fractions.
 - The result of this operation will be a numerator and denominator with integer coefficients. The coefficients will normally be very large because of all of the integerizing factors, so the last step is to remove the redundant factors by computing the (integer) greatest common divisor of all the coefficients of the numerator and the denominator and dividing through by this factor.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 2.97:*
+#exercise[
 
   a. Implement this algorithm as a procedure `reduce-terms` that takes two term lists `n` and `d` as arguments and returns a list `nn`, `dd`, which are `n` and `d` reduced to lowest terms via the algorithm given above. Also write a procedure `reduce-poly`, analogous to `add-poly`, that checks to see if the two polys have the same variable. If so, `reduce-poly` strips off the variable and passes the problem to `reduce-terms`, then reattaches the variable to the two term lists supplied by `reduce-terms`.
 
@@ -6804,8 +6680,7 @@ Each call to `acc` returns the locally defined `deposit` or `withdraw` procedure
 
 will produce a completely separate account object, which maintains its own local `balance`.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.1:* An *accumulator* is a procedure that is called repeatedly with a single numeric argument and accumulates its arguments into a sum. Each time it is called, it returns the currently accumulated sum. Write a procedure `make-accumulator` that generates accumulators, each maintaining an independent sum. The input to `make-accumulator` should specify the initial value of the sum; for example
+#exercise[An *accumulator* is a procedure that is called repeatedly with a single numeric argument and accumulates its arguments into a sum. Each time it is called, it returns the currently accumulated sum. Write a procedure `make-accumulator` that generates accumulators, each maintaining an independent sum. The input to `make-accumulator` should specify the initial value of the sum; for example
 
   ```scm
   (define A (make-accumulator 5))
@@ -6818,8 +6693,7 @@ will produce a completely separate account object, which maintains its own local
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.2:* In software-testing applications, it is useful to be able to count the number of times a given procedure is called during the course of a computation. Write a procedure `make-monitored` that takes as input a procedure, `f`, that itself takes one input. The result returned by `make-monitored` is a third procedure, say `mf`, that keeps track of the number of times it has been called by maintaining an internal counter. If the input to `mf` is the special symbol `how-many-calls?`, then `mf` returns the value of the counter. If the input is the special symbol `reset-count`, then `mf` resets the counter to zero. For any other input, `mf` returns the result of calling `f` on that input and increments the counter. For instance, we could make a monitored version of the `sqrt` procedure:
+#exercise[In software-testing applications, it is useful to be able to count the number of times a given procedure is called during the course of a computation. Write a procedure `make-monitored` that takes as input a procedure, `f`, that itself takes one input. The result returned by `make-monitored` is a third procedure, say `mf`, that keeps track of the number of times it has been called by maintaining an internal counter. If the input to `mf` is the special symbol `how-many-calls?`, then `mf` returns the value of the counter. If the input is the special symbol `reset-count`, then `mf` resets the counter to zero. For any other input, `mf` returns the result of calling `f` on that input and increments the counter. For instance, we could make a monitored version of the `sqrt` procedure:
 
   ```scm
   (define s (make-monitored sqrt))
@@ -6832,8 +6706,7 @@ will produce a completely separate account object, which maintains its own local
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.3:* Modify the `make-account` procedure so that it creates password-protected accounts. That is, `make-account` should take a symbol as an additional argument, as in
+#exercise[Modify the `make-account` procedure so that it creates password-protected accounts. That is, `make-account` should take a symbol as an additional argument, as in
 
   ```scm
   (define acc 
@@ -6851,8 +6724,7 @@ will produce a completely separate account object, which maintains its own local
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.4:* Modify the `make-account` procedure of Exercise 3.3 by adding another local state variable so that, if an account is accessed more than seven consecutive times with an incorrect password, it invokes the procedure `call-the-cops`.
+#exercise[Modify the `make-account` procedure of Exercise 3.3 by adding another local state variable so that, if an account is accessed more than seven consecutive times with an incorrect password, it invokes the procedure `call-the-cops`.
 ]
 
 === The Benefits of Introducing Assignment
@@ -6934,8 +6806,7 @@ The general phenomenon illustrated by the Monte Carlo example is this: From the 
 
 It is tempting to conclude this discussion by saying that, by introducing assignment and the technique of hiding state in local variables, we are able to structure systems in a more modular fashion than if all state had to be manipulated explicitly, by passing additional parameters. Unfortunately, as we shall see, the story is not so simple.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.5:* *Monte Carlo integration* is a method of estimating definite integrals by means of Monte Carlo simulation. Consider computing the area of a region of space described by a predicate $P(x, y)$ that is true for points $(x, y)$ in the region and false for points not in the region. For example, the region contained within a circle of radius 3 centered at (5, 7) is described by the predicate that tests whether $(x - 5)^2 + (y - 7)^2 <= 3^2$. To estimate the area of the region described by such a predicate, begin by choosing a rectangle that contains the region. For example, a rectangle with diagonally opposite corners at (2, 4) and (8, 10) contains the circle above. The desired integral is the area of that portion of the rectangle that lies in the region. We can estimate the integral by picking, at random, points $(x, y)$ that lie in the rectangle, and testing $P(x, y)$ for each point to determine whether the point lies in the region. If we try this with many points, then the fraction of points that fall in the region should give an estimate of the proportion of the rectangle that lies in the region. Hence, multiplying this fraction by the area of the entire rectangle should produce an estimate of the integral.
+#exercise[*Monte Carlo integration* is a method of estimating definite integrals by means of Monte Carlo simulation. Consider computing the area of a region of space described by a predicate $P(x, y)$ that is true for points $(x, y)$ in the region and false for points not in the region. For example, the region contained within a circle of radius 3 centered at (5, 7) is described by the predicate that tests whether $(x - 5)^2 + (y - 7)^2 <= 3^2$. To estimate the area of the region described by such a predicate, begin by choosing a rectangle that contains the region. For example, a rectangle with diagonally opposite corners at (2, 4) and (8, 10) contains the circle above. The desired integral is the area of that portion of the rectangle that lies in the region. We can estimate the integral by picking, at random, points $(x, y)$ that lie in the rectangle, and testing $P(x, y)$ for each point to determine whether the point lies in the region. If we try this with many points, then the fraction of points that fall in the region should give an estimate of the proportion of the rectangle that lies in the region. Hence, multiplying this fraction by the area of the entire rectangle should produce an estimate of the integral.
 
   Implement Monte Carlo integration as a procedure `estimate-integral` that takes as arguments a predicate `P`, upper and lower bounds `x1`, `x2`, `y1`, and `y2` for the rectangle, and the number of trials to perform in order to produce the estimate. Your procedure should use the same `monte-carlo` procedure that was used above to estimate $pi$. Use your `estimate-integral` to produce an estimate of $pi$ by measuring the area of a unit circle.
 
@@ -6948,8 +6819,7 @@ It is tempting to conclude this discussion by saying that, by introducing assign
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.6:* It is useful to be able to reset a random-number generator to produce a sequence starting from a given value. Design a new `rand` procedure that is called with an argument that is either the symbol `generate` or the symbol `reset` and behaves as follows: `(rand 'generate)` produces a new random number; `((rand 'reset) <new-value>)` resets the internal state variable to the designated `<new-value>`. Thus, by resetting the state, one can generate repeatable sequences. These are very handy to have when testing and debugging programs that use random numbers.
+#exercise[It is useful to be able to reset a random-number generator to produce a sequence starting from a given value. Design a new `rand` procedure that is called with an argument that is either the symbol `generate` or the symbol `reset` and behaves as follows: `(rand 'generate)` produces a new random number; `((rand 'reset) <new-value>)` resets the internal state variable to the designated `<new-value>`. Thus, by resetting the state, one can generate repeatable sequences. These are very handy to have when testing and debugging programs that use random numbers.
 ]
 
 === The Costs of Introducing Assignment
@@ -7137,8 +7007,7 @@ would have produced a different, incorrect result. In general, programming with 
 
 The complexity of imperative programs becomes even worse if we consider applications in which several processes execute concurrently. We will return to this in Section 3.4. First, however, we will address the issue of providing a computational model for expressions that involve assignment, and explore the uses of objects with local state in designing simulations.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.7:* Consider the bank account objects created by `make-account`, with the password modification described in Exercise 3.3. Suppose that our banking system requires the ability to make joint accounts. Define a procedure `make-joint` that accomplishes this. `Make-joint` should take three arguments. The first is a password-protected account. The second argument must match the password with which the account was defined in order for the `make-joint` operation to proceed. The third argument is a new password. `Make-joint` is to create an additional access to the original account using the new password. For example, if `peter-acc` is a bank account with password `open-sesame`, then
+#exercise[Consider the bank account objects created by `make-account`, with the password modification described in Exercise 3.3. Suppose that our banking system requires the ability to make joint accounts. Define a procedure `make-joint` that accomplishes this. `Make-joint` should take three arguments. The first is a password-protected account. The second argument must match the password with which the account was defined in order for the `make-joint` operation to proceed. The third argument is a new password. `Make-joint` is to create an additional access to the original account using the new password. For example, if `peter-acc` is a bank account with password `open-sesame`, then
 
   ```scm
   (define paul-acc
@@ -7150,8 +7019,7 @@ The complexity of imperative programs becomes even worse if we consider applicat
   will allow one to make transactions on `peter-acc` using the name `paul-acc` and the password `rosebud`. You may wish to modify your solution to Exercise 3.3 to accommodate this new feature.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.8:* When we defined the evaluation model in Section 1.1.3, we said that the first step in evaluating an expression is to evaluate its subexpressions. But we never specified the order in which the subexpressions should be evaluated (e.g., left to right or right to left). When we introduce assignment, the order in which the arguments to a procedure are evaluated can make a difference to the result. Define a simple procedure `f` such that evaluating 
+#exercise[When we defined the evaluation model in Section 1.1.3, we said that the first step in evaluating an expression is to evaluate its subexpressions. But we never specified the order in which the subexpressions should be evaluated (e.g., left to right or right to left). When we introduce assignment, the order in which the arguments to a procedure are evaluated can make a difference to the result. Define a simple procedure `f` such that evaluating 
 
   ```scm
   (+ (f 0) (f 1))
@@ -7305,8 +7173,7 @@ The important point to observe is that each call to `square` creates a new envir
 
 After the subexpressions are evaluated, the results are returned. The values generated by the two calls to `square` are added by `sum-of-squares`, and this result is returned by `f`. Since our focus here is on the environment structures, we will not dwell on how these returned values are passed from call to call; however, this is also an important aspect of the evaluation process, and we will return to it in detail in Chapter 5.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.9:* In Section 1.2.1 we used the substitution model to analyze two procedures for computing factorials, a recursive version
+#exercise[In Section 1.2.1 we used the substitution model to analyze two procedures for computing factorials, a recursive version
 
   ```scm
   (define (factorial n)
@@ -7461,8 +7328,7 @@ This produces the environment structure of Figure 3.10, which shows that `W2` is
   caption: [Using `(define W2 (make-withdraw 100))` to create a second object.],
 ) <fig-3-10>
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.10:* In the `make-withdraw` procedure, the local variable `balance` is created as a parameter of `make-withdraw`. We could also create the local state variable explicitly, using `let`, as follows:
+#exercise[In the `make-withdraw` procedure, the local variable `balance` is created as a parameter of `make-withdraw`. We could also create the local state variable explicitly, using `let`, as follows:
 
   ```scm
   (define (make-withdraw initial-amount)
@@ -7549,8 +7415,7 @@ The environment model thus explains the two key properties that make local proce
 - The names of the local procedures do not interfere with names external to the enclosing procedure, because the local procedure names will be bound in the frame that the procedure creates when it is run, rather than being bound in the global environment.
 - The local procedures can access the arguments of the enclosing procedure, simply by using parameter names as free variables. This is because the body of the local procedure is evaluated in an environment that is subordinate to the evaluation environment for the enclosing procedure.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.11:* In Section 3.2.3 we saw how the environment model described the behavior of procedures with local state. Now we have seen how internal definitions work. A typical message-passing procedure contains both of these aspects. Consider the bank account procedure of Section 3.1.1:
+#exercise[In Section 3.2.3 we saw how the environment model described the behavior of procedures with local state. Now we have seen how internal definitions work. A typical message-passing procedure contains both of these aspects. Consider the bank account procedure of Section 3.1.1:
 
   ```scm
   (define (make-account balance)
@@ -7649,8 +7514,7 @@ The `set-cdr!` operation is similar to `set-car!`. The only difference is that t
     new))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.12:* The following procedure for appending lists was introduced in Section 2.2.1:
+#exercise[The following procedure for appending lists was introduced in Section 2.2.1:
 
   ```scm
   (define (append x y)
@@ -7701,8 +7565,7 @@ w
 
 What are the missing `<response>`s? Draw box-and-pointer diagrams to explain your answer.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.13:* Consider the following `make-cycle` procedure, which uses the `last-pair` procedure defined in Exercise 3.12:
+#exercise[Consider the following `make-cycle` procedure, which uses the `last-pair` procedure defined in Exercise 3.12:
 
   ```scm
   (define (make-cycle x)
@@ -7719,8 +7582,7 @@ What are the missing `<response>`s? Draw box-and-pointer diagrams to explain you
   What happens if we try to compute `(last-pair z)`?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.14:* The following procedure is quite useful, although obscure:
+#exercise[The following procedure is quite useful, although obscure:
 
   ```scm
   (define (mystery x)
@@ -7810,12 +7672,10 @@ One way to detect sharing in list structures is to use the predicate `eq?`, whic
 
 As will be seen in the following sections, we can exploit sharing to greatly extend the repertoire of data structures that can be represented by pairs. On the other hand, sharing can also be dangerous, since modifications made to structures will also affect other structures that happen to share the modified parts. The mutation operations `set-car!` and `set-cdr!` should be used with care; unless we have a good understanding of how our data objects are shared, mutation can have unanticipated results.#footnote[The subtleties of dealing with sharing of mutable data objects reflect the underlying issues of "sameness" and "change" that were raised in Section 3.1.3. we mentioned there that admitting change to our language requires that a compound object must have an "identity" that is something different from the pieces from which it is composed. In Lisp, we consider this "identity" to be the quality that is tested by `eq?`, i.e., by equality of pointers. Since in most Lisp implementations a pointer is essentially a memory address, we are "solving the problem" of defining the identity of objects by stipulating that a data object "itself" is the information stored in some particular set of memory locations in the computer. This suffices for simple Lisp programs, but is hardly a general way to resolve the issue of "sameness" in computational models.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.15:* Draw box-and-pointer diagrams to explain the effect of `set-to-wow!` on the structures `z1` and `z2` above.
+#exercise[Draw box-and-pointer diagrams to explain the effect of `set-to-wow!` on the structures `z1` and `z2` above.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.16:* Ben Bitdiddle decides to write a procedure to count the number of pairs in any list structure. "It's easy," he reasons. "The number of pairs in any structure is the number in the `car` plus the number in the `cdr` plus one more to count the current pair." So Ben writes the following procedure:
+#exercise[Ben Bitdiddle decides to write a procedure to count the number of pairs in any list structure. "It's easy," he reasons. "The number of pairs in any structure is the number in the `car` plus the number in the `cdr` plus one more to count the current pair." So Ben writes the following procedure:
 
   ```scm
   (define (count-pairs x)
@@ -7829,16 +7689,13 @@ As will be seen in the following sections, we can exploit sharing to greatly ext
   Show that this procedure is not correct. In particular, draw box-and-pointer diagrams representing list structures made up of exactly three pairs for which Ben's procedure would return 3; return 4; return 7; never return at all.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.17:* Devise a correct version of the `count-pairs` procedure of Exercise 3.16 that returns the number of distinct pairs in any structure. (Hint: Traverse the structure, maintaining an auxiliary data structure that is used to keep track of which pairs have already been counted.)
+#exercise[Devise a correct version of the `count-pairs` procedure of Exercise 3.16 that returns the number of distinct pairs in any structure. (Hint: Traverse the structure, maintaining an auxiliary data structure that is used to keep track of which pairs have already been counted.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.18:* Write a procedure that examines a list and determines whether it contains a cycle, that is, whether a program that tried to find the end of the list by taking successive `cdr`s would go into an infinite loop. Exercise 3.13 constructed such lists.
+#exercise[Write a procedure that examines a list and determines whether it contains a cycle, that is, whether a program that tried to find the end of the list by taking successive `cdr`s would go into an infinite loop. Exercise 3.13 constructed such lists.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.19:* Redo Exercise 3.18 using an algorithm that takes only a constant amount of space. (This requires a very clever idea.)
+#exercise[Redo Exercise 3.18 using an algorithm that takes only a constant amount of space. (This requires a very clever idea.)
 ]
 
 ==== Mutation is just assignment
@@ -7885,8 +7742,7 @@ The same observation is true for mutable data. we can implement mutable data obj
 
 Assignment is all that is needed, theoretically, to account for the behavior of mutable data. As soon as we admit `set!` to our language, we raise all the issues, not only of assignment, but of mutable data in general.#footnote[On the other hand, from the viewpoint of implementation, assignment requires us to modify the environment, which is itself a mutable data structure. Thus, assignment and mutation are equipotent: Each can be implemented in terms of the other.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.20:* Draw environment diagrams to illustrate the evaluation of the sequence of expressions
+#exercise[Draw environment diagrams to illustrate the evaluation of the sequence of expressions
 
   ```scm
   (define x (cons 1 2))
@@ -8032,8 +7888,7 @@ To insert an item in a queue, we follow the method whose result is indicated in 
               queue)))
 ```#footnote[If the first item is the final item in the queue, the front pointer will be the empty list after the deletion, which will mark the queue as empty; we needn't worry about updating the rear pointer, which will still point to the deleted item, because `empty-queue?` looks only at the front pointer.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.21:* Ben Bitdiddle decides to test the queue implementation described above. He types in the procedures to the Lisp interpreter and proceeds to try them out:
+#exercise[Ben Bitdiddle decides to test the queue implementation described above. He types in the procedures to the Lisp interpreter and proceeds to try them out:
 
   ```scm
   (define q1 (make-queue))
@@ -8050,8 +7905,7 @@ To insert an item in a queue, we follow the method whose result is indicated in 
   "It's all wrong!" he complains. "The interpreter's response shows that the last item is inserted into the queue twice. And when I delete both items, the second `b` is still there, so the queue isn't empty, even though it's supposed to be." Eva Lu Ator suggests that Ben has misunderstood what is happening. "It's not that the items are going into the queue twice," she explains. "It's just that the standard Lisp printer doesn't know how to make sense of the queue representation. If you want to see the queue printed correctly, you'll have to define your own print procedure for queues." Explain what Eva Lu is talking about. In particular, show why Ben's examples produce the printed results that they do. Define a procedure `print-queue` that takes a queue as input and prints the sequence of items in the queue.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.22:* Instead of representing a queue as a pair of pointers, we can build a queue as a procedure with local state. The local state will consist of pointers to the beginning and the end of an ordinary list. Thus, the `make-queue` procedure will have the form
+#exercise[Instead of representing a queue as a pair of pointers, we can build a queue as a procedure with local state. The local state will consist of pointers to the beginning and the end of an ordinary list. Thus, the `make-queue` procedure will have the form
 
   ```scm
   (define (make-queue)
@@ -8065,8 +7919,7 @@ To insert an item in a queue, we follow the method whose result is indicated in 
   Complete the definition of `make-queue` and provide implementations of the queue operations using this representation.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.23:* A *deque* ("double-ended queue") is a sequence in which items can be inserted and deleted at either the front or the rear. Operations on deques are the constructor `make-deque`, the predicate `empty-deque?`, selectors `front-deque` and `rear-deque`, and mutators `front-insert-deque!`, `rear-insert-deque!`, `front-delete-deque!`, `rear-delete-deque!`. Show how to represent deques using pairs, and give implementations of the operations.#footnote[Be careful not to make the interpreter try to print a structure that contains cycles. (See Exercise 3.13.)] All operations should be accomplished in $Theta(1)$ steps.
+#exercise[A *deque* ("double-ended queue") is a sequence in which items can be inserted and deleted at either the front or the rear. Operations on deques are the constructor `make-deque`, the predicate `empty-deque?`, selectors `front-deque` and `rear-deque`, and mutators `front-insert-deque!`, `rear-insert-deque!`, `front-delete-deque!`, `rear-delete-deque!`. Show how to represent deques using pairs, and give implementations of the operations.#footnote[Be careful not to make the interpreter try to print a structure that contains cycles. (See Exercise 3.13.)] All operations should be accomplished in $Theta(1)$ steps.
 ]
 
 === Representing Tables
@@ -8251,20 +8104,16 @@ Using `make-table`, we could implement the `get` and `put` operations used in Se
 
 `Get` takes as arguments two keys, and `put` takes as arguments two keys and a value. Both operations access the same local table, which is encapsulated within the object created by the call to `make-table`.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.24:* In the table implementations above, the keys are tested for equality using `equal?` (called by `assoc`). This is not always the appropriate test. For instance, we might have a table with numeric keys in which we don't need an exact match to the number we're looking up, but only a number within some tolerance of it. Design a table constructor `make-table` that takes as an argument a `same-key?` procedure that will be used to test "equality" of keys. `Make-table` should return a `dispatch` procedure that can be used to access appropriate `lookup` and `insert!` procedures for a local table.
+#exercise[In the table implementations above, the keys are tested for equality using `equal?` (called by `assoc`). This is not always the appropriate test. For instance, we might have a table with numeric keys in which we don't need an exact match to the number we're looking up, but only a number within some tolerance of it. Design a table constructor `make-table` that takes as an argument a `same-key?` procedure that will be used to test "equality" of keys. `Make-table` should return a `dispatch` procedure that can be used to access appropriate `lookup` and `insert!` procedures for a local table.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.25:* Generalizing one- and two-dimensional tables, show how to implement a table in which values are stored under an arbitrary number of keys and different values may be stored under different numbers of keys. The `lookup` and `insert!` procedures should take as input a list of keys used to access the table.
+#exercise[Generalizing one- and two-dimensional tables, show how to implement a table in which values are stored under an arbitrary number of keys and different values may be stored under different numbers of keys. The `lookup` and `insert!` procedures should take as input a list of keys used to access the table.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.26:* To search a table as implemented above, one needs to scan through the list of records. This is basically the unordered list representation of Section 2.3.3. For large tables, it may be more efficient to structure the table in a different manner. Describe a table implementation where the (key, value) records are organized using a binary tree, assuming that keys can be ordered in some way (e.g., numerically or alphabetically). (Compare Exercise 2.66 of Chapter 2.)
+#exercise[To search a table as implemented above, one needs to scan through the list of records. This is basically the unordered list representation of Section 2.3.3. For large tables, it may be more efficient to structure the table in a different manner. Describe a table implementation where the (key, value) records are organized using a binary tree, assuming that keys can be ordered in some way (e.g., numerically or alphabetically). (Compare Exercise 2.66 of Chapter 2.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.27:* *Memoization* (also called *tabulation*) is a technique that enables a procedure to record, in a local table, values that have previously been computed. This technique can make a vast difference in the performance of a program. A memoized procedure maintains a table in which values of previous calls are stored using as keys the arguments that produced the values. When the memoized procedure is asked to compute a value, it first checks the table to see if the value is already there and, if so, just returns that value. Otherwise, it computes the new value in the ordinary way and stores this in the table. As an example of memoization, recall from Section 1.2.2 the exponential process for computing Fibonacci numbers:
+#exercise[*Memoization* (also called *tabulation*) is a technique that enables a procedure to record, in a local table, values that have previously been computed. This technique can make a vast difference in the performance of a program. A memoized procedure maintains a table in which values of previous calls are stored using as keys the arguments that produced the values. When the memoized procedure is asked to compute a value, it first checks the table to see if the value is already there and, if so, just returns that value. Otherwise, it computes the new value in the ordinary way and stores this in the table. As an example of memoization, recall from Section 1.2.2 the exponential process for computing Fibonacci numbers:
 
   ```scm
   (define (fib n)
@@ -8436,16 +8285,13 @@ An and-gate is a little more complex. The action procedure must be run if either
   'ok)
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.28:* Define an or-gate as a primitive function box. Your `or-gate` constructor should be similar to `and-gate`.
+#exercise[Define an or-gate as a primitive function box. Your `or-gate` constructor should be similar to `and-gate`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.29:* Another way to construct an or-gate is as a compound digital logic device, built from and-gates and inverters. Define a procedure `or-gate` that accomplishes this. What is the delay time of the or-gate in terms of `and-gate-delay` and `inverter-delay`?
+#exercise[Another way to construct an or-gate is as a compound digital logic device, built from and-gates and inverters. Define a procedure `or-gate` that accomplishes this. What is the delay time of the or-gate in terms of `and-gate-delay` and `inverter-delay`?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.30:* Figure 3.27 shows a *ripple-carry adder* formed by stringing together $n$ full-adders. This is the simplest form of parallel adder for adding two $n$-bit binary numbers. The inputs $A_1, A_2, A_3, ..., A_n$ and $B_1, B_2, B_3, ..., B_n$ are the two binary numbers to be added (each $A_k$ and $B_k$ is a 0 or a 1). The circuit generates $S_1, S_2, S_3, ..., S_n$, the $n$ bits of the sum, and $C$, the carry from the addition. Write a procedure `ripple-carry-adder` that generates this circuit. The procedure should take as arguments three lists of $n$ wires each---the $A_k$, the $B_k$, and the $S_k$---and also another wire $C$. The major drawback of the ripple-carry adder is the need to wait for the carry signals to propagate. What is the delay needed to obtain the complete output from an $n$-bit ripple-carry adder, expressed in terms of the delays for and-gates, or-gates, and inverters?
+#exercise[Figure 3.27 shows a *ripple-carry adder* formed by stringing together $n$ full-adders. This is the simplest form of parallel adder for adding two $n$-bit binary numbers. The inputs $A_1, A_2, A_3, ..., A_n$ and $B_1, B_2, B_3, ..., B_n$ are the two binary numbers to be added (each $A_k$ and $B_k$ is a 0 or a 1). The circuit generates $S_1, S_2, S_3, ..., S_n$, the $n$ bits of the sum, and $C$, the carry from the addition. Write a procedure `ripple-carry-adder` that generates this circuit. The procedure should take as arguments three lists of $n$ wires each---the $A_k$, the $B_k$, and the $S_k$---and also another wire $C$. The major drawback of the ripple-carry adder is the need to wait for the carry signals to propagate. What is the delay needed to obtain the complete output from an $n$-bit ripple-carry adder, expressed in terms of the delays for and-gates, or-gates, and inverters?
 
   #figure(
     rect(inset: 10pt)[Placeholder for Figure 3.27 (Ripple-carry adder)],
@@ -8612,8 +8458,7 @@ done
 
 The `carry` changes to 1 at time 11 and the `sum` changes to 0 at time 16.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.31:* The internal procedure `accept-action-procedure!` defined in `make-wire` specifies that when a new action procedure is added to a wire, the procedure is immediately run. Explain why this initialization is necessary. In particular, trace through the half-adder example in the paragraphs above and say how the system's response would differ if we had defined `accept-action-procedure!` as
+#exercise[The internal procedure `accept-action-procedure!` defined in `make-wire` specifies that when a new action procedure is added to a wire, the procedure is immediately run. Explain why this initialization is necessary. In particular, trace through the half-adder example in the paragraphs above and say how the system's response would differ if we had defined `accept-action-procedure!` as
 
   ```scm
   (define (accept-action-procedure! proc)
@@ -8725,8 +8570,7 @@ The first agenda item is found at the head of the queue in the first time segmen
          (segment-queue first-seg)))))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.32:* The procedures to be run during each time segment of the agenda are kept in a queue. Thus, the procedures for each segment are called in the order in which they were added to the agenda (first in, first out). Explain why this order must be used. In particular, trace the behavior of an and-gate whose inputs change from 0, 1 to 1, 0 in the same segment and say how the behavior would differ if we stored a segment's procedures in an ordinary list, adding and removing procedures only at the front (last in, first out).
+#exercise[The procedures to be run during each time segment of the agenda are kept in a queue. Thus, the procedures for each segment are called in the order in which they were added to the agenda (first in, first out). Explain why this order must be used. In particular, trace the behavior of an and-gate whose inputs change from 0, 1 to 1, 0 in the same segment and say how the behavior would differ if we stored a segment's procedures in an ordinary list, adding and removing procedures only at the front (last in, first out).
 ]
 
 === Propagation of Constraints
@@ -9066,12 +8910,10 @@ The connector's procedure `me` serves as a dispatch to the other internal proced
   ((connector 'connect) new-constraint))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.33:* Using primitive multiplier, adder, and constant constraints, define a procedure `averager` that takes three connectors `a`, `b`, and `c` as inputs and establishes the constraint that the value of `c` is the average of the values of `a` and `b`.
+#exercise[Using primitive multiplier, adder, and constant constraints, define a procedure `averager` that takes three connectors `a`, `b`, and `c` as inputs and establishes the constraint that the value of `c` is the average of the values of `a` and `b`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.34:* Louis Reasoner wants to build a squarer, a constraint device with two terminals such that the value of connector `b` on the second terminal will always be the square of the value `a` on the first terminal. He proposes the following simple device made from a multiplier:
+#exercise[Louis Reasoner wants to build a squarer, a constraint device with two terminals such that the value of connector `b` on the second terminal will always be the square of the value `a` on the first terminal. He proposes the following simple device made from a multiplier:
 
   ```scm
   (define (squarer a b) (multiplier a a b))
@@ -9080,8 +8922,7 @@ The connector's procedure `me` serves as a dispatch to the other internal proced
   There is a serious flaw in this idea. Explain.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.35:* Ben Bitdiddle tells Louis that one way to avoid the trouble in Exercise 3.34 is to define a squarer as a new primitive constraint. Fill in the missing portions in Ben's outline for a procedure to implement such a constraint:
+#exercise[Ben Bitdiddle tells Louis that one way to avoid the trouble in Exercise 3.34 is to define a squarer as a new primitive constraint. Fill in the missing portions in Ben's outline for a procedure to implement such a constraint:
 
   ```scm
   (define (squarer a b)
@@ -9099,8 +8940,7 @@ The connector's procedure `me` serves as a dispatch to the other internal proced
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.36:* Suppose we evaluate the following sequence of expressions in the global environment:
+#exercise[Suppose we evaluate the following sequence of expressions in the global environment:
 
   ```scm
   (define a (make-connector))
@@ -9118,8 +8958,7 @@ The connector's procedure `me` serves as a dispatch to the other internal proced
   Draw an environment diagram showing the environment in which the above expression is evaluated.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.37:* The `celsius-fahrenheit-converter` procedure is cumbersome when compared with a more expression-oriented style of definition, such as
+#exercise[The `celsius-fahrenheit-converter` procedure is cumbersome when compared with a more expression-oriented style of definition, such as
 
   ```scm
   (define (celsius-fahrenheit-converter x)
@@ -9230,8 +9069,7 @@ A less stringent restriction on concurrency would ensure that a concurrent syste
 
 There are still weaker requirements for correct execution of concurrent programs. A program for simulating diffusion (say, the flow of heat in an object) might consist of a large number of processes, each one representing a small volume of space, that update their values concurrently. Each process repeatedly changes its value to the average of its own value and its neighbors' values. This algorithm converges to the right answer independent of the order in which the operations are done; there is no need for any restrictions on concurrent use of the shared values.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.38:* Suppose that Peter, Paul, and Mary share a joint bank account that initially contains \$100. Concurrently, Peter deposits \$10, Paul withdraws \$20, and Mary withdraws half the money in the account, by executing the following commands:
+#exercise[Suppose that Peter, Paul, and Mary share a joint bank account that initially contains \$100. Concurrently, Peter deposits \$10, Paul withdraws \$20, and Mary withdraws half the money in the account, by executing the following commands:
 
   ```
   Peter: (set! balance (+ balance 10))
@@ -9338,8 +9176,7 @@ Here is a version of the `make-account` procedure from Section 3.1.1, where the 
 
 With this implementation, two processes cannot be withdrawing from or depositing into a single account concurrently. This eliminates the source of the error illustrated in Figure 3.29, where Peter changes the account balance between the times when Paul accesses the balance to compute the new value and when Paul actually performs the assignment. On the other hand, each account has its own serializer, so that deposits and withdrawals for different accounts can proceed concurrently.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.39:* Which of the five possibilities in the parallel execution shown above remain if we instead serialize execution as follows:
+#exercise[Which of the five possibilities in the parallel execution shown above remain if we instead serialize execution as follows:
 
   ```scm
   (define x 10)
@@ -9351,8 +9188,7 @@ With this implementation, two processes cannot be withdrawing from or depositing
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.40:* Give all possible values of `x` that can result from executing
+#exercise[Give all possible values of `x` that can result from executing
 
   ```scm
   (define x 10)
@@ -9372,8 +9208,7 @@ With this implementation, two processes cannot be withdrawing from or depositing
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.41:* Ben Bitdiddle worries that it would be better to implement the bank account as follows (where the commented line has been changed):
+#exercise[Ben Bitdiddle worries that it would be better to implement the bank account as follows (where the commented line has been changed):
 
   ```scm
   (define (make-account balance)
@@ -9406,8 +9241,7 @@ With this implementation, two processes cannot be withdrawing from or depositing
   because allowing unserialized access to the bank balance can result in anomalous behavior. Do you agree? Is there any scenario that demonstrates Ben's concern?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.42:* Ben Bitdiddle suggests that it's a waste of time to create a new serialized procedure in response to every `withdraw` and `deposit` message. He says that `make-account` could be changed so that the calls to `protected` are done outside the `dispatch` procedure. That is, an account would return the same serialized procedure (which was created at the same time as the account) each time it is asked for a withdrawal procedure.
+#exercise[Ben Bitdiddle suggests that it's a waste of time to create a new serialized procedure in response to every `withdraw` and `deposit` message. He says that `make-account` could be changed so that the calls to `protected` are done outside the `dispatch` procedure. That is, an account would return the same serialized procedure (which was created at the same time as the account) each time it is asked for a withdrawal procedure.
 
   ```scm
   (define (make-account balance)
@@ -9503,12 +9337,10 @@ Exporting the serializer in this way gives us enough flexibility to implement a 
      account2)))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.43:* Suppose that the balances in three accounts start out as \$10, \$20, and \$30, and that multiple processes run, exchanging the balances in the accounts. Argue that if the processes are run sequentially, after any number of concurrent exchanges, the account balances should be \$10, \$20, and \$30 in some order. Draw a timing diagram like the one in Figure 3.29 to show how this condition can be violated if the exchanges are implemented using the first version of the account-exchange program in this section. On the other hand, argue that even with this `exchange` program, the sum of the balances in the accounts will be preserved. Draw a timing diagram to show how even this condition would be violated if we did not serialize the transactions on individual accounts.
+#exercise[Suppose that the balances in three accounts start out as \$10, \$20, and \$30, and that multiple processes run, exchanging the balances in the accounts. Argue that if the processes are run sequentially, after any number of concurrent exchanges, the account balances should be \$10, \$20, and \$30 in some order. Draw a timing diagram like the one in Figure 3.29 to show how this condition can be violated if the exchanges are implemented using the first version of the account-exchange program in this section. On the other hand, argue that even with this `exchange` program, the sum of the balances in the accounts will be preserved. Draw a timing diagram to show how even this condition would be violated if we did not serialize the transactions on individual accounts.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.44:* Consider the problem of transferring an amount from one account to another. Ben Bitdiddle claims that this can be accomplished with the following procedure, even if there are multiple people concurrently transferring money among multiple accounts, using any account mechanism that serializes deposit and withdrawal transactions, for example, the version of `make-account` in the text above.
+#exercise[Consider the problem of transferring an amount from one account to another. Ben Bitdiddle claims that this can be accomplished with the following procedure, even if there are multiple people concurrently transferring money among multiple accounts, using any account mechanism that serializes deposit and withdrawal transactions, for example, the version of `make-account` in the text above.
 
   ```scm
   (define 
@@ -9520,8 +9352,7 @@ Exporting the serializer in this way gives us enough flexibility to implement a 
   Louis Reasoner claims that there is a problem here, and that we need to use a more sophisticated method, such as the one required for dealing with the exchange problem. Is Louis right? If not, what is the essential difference between the transfer problem and the exchange problem? (You should assume that the balance in `from-account` is at least `amount`.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.45:* Louis Reasoner thinks our bank-account system is unnecessarily complex and error-prone now that deposits and withdrawals aren't automatically serialized. He suggests that `make-account-and-serializer` should have exported the serializer (for use by such procedures as `serialized-exchange`) in addition to (rather than instead of) using it to serialize accounts and deposits as `make-account` did. He proposes to redefine accounts as follows:
+#exercise[Louis Reasoner thinks our bank-account system is unnecessarily complex and error-prone now that deposits and withdrawals aren't automatically serialized. He suggests that `make-account-and-serializer` should have exported the serializer (for use by such procedures as `serialized-exchange`) in addition to (rather than instead of) using it to serialize accounts and deposits as `make-account` did. He proposes to redefine accounts as follows:
 
   ```scm
   (define 
@@ -9617,12 +9448,10 @@ The actual implementation of `test-and-set!` depends on the details of how our s
 ```
 `Without-interrupts` disables time-slicing interrupts while its procedure argument is being executed.] Alternatively, multiprocessing computers provide instructions that support atomic operations directly in hardware.#footnote[There are many variants of such instructions---including test-and-set, test-and-clear, swap, compare-and-exchange, load-reserve, and store-conditional---whose design must be carefully matched to the machine's processor-memory interface. One issue that arises here is to determine what happens if two processes attempt to acquire the same resource at exactly the same time by using such an instruction. This requires some mechanism for making a decision about which process gets control. Such a mechanism is called an *arbiter*. Arbiters usually boil down to some sort of hardware device. Unfortunately, it is possible to prove that one cannot physically construct a fair arbiter that works 100% of the time unless one allows the arbiter an arbitrarily long time to make its decision. The fundamental phenomenon here was originally observed by the fourteenth-century French philosopher Jean Buridan in his commentary on Aristotle's _De caelo_. Buridan argued that a perfectly rational dog placed between two equally attractive sources of food will starve to death, because it is incapable of deciding which to go to first.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.46:* Suppose that we implement `test-and-set!` using an ordinary procedure as shown in the text, without attempting to make the operation atomic. Draw a timing diagram like the one in Figure 3.29 to demonstrate how the mutex implementation can fail by allowing two processes to acquire the mutex at the same time.
+#exercise[Suppose that we implement `test-and-set!` using an ordinary procedure as shown in the text, without attempting to make the operation atomic. Draw a timing diagram like the one in Figure 3.29 to demonstrate how the mutex implementation can fail by allowing two processes to acquire the mutex at the same time.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.47:* A semaphore (of size $n$) is a generalization of a mutex. Like a mutex, a semaphore supports acquire and release operations, but it is more general in that up to $n$ processes can acquire it concurrently. Additional processes that attempt to acquire the semaphore must wait for release operations. Give implementations of semaphores
+#exercise[A semaphore (of size $n$) is a generalization of a mutex. Like a mutex, a semaphore supports acquire and release operations, but it is more general in that up to $n$ processes can acquire it concurrently. Additional processes that attempt to acquire the semaphore must wait for release operations. Give implementations of semaphores
 
   a. in terms of mutexes
   b. in terms of atomic `test-and-set!` operations.
@@ -9634,12 +9463,10 @@ Now that we have seen how to implement serializers, we can see that account exch
 
 One way to avoid the deadlock in this situation is to give each account a unique identification number and rewrite `serialized-exchange` so that a process will always attempt to enter a procedure protecting the lowest-numbered account first. Although this method works well for the exchange problem, there are other situations that require more sophisticated deadlock-avoidance techniques, or where deadlock cannot be avoided at all. (See Exercise 3.48 and Exercise 3.49.)#footnote[The general technique for avoiding deadlock by numbering the shared resources and acquiring them in order is due to Havender (1968). Situations where deadlock cannot be avoided require *deadlock-recovery* methods, which entail having processes "back out" of the deadlocked state and try again. Deadlock-recovery mechanisms are widely used in database management systems, a topic that is treated in detail in Gray and Reuter 1993.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.48:* Explain in detail why the deadlock-avoidance method described above, (i.e., the accounts are numbered, and each process attempts to acquire the smaller-numbered account first) avoids deadlock in the exchange problem. Rewrite `serialized-exchange` to incorporate this idea. (You will also need to modify `make-account` so that each account is created with a number, which can be accessed by sending an appropriate message.)
+#exercise[Explain in detail why the deadlock-avoidance method described above, (i.e., the accounts are numbered, and each process attempts to acquire the smaller-numbered account first) avoids deadlock in the exchange problem. Rewrite `serialized-exchange` to incorporate this idea. (You will also need to modify `make-account` so that each account is created with a number, which can be accessed by sending an appropriate message.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.49:* Give a scenario where the deadlock-avoidance mechanism described above does not work. (Hint: In the exchange problem, each process knows in advance which accounts it will need to get access to. Consider a situation where a process must get access to some shared resources before it can know which additional shared resources it will require.)
+#exercise[Give a scenario where the deadlock-avoidance mechanism described above does not work. (Hint: In the exchange problem, each process knows in advance which accounts it will need to get access to. Consider a situation where a process must get access to some shared resources before it can know which additional shared resources it will require.)
 ]
 
 ==== Concurrency, time, and communication
@@ -9938,8 +9765,7 @@ This implementation suffices for `delay` and `force` to work as advertised, but 
 
 and `force` is as defined previously.#footnote[There are many possible implementations of streams other than the one described in this section. Delayed evaluation, which is the key to making streams practical, was inherent in Algol 60's *call-by-name* parameter-passing method. The use of this mechanism to implement streams was first described by Landin (1965). Delayed evaluation for streams was introduced into Lisp by Friedman and Wise (1976). In their implementation, `cons` always delays evaluating its arguments, so that lists automatically behave as streams. The memoizing optimization is also known as *call-by-need*. The Algol community would refer to our original delayed objects as *call-by-name thunks* and to the optimized versions as *call-by-need thunks*.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.50:* Complete the following definition, which generalizes `stream-map` to allow procedures that take multiple arguments, analogous to `map` in Section 2.2.1.
+#exercise[Complete the following definition, which generalizes `stream-map` to allow procedures that take multiple arguments, analogous to `map` in Section 2.2.1.
 
   ```scm
   (define (stream-map proc . argstreams)
@@ -9954,8 +9780,7 @@ and `force` is as defined previously.#footnote[There are many possible implement
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.51:* In order to take a closer look at delayed evaluation, we will use the following procedure, which simply returns its argument after printing it:
+#exercise[In order to take a closer look at delayed evaluation, we will use the following procedure, which simply returns its argument after printing it:
 
   ```scm
   (define (show x)
@@ -9976,8 +9801,7 @@ and `force` is as defined previously.#footnote[There are many possible implement
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.52:* Consider the sequence of expressions
+#exercise[Consider the sequence of expressions
 
   ```scm
   (define sum 0)
@@ -10159,16 +9983,14 @@ This definition is not so straightforward as it appears, because we will test wh
 
 This is a recursive definition, since `primes` is defined in terms of the `prime?` predicate, which itself uses the `primes` stream. The reason this procedure works is that, at any point, enough of the `primes` stream has been generated to test the primality of the numbers we need to check next. That is, for every $n$ we test for primality, either $n$ is not prime (in which case there is a prime already generated that divides it) or $n$ is prime (in which case there is a prime already generated---i.e., a prime less than $n$---that is greater than $sqrt(n)$).#footnote[This last point is very subtle and relies on the fact that $p_(n+1) <= p_n^2$. (Here, $p_k$ denotes the $k^"th"$ prime.) Estimates such as these are very difficult to establish. The ancient proof by Euclid that there are an infinite number of primes shows that $p_(n+1) <= p_1 p_2 ... p_n + 1$, and no substantially better result was proved until 1851, when the Russian mathematician P. L. Chebyshev established that $p_(n+1) <= 2 p_n$ for all $n$. This result, originally conjectured in 1845, is known as *Bertrand's hypothesis*. A proof can be found in section 22.3 of Hardy and Wright 1960.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.53:* Without running the program, describe the elements of the stream defined by
+#exercise[Without running the program, describe the elements of the stream defined by
 
   ```scm
   (define s (cons-stream 1 (add-streams s s)))
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.54:* Define a procedure `mul-streams`, analogous to `add-streams`, that produces the elementwise product of its two input streams. Use this together with the stream of `integers` to complete the following definition of the stream whose $n^"th"$ element (counting from 0) is $n + 1$ factorial:
+#exercise[Define a procedure `mul-streams`, analogous to `add-streams`, that produces the elementwise product of its two input streams. Use this together with the stream of `integers` to complete the following definition of the stream whose $n^"th"$ element (counting from 0) is $n + 1$ factorial:
 
   ```scm
   (define factorials 
@@ -10176,12 +9998,10 @@ This is a recursive definition, since `primes` is defined in terms of the `prime
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.55:* Define a procedure `partial-sums` that takes as argument a stream $S$ and returns the stream whose elements are $S_0, S_0 + S_1, S_0 + S_1 + S_2, ...$. For example, `(partial-sums integers)` should be the stream 1, 3, 6, 10, 15, ....
+#exercise[Define a procedure `partial-sums` that takes as argument a stream $S$ and returns the stream whose elements are $S_0, S_0 + S_1, S_0 + S_1 + S_2, ...$. For example, `(partial-sums integers)` should be the stream 1, 3, 6, 10, 15, ....
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.56:* A famous problem, first raised by R. Hamming, is to enumerate, in ascending order with no repetitions, all positive integers with no prime factors other than 2, 3, or 5. One obvious way to do this is to simply test each integer in turn to see whether it has any factors other than 2, 3, and 5. But this is very inefficient, since, as the integers get larger, fewer and fewer of them fit the requirement. As an alternative, let us call the required stream of numbers `S` and notice the following facts about it.
+#exercise[A famous problem, first raised by R. Hamming, is to enumerate, in ascending order with no repetitions, all positive integers with no prime factors other than 2, 3, or 5. One obvious way to do this is to simply test each integer in turn to see whether it has any factors other than 2, 3, and 5. But this is very inefficient, since, as the integers get larger, fewer and fewer of them fit the requirement. As an alternative, let us call the required stream of numbers `S` and notice the following facts about it.
 
   - `S` begins with 1.
   - The elements of `(scale-stream S 2)` are also elements of `S`.
@@ -10224,12 +10044,10 @@ This is a recursive definition, since `primes` is defined in terms of the `prime
   Fill in the missing expressions in the places marked `<??>` above.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.57:* How many additions are performed when we compute the $n^"th"$ Fibonacci number using the definition of `fibs` based on the `add-streams` procedure? Show that the number of additions would be exponentially greater if we had implemented `(delay <exp>)` simply as `(lambda () <exp>)`, without using the optimization provided by the `memo-proc` procedure described in Section 3.5.1.#footnote[This exercise shows how call-by-need is closely related to ordinary memoization as described in Exercise 3.27. In that exercise, we used assignment to explicitly construct a local table. Our call-by-need stream optimization effectively constructs such a table automatically, storing values in the previously forced parts of the stream.]
+#exercise[How many additions are performed when we compute the $n^"th"$ Fibonacci number using the definition of `fibs` based on the `add-streams` procedure? Show that the number of additions would be exponentially greater if we had implemented `(delay <exp>)` simply as `(lambda () <exp>)`, without using the optimization provided by the `memo-proc` procedure described in Section 3.5.1.#footnote[This exercise shows how call-by-need is closely related to ordinary memoization as described in Exercise 3.27. In that exercise, we used assignment to explicitly construct a local table. Our call-by-need stream optimization effectively constructs such a table automatically, storing values in the previously forced parts of the stream.]
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.58:* Give an interpretation of the stream computed by the following procedure:
+#exercise[Give an interpretation of the stream computed by the following procedure:
 
   ```scm
   (define (expand num den radix)
@@ -10243,8 +10061,7 @@ This is a recursive definition, since `primes` is defined in terms of the `prime
   (`Quotient` is a primitive that returns the integer quotient of two integers.) What are the successive elements produced by `(expand 1 7 10)`? What is produced by `(expand 3 8 10)`?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.59:* In Section 2.5.3 we saw how to implement a polynomial arithmetic system representing polynomials as lists of terms. In a similar way, we can work with *power series*, such as
+#exercise[In Section 2.5.3 we saw how to implement a polynomial arithmetic system representing polynomials as lists of terms. In a similar way, we can work with *power series*, such as
 
   $ e^x &= 1 + x + 1/2 x^2 + 1/(3 dot 2) x^3 + 1/(4 dot 3 dot 2) x^4 + dots \
     cos x &= 1 - 1/2 x^2 + 1/(4 dot 3 dot 2) x^4 - dots \
@@ -10277,8 +10094,7 @@ This is a recursive definition, since `primes` is defined in terms of the `prime
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.60:* With power series represented as streams of coefficients as in Exercise 3.59, adding series is implemented by `add-streams`. Complete the definition of the following procedure for multiplying series:
+#exercise[With power series represented as streams of coefficients as in Exercise 3.59, adding series is implemented by `add-streams`. Complete the definition of the following procedure for multiplying series:
 
   ```scm
   (define (mul-series s1 s2)
@@ -10288,8 +10104,7 @@ This is a recursive definition, since `primes` is defined in terms of the `prime
   You can test your procedure by verifying that $sin^2 x + cos^2 x = 1,$ using the series from Exercise 3.59.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.61:* Let $S$ be a power series (Exercise 3.59) whose constant term is 1. Suppose we want to find the power series $1 / S$, that is, the series $X$ such that $S X = 1$. Write $S = 1 + S_R$ where $S_R$ is the part of $S$ after the constant term. Then we can solve for $X$ as follows:
+#exercise[Let $S$ be a power series (Exercise 3.59) whose constant term is 1. Suppose we want to find the power series $1 / S$, that is, the series $X$ such that $S X = 1$. Write $S = 1 + S_R$ where $S_R$ is the part of $S$ after the constant term. Then we can solve for $X$ as follows:
   
   $ S dot X &= 1 \
     (1 + S_R) dot X &= 1 \
@@ -10299,8 +10114,7 @@ This is a recursive definition, since `primes` is defined in terms of the `prime
   In other words, $X$ is the power series whose constant term is 1 and whose higher-order terms are given by the negative of $S_R$ times $X$. Use this idea to write a procedure `invert-unit-series` that computes $1 / S$ for a power series $S$ with constant term 1. You will need to use `mul-series` from Exercise 3.60.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.62:* Use the results of Exercise 3.60 and Exercise 3.61 to define a procedure `div-series` that divides two power series. `Div-series` should work for any two series, provided that the denominator series begins with a nonzero constant term. (If the denominator has a zero constant term, then `div-series` should signal an error.) Show how to use `div-series` together with the result of Exercise 3.59 to generate the power series for tangent.
+#exercise[Use the results of Exercise 3.60 and Exercise 3.61 to define a procedure `div-series` that divides two power series. `Div-series` should work for any two series, provided that the denominator series begins with a nonzero constant term. (If the denominator has a zero constant term, then `div-series` should signal an error.) Show how to use `div-series` together with the result of Exercise 3.59 to generate the power series for tangent.
 ]
 
 === Exploiting the Stream Paradigm
@@ -10453,8 +10267,7 @@ The result is impressive. Taking eight terms of the sequence yields the correct 
 
 we could have implemented these acceleration techniques without using streams. But the stream formulation is particularly elegant and convenient because the entire sequence of states is available to us as a data structure that can be manipulated with a uniform set of operations.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.63:* Louis Reasoner asks why the `sqrt-stream` procedure was not written in the following more straightforward way, without the local variable `guesses`:
+#exercise[Louis Reasoner asks why the `sqrt-stream` procedure was not written in the following more straightforward way, without the local variable `guesses`:
 
   ```scm
   (define (sqrt-stream x)
@@ -10468,8 +10281,7 @@ we could have implemented these acceleration techniques without using streams. B
   Alyssa P. Hacker replies that this version of the procedure is considerably less efficient because it performs redundant computation. Explain Alyssa's answer. Would the two versions still differ in efficiency if our implementation of `delay` used only `(lambda () <exp>)` without using the optimization provided by `memo-proc` (Section 3.5.1)?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.64:* Write a procedure `stream-limit` that takes as arguments a stream and a number (the tolerance). It should examine the stream until it finds two successive elements that differ in absolute value by less than the tolerance, and return the second of the two elements. Using this, we could compute square roots up to a given tolerance by
+#exercise[Write a procedure `stream-limit` that takes as arguments a stream and a number (the tolerance). It should examine the stream until it finds two successive elements that differ in absolute value by less than the tolerance, and return the second of the two elements. Using this, we could compute square roots up to a given tolerance by
 
   ```scm
   (define (sqrt x tolerance)
@@ -10477,8 +10289,7 @@ we could have implemented these acceleration techniques without using streams. B
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.65:* Use the series
+#exercise[Use the series
   
   $ ln 2 = 1 - 1/2 + 1/3 - 1/4 + dots $
   
@@ -10589,16 +10400,13 @@ we can thus generate the required stream of pairs as
     (pairs (stream-cdr s) (stream-cdr t)))))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.66:* Examine the stream `(pairs integers integers)`. Can you make any general comments about the order in which the pairs are placed into the stream? For example, approximately how many pairs precede the pair (1, 100)? the pair (99, 100)? the pair (100, 100)? (If you can make precise mathematical statements here, all the better. But feel free to give more qualitative answers if you find yourself getting bogged down.)
+#exercise[Examine the stream `(pairs integers integers)`. Can you make any general comments about the order in which the pairs are placed into the stream? For example, approximately how many pairs precede the pair (1, 100)? the pair (99, 100)? the pair (100, 100)? (If you can make precise mathematical statements here, all the better. But feel free to give more qualitative answers if you find yourself getting bogged down.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.67:* Modify the `pairs` procedure so that `(pairs integers integers)` will produce the stream of *all* pairs of integers $(i, j)$ (without the condition $i <= j$). Hint: you will need to mix in an additional stream.
+#exercise[Modify the `pairs` procedure so that `(pairs integers integers)` will produce the stream of *all* pairs of integers $(i, j)$ (without the condition $i <= j$). Hint: you will need to mix in an additional stream.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.68:* Louis Reasoner thinks that building a stream of pairs from three parts is unnecessarily complicated. Instead of separating the pair $(S_0, T_0)$ from the rest of the pairs in the first row, he proposes to work with the whole first row, as follows:
+#exercise[Louis Reasoner thinks that building a stream of pairs from three parts is unnecessarily complicated. Instead of separating the pair $(S_0, T_0)$ from the rest of the pairs in the first row, he proposes to work with the whole first row, as follows:
 
   ```scm
   (define (pairs s t)
@@ -10614,23 +10422,19 @@ we can thus generate the required stream of pairs as
   Does this work? Consider what happens if we evaluate `(pairs integers integers)` using Louis's definition of `pairs`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.69:* Write a procedure `triples` that takes three infinite streams, $S$, $T$, and $U$, and produces the stream of triples $(S_i, T_j, U_k)$ such that $i <= j <= k$. Use `triples` to generate the stream of all Pythagorean triples of positive integers, i.e., the triples $(i, j, k)$ such that $i <= j$ and $i^2 + j^2 = k^2$.
+#exercise[Write a procedure `triples` that takes three infinite streams, $S$, $T$, and $U$, and produces the stream of triples $(S_i, T_j, U_k)$ such that $i <= j <= k$. Use `triples` to generate the stream of all Pythagorean triples of positive integers, i.e., the triples $(i, j, k)$ such that $i <= j$ and $i^2 + j^2 = k^2$.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.70:* It would be nice to be able to generate streams in which the pairs appear in some useful order, rather than in the order that results from an *ad hoc* interleaving process. we can use a technique similar to the `merge` procedure of Exercise 3.56, if we define a way to say that one pair of integers is "less than" another. One way to do this is to define a "weighting function" $W(i, j)$ and stipulate that $(i_1, j_1)$ is less than $(i_2, j_2)$ if $W(i_1, j_1) < W(i_2, j_2)$. Write a procedure `merge-weighted` that is like `merge`, except that `merge-weighted` takes an additional argument `weight`, which is a procedure that computes the weight of a pair, and is used to determine the order in which elements should appear in the resulting merged stream.#footnote[we will require that the weighting function be such that the weight of a pair increases as we move out along a row or down along a column of the array of pairs.] Using this, generalize `pairs` to a procedure `weighted-pairs` that takes two streams, together with a procedure that computes a weighting function, and generates the stream of pairs, ordered according to weight. Use your procedure to generate
+#exercise[It would be nice to be able to generate streams in which the pairs appear in some useful order, rather than in the order that results from an *ad hoc* interleaving process. we can use a technique similar to the `merge` procedure of Exercise 3.56, if we define a way to say that one pair of integers is "less than" another. One way to do this is to define a "weighting function" $W(i, j)$ and stipulate that $(i_1, j_1)$ is less than $(i_2, j_2)$ if $W(i_1, j_1) < W(i_2, j_2)$. Write a procedure `merge-weighted` that is like `merge`, except that `merge-weighted` takes an additional argument `weight`, which is a procedure that computes the weight of a pair, and is used to determine the order in which elements should appear in the resulting merged stream.#footnote[we will require that the weighting function be such that the weight of a pair increases as we move out along a row or down along a column of the array of pairs.] Using this, generalize `pairs` to a procedure `weighted-pairs` that takes two streams, together with a procedure that computes a weighting function, and generates the stream of pairs, ordered according to weight. Use your procedure to generate
 
   a. the stream of all pairs of positive integers $(i, j)$ with $i <= j$ ordered according to the sum $i + j$,
   b. the stream of all pairs of positive integers $(i, j)$ with $i <= j$, where neither $i$ nor $j$ is divisible by 2, 3, or 5, and the pairs are ordered according to the sum $2 i + 3 j + 5 i j$.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.71:* Numbers that can be expressed as the sum of two cubes in more than one way are sometimes called *Ramanujan numbers*, in honor of the mathematician Srinivasa Ramanujan.#footnote[To quote from G. H. Hardy's obituary of Ramanujan (Hardy 1921): "It was Mr. Littlewood (I believe) who remarked that 'every positive integer was one of his friends.' I remember once going to see him when he was lying ill at Putney. I had ridden in taxi-cab No. 1729, and remarked that the number seemed to me a rather dull one, and that I hoped it was not an unfavorable omen. 'No,' he replied, 'it is a very interesting number; it is the smallest number expressible as the sum of two cubes in two different ways.'" The trick of using weighted pairs to generate the Ramanujan numbers was shown to us by Charles Leiserson.] Ordered streams of pairs provide an elegant solution to the problem of computing these numbers. To find a number that can be written as the sum of two cubes in two different ways, we need only generate the stream of pairs of integers $(i, j)$ weighted according to the sum $i^3 + j^3$ (see Exercise 3.70), then search the stream for two consecutive pairs with the same weight. Write a procedure to generate the Ramanujan numbers. The first such number is 1,729. What are the next five?
+#exercise[Numbers that can be expressed as the sum of two cubes in more than one way are sometimes called *Ramanujan numbers*, in honor of the mathematician Srinivasa Ramanujan.#footnote[To quote from G. H. Hardy's obituary of Ramanujan (Hardy 1921): "It was Mr. Littlewood (I believe) who remarked that 'every positive integer was one of his friends.' I remember once going to see him when he was lying ill at Putney. I had ridden in taxi-cab No. 1729, and remarked that the number seemed to me a rather dull one, and that I hoped it was not an unfavorable omen. 'No,' he replied, 'it is a very interesting number; it is the smallest number expressible as the sum of two cubes in two different ways.'" The trick of using weighted pairs to generate the Ramanujan numbers was shown to us by Charles Leiserson.] Ordered streams of pairs provide an elegant solution to the problem of computing these numbers. To find a number that can be written as the sum of two cubes in two different ways, we need only generate the stream of pairs of integers $(i, j)$ weighted according to the sum $i^3 + j^3$ (see Exercise 3.70), then search the stream for two consecutive pairs with the same weight. Write a procedure to generate the Ramanujan numbers. The first such number is 1,729. What are the next five?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.72:* In a similar way to Exercise 3.71 generate a stream of all numbers that can be written as the sum of two squares in three different ways (showing how they can be so written).
+#exercise[In a similar way to Exercise 3.71 generate a stream of all numbers that can be written as the sum of two squares in three different ways (showing how they can be so written).
 ]
 
 ==== Streams as signals
@@ -10658,8 +10462,7 @@ Figure 3.32 is a picture of a signal-processing system that corresponds to the `
   caption: [The `integral` procedure viewed as a signal-processing system.],
 ) <fig-3-32>
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.73:* we can model electrical circuits using streams to represent the values of currents or voltages at a sequence of times. For instance, suppose we have an *RC circuit* consisting of a resistor of resistance $R$ and a capacitor of capacitance $C$ in series. The voltage response $v$ of the circuit to an injected current $i$ is determined by the formula in Figure 3.33, whose structure is shown by the accompanying signal-flow diagram.
+#exercise[we can model electrical circuits using streams to represent the values of currents or voltages at a sequence of times. For instance, suppose we have an *RC circuit* consisting of a resistor of resistance $R$ and a capacitor of capacitance $C$ in series. The voltage response $v$ of the circuit to an injected current $i$ is determined by the formula in Figure 3.33, whose structure is shown by the accompanying signal-flow diagram.
 
   #figure(
     rect(inset: 10pt)[Placeholder for Figure 3.33 (RC circuit)],
@@ -10669,8 +10472,7 @@ Figure 3.32 is a picture of a signal-processing system that corresponds to the `
   Write a procedure `RC` that models this circuit. `RC` should take as inputs the values of $R$, $C$, and $d t$ and should return a procedure that takes as inputs a stream representing the current $i$ and an initial value for the capacitor voltage $v_0$ and produces as output the stream of voltages $v$. For example, you should be able to use `RC` to model an RC circuit with $R = 5$ ohms, $C = 1$ farad, and a 0.5-second time step by evaluating `(define RC1 (RC 5 1 0.5))`. This defines `RC1` as a procedure that takes a stream representing the time sequence of currents and an initial capacitor voltage and produces the output stream of voltages.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.74:* Alyssa P. Hacker is designing a system to process signals coming from physical sensors. One important feature she wishes to produce is a signal that describes the *zero crossings* of the input signal. That is, the resulting signal should be $+1$ whenever the input signal changes from negative to positive, $-1$ whenever the input signal changes from positive to negative, and $0$ otherwise. (Assume that the sign of a $0$ input is positive.) For example, a typical input signal with its associated zero-crossing signal would be
+#exercise[Alyssa P. Hacker is designing a system to process signals coming from physical sensors. One important feature she wishes to produce is a signal that describes the *zero crossings* of the input signal. That is, the resulting signal should be $+1$ whenever the input signal changes from negative to positive, $-1$ whenever the input signal changes from positive to negative, and $0$ otherwise. (Assume that the sign of a $0$ input is positive.) For example, a typical input signal with its associated zero-crossing signal would be
 
   ```
   ... 1 2 1.5 1 0.5 -0.1 -2 -3 -2 -0.5 0.2 3 4 ...
@@ -10706,8 +10508,7 @@ Figure 3.32 is a picture of a signal-processing system that corresponds to the `
   Complete the program by supplying the indicated `<expression>`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.75:* Unfortunately, Alyssa's zero-crossing detector in Exercise 3.74 proves to be insufficient, because the noisy signal from the sensor leads to spurious zero crossings. Lem E. Tweakit, a hardware specialist, suggests that Alyssa smooth the signal to filter out the noise before extracting the zero crossings. Alyssa takes his advice and decides to extract the zero crossings from the signal constructed by averaging each value of the sense data with the previous value. She explains the problem to her assistant, Louis Reasoner, who attempts to implement the idea, altering Alyssa's program as follows:
+#exercise[Unfortunately, Alyssa's zero-crossing detector in Exercise 3.74 proves to be insufficient, because the noisy signal from the sensor leads to spurious zero crossings. Lem E. Tweakit, a hardware specialist, suggests that Alyssa smooth the signal to filter out the noise before extracting the zero crossings. Alyssa takes his advice and decides to extract the zero crossings from the signal constructed by averaging each value of the sense data with the previous value. She explains the problem to her assistant, Louis Reasoner, who attempts to implement the idea, altering Alyssa's program as follows:
 
   ```scm
   (define (make-zero-crossings 
@@ -10725,8 +10526,7 @@ Figure 3.32 is a picture of a signal-processing system that corresponds to the `
   This does not correctly implement Alyssa's plan. Find the bug that Louis has installed and fix it without changing the structure of the program. (Hint: you will need to increase the number of arguments to `make-zero-crossings`.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.76:* Eva Lu Ator has a criticism of Louis's approach in Exercise 3.75. The program he wrote is not modular, because it intermixes the operation of smoothing with the zero-crossing extraction. For example, the extractor should not have to be changed if Alyssa finds a better way to condition her input signal. Help Louis by writing a procedure `smooth` that takes a stream as input and produces a stream in which each element is the average of two successive input stream elements. Then use `smooth` as a component to implement the zero-crossing detector in a more modular style.
+#exercise[Eva Lu Ator has a criticism of Louis's approach in Exercise 3.75. The program he wrote is not modular, because it intermixes the operation of smoothing with the zero-crossing extraction. For example, the extractor should not have to be changed if Alyssa finds a better way to condition her input signal. Help Louis by writing a procedure `smooth` that takes a stream as input and produces a stream in which each element is the average of two successive input stream elements. Then use `smooth` as a component to implement the zero-crossing detector in a more modular style.
 ]
 
 === Streams and Delayed Evaluation
@@ -10798,8 +10598,7 @@ In general, every caller of `integral` must now `delay` the integrand argument. 
 2.716924
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.77:* The `integral` procedure used above was analogous to the "implicit" definition of the infinite stream of integers in Section 3.5.2. Alternatively, we can give a definition of `integral` that is more like `integers-starting-from` (also in Section 3.5.2):
+#exercise[The `integral` procedure used above was analogous to the "implicit" definition of the infinite stream of integers in Section 3.5.2. Alternatively, we can give a definition of `integral` that is more like `integers-starting-from` (also in Section 3.5.2):
 
   ```scm
   (define (integral
@@ -10818,8 +10617,7 @@ In general, every caller of `integral` must now `delay` the integrand argument. 
   When used in systems with loops, this procedure has the same problem as does our original version of `integral`. Modify the procedure so that it expects the `integrand` as a delayed argument and hence can be used in the `solve` procedure shown above.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.78:* Consider the problem of designing a signal-processing system to study the homogeneous second-order linear differential equation
+#exercise[Consider the problem of designing a signal-processing system to study the homogeneous second-order linear differential equation
   
   $ d^2 y / d t^2 - a d y / d t - b y = 0 $
 
@@ -10831,12 +10629,10 @@ In general, every caller of `integral` must now `delay` the integrand argument. 
   ) <fig-3-35>
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.79:* Generalize the `solve-2nd` procedure of Exercise 3.78 so that it can be used to solve general second-order differential equations $d^2 y / d t^2 = f(d y / d t, y)$.
+#exercise[Generalize the `solve-2nd` procedure of Exercise 3.78 so that it can be used to solve general second-order differential equations $d^2 y / d t^2 = f(d y / d t, y)$.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.80:* A *series RLC circuit* consists of a resistor, a capacitor, and an inductor connected in series, as shown in Figure 3.36. If $R$, $L$, and $C$ are the resistance, inductance, and capacitance, then the relations between voltage $(v)$ and current $(i)$ for the three components are described by the equations
+#exercise[A *series RLC circuit* consists of a resistor, a capacitor, and an inductor connected in series, as shown in Figure 3.36. If $R$, $L$, and $C$ are the resistance, inductance, and capacitance, then the relations between voltage $(v)$ and current $(i)$ for the three components are described by the equations
   
   $ v_R &= i_R R \
     v_L &= L (d i_L) / (d t) \
@@ -10937,12 +10733,10 @@ The `cesaro-stream` is now fed to a `monte-carlo` procedure, which produces a st
 
 There is considerable modularity in this approach, because we still can formulate a general `monte-carlo` procedure that can deal with arbitrary experiments. Yet there is no assignment or local state.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.81:* Exercise 3.6 discussed generalizing the random-number generator to allow one to reset the random-number sequence so as to produce repeatable sequences of "random" numbers. Produce a stream formulation of this same generator that operates on an input stream of requests to `generate` a new random number or to `reset` the sequence to a specified value and that produces the desired stream of random numbers. Don't use assignment in your solution.
+#exercise[Exercise 3.6 discussed generalizing the random-number generator to allow one to reset the random-number sequence so as to produce repeatable sequences of "random" numbers. Produce a stream formulation of this same generator that operates on an input stream of requests to `generate` a new random number or to `reset` the sequence to a specified value and that produces the desired stream of random numbers. Don't use assignment in your solution.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 3.82:* Redo Exercise 3.5 on Monte Carlo integration in terms of streams. The stream version of `estimate-integral` will not have an argument telling how many trials to perform. Instead, it will produce a stream of estimates based on successively more trials.
+#exercise[Redo Exercise 3.5 on Monte Carlo integration in terms of streams. The stream version of `estimate-integral` will not have an argument telling how many trials to perform. Instead, it will produce a stream of estimates based on successively more trials.
 ]
 
 ==== A functional-programming view of time
@@ -11216,8 +11010,7 @@ Definitions of variables are handled in a similar manner.#footnote[This implemen
 
 we have chosen here to return the symbol `ok` as the value of an assignment or a definition.#footnote[As we said when we introduced `define` and `set!`, these values are implementation-dependent in Scheme---that is, the implementor can choose what value to return.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.1:* Notice that we cannot tell whether the metacircular evaluator evaluates operands from left to right or from right to left. Its evaluation order is inherited from the underlying Lisp: If the arguments to `cons` in `list-of-values` are evaluated from left to right, then `list-of-values` will evaluate operands from left to right; and if the arguments to `cons` are evaluated from right to left, then `list-of-values` will evaluate operands from right to left.
+#exercise[Notice that we cannot tell whether the metacircular evaluator evaluates operands from left to right or from right to left. Its evaluation order is inherited from the underlying Lisp: If the arguments to `cons` in `list-of-values` are evaluated from left to right, then `list-of-values` will evaluate operands from left to right; and if the arguments to `cons` are evaluated from right to left, then `list-of-values` will evaluate operands from right to left.
 
   Write a version of `list-of-values` that evaluates operands from left to right regardless of the order of evaluation in the underlying Lisp. Also write a version of `list-of-values` that evaluates operands from right to left.
 ]
@@ -11440,20 +11233,17 @@ we include syntax procedures that extract the parts of a `cond` expression, and 
 
 Expressions (such as `cond`) that we choose to implement as syntactic transformations are called *derived expressions*. `Let` expressions are also derived expressions (see Exercise 4.6).#footnote[Practical Lisp systems provide a mechanism that allows a user to add new derived expressions and specify their implementation as syntactic transformations without modifying the evaluator. Such a user-defined transformation is called a *macro*. Although it is easy to add an elementary mechanism for defining macros, the resulting language has subtle name-conflict problems. There has been much research on mechanisms for macro definition that do not cause these difficulties. See, for example, Kohlbecker 1986, Clinger and Rees 1991, and Hanson 1991.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.2:* Louis Reasoner plans to reorder the `cond` clauses in `eval` so that the clause for procedure applications appears before the clause for assignments. He argues that this will make the interpreter more efficient: Since programs usually contain more applications than assignments, definitions, and so on, his modified `eval` will usually check fewer clauses than the original `eval` before identifying the type of an expression.
+#exercise[Louis Reasoner plans to reorder the `cond` clauses in `eval` so that the clause for procedure applications appears before the clause for assignments. He argues that this will make the interpreter more efficient: Since programs usually contain more applications than assignments, definitions, and so on, his modified `eval` will usually check fewer clauses than the original `eval` before identifying the type of an expression.
 
   a. What is wrong with Louis's plan? (Hint: What will Louis's evaluator do with the expression `(define x 3)`?)
 
   b. Louis is upset that his plan didn't work. He is willing to go to any lengths to make his evaluator recognize procedure applications before it checks for most other kinds of expressions. Help him by changing the syntax of the evaluated language so that procedure applications start with `call`. For example, instead of `(factorial 3)` we will now have to write `(call factorial 3)` and instead of `(+ 1 2)` we will have to write `(call + 1 2)`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.3:* Rewrite `eval` so that the dispatch is done in data-directed style. Compare this with the data-directed differentiation procedure of Exercise 2.73. (You may use the `car` of a compound expression as the type of the expression, as is appropriate for the syntax implemented in this section.)
+#exercise[Rewrite `eval` so that the dispatch is done in data-directed style. Compare this with the data-directed differentiation procedure of Exercise 2.73. (You may use the `car` of a compound expression as the type of the expression, as is appropriate for the syntax implemented in this section.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.4:* Recall the definitions of the special forms `and` and `or` from Chapter 1:
+#exercise[Recall the definitions of the special forms `and` and `or` from Chapter 1:
 
   - `and`: The expressions are evaluated from left to right. If any expression evaluates to false, false is returned; any remaining expressions are not evaluated. If all the expressions evaluate to true values, the value of the last expression is returned. If there are no expressions then true is returned.
   - `or`: The expressions are evaluated from left to right. If any expression evaluates to a true value, that value is returned; any remaining expressions are not evaluated. If all expressions evaluate to false, or if there are no expressions, then false is returned.
@@ -11461,8 +11251,7 @@ Expressions (such as `cond`) that we choose to implement as syntactic transforma
   Install `and` and `or` as new special forms for the evaluator by defining appropriate syntax procedures and evaluation procedures `eval-and` and `eval-or`. Alternatively, show how to implement `and` and `or` as derived expressions.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.5:* Scheme allows an additional syntax for `cond` clauses, `(<test> => <recipient>)`. If `<test>` evaluates to a true value, then `<recipient>` is evaluated. Its value must be a procedure of one argument; this procedure is then invoked on the value of the `<test>`, and the result is returned as the value of the `cond` expression. For example
+#exercise[Scheme allows an additional syntax for `cond` clauses, `(<test> => <recipient>)`. If `<test>` evaluates to a true value, then `<recipient>` is evaluated. Its value must be a procedure of one argument; this procedure is then invoked on the value of the `<test>`, and the result is returned as the value of the `cond` expression. For example
   
   ```scm
   (cond ((assoc 'b '((a 1) (b 2))) => cadr)
@@ -11472,8 +11261,7 @@ Expressions (such as `cond`) that we choose to implement as syntactic transforma
   returns 2. Modify the handling of `cond` so that it supports this extended syntax.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.6:* `Let` expressions are derived expressions, because
+#exercise[`Let` expressions are derived expressions, because
   
   ```scm
   (let ((<var₁> <exp₁>) ... (<varₙ> <expₙ>))
@@ -11493,8 +11281,7 @@ Expressions (such as `cond`) that we choose to implement as syntactic transforma
   Implement a syntactic transformation `let->combination` that reduces evaluating `let` expressions to evaluating combinations of the type shown above, and add the appropriate clause to `eval` to handle `let` expressions.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.7:* `Let*` is similar to `let`, except that the bindings of the `let*` variables are performed sequentially from left to right, and each binding is made in an environment in which all of the preceding bindings are visible. For example
+#exercise[`Let*` is similar to `let`, except that the bindings of the `let*` variables are performed sequentially from left to right, and each binding is made in an environment in which all of the preceding bindings are visible. For example
   
   ```scm
   (let* ((x 3)
@@ -11512,8 +11299,7 @@ Expressions (such as `cond`) that we choose to implement as syntactic transforma
   or must we explicitly expand `let*` in terms of non-derived expressions?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.8:* "Named `let`" is a variant of `let` that has the form 
+#exercise["Named `let`" is a variant of `let` that has the form 
   
   ```scm
   (let <var> <bindings> <body>)
@@ -11534,12 +11320,10 @@ Expressions (such as `cond`) that we choose to implement as syntactic transforma
   Modify `let->combination` of Exercise 4.6 to also support named `let`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.9:* Many languages support a variety of iteration constructs, such as `do`, `for`, `while`, and `until`. In Scheme, iterative processes can be expressed in terms of ordinary procedure calls, so special iteration constructs provide no essential gain in computational power. On the other hand, such constructs are often convenient. Design some iteration constructs, give examples of their use, and show how to implement them as derived expressions.
+#exercise[Many languages support a variety of iteration constructs, such as `do`, `for`, `while`, and `until`. In Scheme, iterative processes can be expressed in terms of ordinary procedure calls, so special iteration constructs provide no essential gain in computational power. On the other hand, such constructs are often convenient. Design some iteration constructs, give examples of their use, and show how to implement them as derived expressions.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.10:* By using data abstraction, we were able to write an `eval` procedure that is independent of the particular syntax of the language to be evaluated. To illustrate this, design and implement a new syntax for Scheme by modifying the procedures in this section, without changing `eval` or `apply`.
+#exercise[By using data abstraction, we were able to write an `eval` procedure that is independent of the particular syntax of the language to be evaluated. To illustrate this, design and implement a new syntax for Scheme by modifying the procedures in this section, without changing `eval` or `apply`.
 ]
 
 ```scm
@@ -11636,16 +11420,13 @@ To define a variable, we search the first frame for a binding for the variable, 
 
 The method described here is only one of many plausible ways to represent environments. Since we used data abstraction to isolate the rest of the evaluator from the detailed choice of representation, we could change the environment representation if we wanted to. (See Exercise 4.11.) In a production-quality Lisp system, the speed of the evaluator's environment operations---especially that of variable lookup---has a major impact on the performance of the system. The representation described here, although conceptually simple, is not efficient and would not ordinarily be used in a production system.#footnote[The drawback of this representation (as well as the variant in Exercise 4.11) is that the evaluator may have to search through many frames in order to find the binding for a given variable. (Such an approach is referred to as *deep binding*.) One way to avoid this inefficiency is to make use of a strategy called *lexical addressing*, which will be discussed in Section 5.5.6.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.11:* Instead of representing a frame as a pair of lists, we can represent a frame as a list of bindings, where each binding is a name-value pair. Rewrite the environment operations to use this alternative representation.
+#exercise[Instead of representing a frame as a pair of lists, we can represent a frame as a list of bindings, where each binding is a name-value pair. Rewrite the environment operations to use this alternative representation.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.12:* The procedures `define-variable!`, `set-variable-value!` and `lookup-variable-value` can be expressed in terms of more abstract procedures for traversing the environment structure. Define abstractions that capture the common patterns and redefine the three procedures in terms of these abstractions.
+#exercise[The procedures `define-variable!`, `set-variable-value!` and `lookup-variable-value` can be expressed in terms of more abstract procedures for traversing the environment structure. Define abstractions that capture the common patterns and redefine the three procedures in terms of these abstractions.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.13:* Scheme allows us to create new bindings for variables by means of `define`, but provides no way to get rid of bindings. Implement for the evaluator a special form `make-unbound!` that removes the binding of a given symbol from the environment in which the `make-unbound!` expression is evaluated. This problem is not completely specified. For example, should we remove only the binding in the first frame of the environment? Complete the specification and justify any choices you make.
+#exercise[Scheme allows us to create new bindings for variables by means of `define`, but provides no way to get rid of bindings. Implement for the evaluator a special form `make-unbound!` that removes the binding of a given symbol from the environment in which the `make-unbound!` expression is evaluated. This problem is not completely specified. For example, should we remove only the binding in the first frame of the environment? Complete the specification and justify any choices you make.
 ]
 
 === Running the Evaluator as a Program
@@ -11773,8 +11554,7 @@ ok
 (a b c d e f)
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.14:* Eva Lu Ator and Louis Reasoner are each experimenting with the metacircular evaluator. Eva types in the definition of `map`, and runs some test programs that use it. They work fine. Louis, in contrast, has installed the system version of `map` as a primitive for the metacircular evaluator. When he tries it, things go terribly wrong. Explain why Louis's `map` fails even though Eva's works.
+#exercise[Eva Lu Ator and Louis Reasoner are each experimenting with the metacircular evaluator. Eva types in the definition of `map`, and runs some test programs that use it. They work fine. Louis, in contrast, has installed the system version of `map` as a primitive for the metacircular evaluator. When he tries it, things go terribly wrong. Explain why Louis's `map` fails even though Eva's works.
 ]
 
 === Data as Programs
@@ -11821,8 +11601,7 @@ and
 
 will both return 25.#footnote[The MIT implementation of Scheme includes `eval`, as well as a symbol `user-initial-environment` that is bound to the initial environment in which the user's input expressions are evaluated.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.15:* Given a one-argument procedure `p` and an object `a`, `p` is said to "halt" on `a` if evaluating the expression `(p a)` returns a value (as opposed to terminating with an error message or running forever). Show that it is impossible to write a procedure `halts?` that correctly determines whether `p` halts on `a` for any procedure `p` and object `a`. Use the following reasoning: If you had such a procedure `halts?`, you could implement the following program:
+#exercise[Given a one-argument procedure `p` and an object `a`, `p` is said to "halt" on `a` if evaluating the expression `(p a)` returns a value (as opposed to terminating with an error message or running forever). Show that it is impossible to write a procedure `halts?` that correctly determines whether `p` halts on `a` for any procedure `p` and object `a`. Use the following reasoning: If you had such a procedure `halts?`, you could implement the following program:
 
   ```scm
   (define (run-forever)
@@ -11886,8 +11665,7 @@ where `*unassigned*` is a special symbol that causes looking up a variable to si
 
 An alternative strategy for scanning out internal definitions is shown in Exercise 4.18. Unlike the transformation shown above, this enforces the restriction that the defined variables' values can be evaluated without using any of the variables' values.#footnote[The IEEE standard for Scheme allows for different implementation strategies by specifying that it is up to the programmer to obey this restriction, not up to the implementation to enforce it. Some Scheme implementations, including MIT Scheme, use the transformation shown above. Thus, some programs that don't obey this restriction will in fact run in such implementations.]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.16:* In this exercise we implement the method just described for interpreting internal definitions. we assume that the evaluator supports `let` (see Exercise 4.6).
+#exercise[In this exercise we implement the method just described for interpreting internal definitions. we assume that the evaluator supports `let` (see Exercise 4.6).
 
   a. Change `lookup-variable-value` (Section 4.1.3) to signal an error if the value it finds is the symbol `*unassigned*`.
 
@@ -11896,12 +11674,10 @@ An alternative strategy for scanning out internal definitions is shown in Exerci
   c. Install `scan-out-defines` in the interpreter, either in `make-procedure` or in `procedure-body` (see Section 4.1.3). Which place is better? Why?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.17:* Draw diagrams of the environment in effect when evaluating the expression `<e3>` in the procedure in the text, comparing how this will be structured when definitions are interpreted sequentially with how it will be structured if definitions are scanned out as described. Why is there an extra frame in the transformed program? Explain why this difference in environment structure can never make a difference in the behavior of a correct program. Design a way to make the interpreter implement the "simultaneous" scope rule for internal definitions without constructing the extra frame.
+#exercise[Draw diagrams of the environment in effect when evaluating the expression `<e3>` in the procedure in the text, comparing how this will be structured when definitions are interpreted sequentially with how it will be structured if definitions are scanned out as described. Why is there an extra frame in the transformed program? Explain why this difference in environment structure can never make a difference in the behavior of a correct program. Design a way to make the interpreter implement the "simultaneous" scope rule for internal definitions without constructing the extra frame.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.18:* Consider an alternative strategy for scanning out definitions that translates the example in the text to
+#exercise[Consider an alternative strategy for scanning out definitions that translates the example in the text to
 
   ```scm
   (lambda <vars>
@@ -11926,8 +11702,7 @@ An alternative strategy for scanning out internal definitions is shown in Exerci
   Will this procedure work if internal definitions are scanned out as shown in this exercise? What if they are scanned out as shown in the text? Explain.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.19:* Ben Bitdiddle, Alyssa P. Hacker, and Eva Lu Ator are arguing about the desired result of evaluating the expression
+#exercise[Ben Bitdiddle, Alyssa P. Hacker, and Eva Lu Ator are arguing about the desired result of evaluating the expression
 
   ```scm
   (let ((a 1))
@@ -11941,8 +11716,7 @@ An alternative strategy for scanning out internal definitions is shown in Exerci
   Ben asserts that the result should be obtained using the sequential rule for `define`: `b` is defined to be 11, then `a` is defined to be 5, so the result is 16. Alyssa objects that mutual recursion requires the simultaneous scope rule for internal procedure definitions, and that it is unreasonable to treat procedure names differently from other names. Thus, she argues for the mechanism implemented in Exercise 4.16. This would lead to `a` being unassigned at the time that the value for `b` is to be computed. Hence, in Alyssa's view the procedure should produce an error. Eva has a third opinion. She says that if the definitions of `a` and `b` are truly meant to be simultaneous, then the value 5 for `a` should be used in evaluating `b`. Hence, in Eva's view `a` should be 5, `b` should be 15, and the result should be 20. Which (if any) of these viewpoints do you support? Can you devise a way to implement internal definitions so that they behave as Eva prefers?#footnote[The MIT implementors of Scheme support Alyssa on the following grounds: Eva is in principle correct---the definitions should be regarded as simultaneous. But it seems difficult to implement a general, efficient mechanism that does what Eva requires. In the absence of such a mechanism, it is better to generate an error in the difficult cases of simultaneous definitions (Alyssa's notion) than to produce an incorrect answer (as Ben would have it).]
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.20:* Because internal definitions look sequential but are actually simultaneous, some people prefer to avoid them entirely, and use the special form `letrec` instead. `Letrec` looks like `let`, so it is not surprising that the variables it binds are bound simultaneously and have the same scope as each other. The sample procedure `f` above can be written without internal definitions, but with exactly the same meaning, as
+#exercise[Because internal definitions look sequential but are actually simultaneous, some people prefer to avoid them entirely, and use the special form `letrec` instead. `Letrec` looks like `let`, so it is not surprising that the variables it binds are bound simultaneously and have the same scope as each other. The sample procedure `f` above can be written without internal definitions, but with exactly the same meaning, as
 
   ```scm
   (define (f x)
@@ -11984,8 +11758,7 @@ An alternative strategy for scanning out internal definitions is shown in Exerci
   b. Louis Reasoner is confused by all this fuss about internal definitions. The way he sees it, if you don't like to use `define` inside a procedure, you can just use `let`. Illustrate what is loose about his reasoning by drawing an environment diagram that shows the environment in which the `<rest of body of f>` is evaluated during evaluation of the expression `(f 5)`, with `f` defined as in this exercise. Draw an environment diagram for the same evaluation, but with `let` in place of `letrec` in the definition of `f`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.21:* Amazingly, Louis's intuition in Exercise 4.20 is correct. It is indeed possible to specify recursive procedures without using `letrec` (or even `define`), although the method for accomplishing this is much more subtle than Louis imagined. The following expression computes 10 factorial by applying a recursive factorial procedure:#footnote[This example illustrates a programming trick for formulating recursive procedures without using `define`. The most general trick of this sort is the $Y$ *operator*, which can be used to give a "pure $lambda$-calculus" implementation of recursion. (See Stoy 1977 for details on the $lambda$-calculus, and Gabriel 1988 for an exposition of the $Y$ operator in Scheme.)]
+#exercise[Amazingly, Louis's intuition in Exercise 4.20 is correct. It is indeed possible to specify recursive procedures without using `letrec` (or even `define`), although the method for accomplishing this is much more subtle than Louis imagined. The following expression computes 10 factorial by applying a recursive factorial procedure:#footnote[This example illustrates a programming trick for formulating recursive procedures without using `define`. The most general trick of this sort is the $Y$ *operator*, which can be used to give a "pure $lambda$-calculus" implementation of recursion. (See Stoy 1977 for details on the $lambda$-calculus, and Gabriel 1988 for an exposition of the $Y$ operator in Scheme.)]
 
   ```scm
   ((lambda (n)
@@ -12195,12 +11968,10 @@ To analyze an application, we analyze the operator and operands and construct an
 
 Our new evaluator uses the same data structures, syntax procedures, and run-time support procedures as in Sections 4.1.2, 4.1.3, and 4.1.4.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.22:* Extend the evaluator in this section to support the special form `let`. (See Exercise 4.6.)
+#exercise[Extend the evaluator in this section to support the special form `let`. (See Exercise 4.6.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.23:* Alyssa P. Hacker doesn't understand why `analyze-sequence` needs to be so complicated. All the other analysis procedures are straightforward transformations of the corresponding evaluation procedures (or `eval` clauses) in Section 4.1.1. She expected `analyze-sequence` to look like this:
+#exercise[Alyssa P. Hacker doesn't understand why `analyze-sequence` needs to be so complicated. All the other analysis procedures are straightforward transformations of the corresponding evaluation procedures (or `eval` clauses) in Section 4.1.1. She expected `analyze-sequence` to look like this:
 
   ```scm
   (define (analyze-sequence exps)
@@ -12222,8 +11993,7 @@ Our new evaluator uses the same data structures, syntax procedures, and run-time
   Compare the two versions of `analyze-sequence`. For example, consider the common case (typical of procedure bodies) where the sequence has just one expression. What work will the execution procedure produced by Alyssa's program do? What about the execution procedure produced by the program in the text above? How do the two versions compare for a sequence with two expressions?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.24:* Design and carry out some experiments to compare the speed of the original metacircular evaluator with the version in this section. Use your results to estimate the fraction of time that is spent in analysis versus execution for various procedures.
+#exercise[Design and carry out some experiments to compare the speed of the original metacircular evaluator with the version in this section. Use your results to estimate the fraction of time that is spent in analysis versus execution for various procedures.
 ]
 
 == Variations on a Scheme --- Lazy Evaluation
@@ -12268,8 +12038,7 @@ If the body of a procedure is entered before an argument has been evaluated we s
 
 A striking example of a procedure that can usefully be made non-strict is `cons` (or, in general, almost any constructor for data structures). One can do useful computation, combining elements to form data structures and operating on the resulting data structures, even if the values of the elements are not known. It makes perfect sense, for instance, to compute the length of a list without knowing the values of the individual elements in the list. we will exploit this idea in Section 4.2.3 to implement the streams of Chapter 3 as lists formed of non-strict `cons` pairs.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.25:* Suppose that (in ordinary applicative-order Scheme) we define `unless` as shown above and then define `factorial` in terms of `unless` as
+#exercise[Suppose that (in ordinary applicative-order Scheme) we define `unless` as shown above and then define `factorial` in terms of `unless` as
 
   ```scm
   (define (factorial n)
@@ -12281,8 +12050,7 @@ A striking example of a procedure that can usefully be made non-strict is `cons`
   What happens if we attempt to evaluate `(factorial 5)`? Will our definitions work in a normal-order language?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.26:* Ben Bitdiddle and Alyssa P. Hacker disagree over the importance of lazy evaluation for implementing things such as `unless`. Ben points out that it's possible to implement `unless` in applicative order as a special form. Alyssa counters that, if one did that, `unless` would be merely syntax, not a procedure that could be used in conjunction with higher-order procedures. Fill in the details on both sides of the argument. Show how to implement `unless` as a derived expression (like `cond` or `let`), and give an example of a situation where it might be useful to have `unless` available as a procedure, rather than as a special form.
+#exercise[Ben Bitdiddle and Alyssa P. Hacker disagree over the importance of lazy evaluation for implementing things such as `unless`. Ben points out that it's possible to implement `unless` in applicative order as a special form. Alyssa counters that, if one did that, `unless` would be merely syntax, not a procedure that could be used in conjunction with higher-order procedures. Fill in the details on both sides of the argument. Show how to implement `unless` as a derived expression (like `cond` or `let`), and give an example of a situation where it might be useful to have `unless` available as a procedure, rather than as a special form.
 ]
 
 ==== Modifying the evaluator
@@ -12456,8 +12224,7 @@ Similarly, we could have allowed unneeded environments in the memoized delayed o
 
 Notice that the same `delay-it` procedure works both with and without memoization.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.27:* Suppose we type in the following definitions to the lazy evaluator:
+#exercise[Suppose we type in the following definitions to the lazy evaluator:
 
   ```scm
   (define count 0)
@@ -12486,12 +12253,10 @@ Notice that the same `delay-it` procedure works both with and without memoizatio
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.28:* `Eval` uses `actual-value` rather than `eval` to evaluate the operator before passing it to `apply`, in order to force the value of the operator. Give an example that demonstrates the need for this forcing.
+#exercise[`Eval` uses `actual-value` rather than `eval` to evaluate the operator before passing it to `apply`, in order to force the value of the operator. Give an example that demonstrates the need for this forcing.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.29:* Exhibit a program that you would expect to run much more slowly without memoization than with memoization. Also, consider the following interaction, where the `id` procedure is defined as in Exercise 4.27 and `count` starts at 0:
+#exercise[Exhibit a program that you would expect to run much more slowly without memoization than with memoization. Also, consider the following interaction, where the `id` procedure is defined as in Exercise 4.27 and `count` starts at 0:
 
   ```scm
   (define (square x) (* x x))
@@ -12510,8 +12275,7 @@ Notice that the same `delay-it` procedure works both with and without memoizatio
   Give the responses both when the evaluator memoizes and when it does not.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.30:* Cy D. Fect, a reformed C programmer, is worried that some side effects may never take place, because the lazy evaluator doesn't force the expressions in a sequence. Since the value of an expression in a sequence other than the last one is not used (the expression is there only for its effect, such as assigning to a variable or printing), there can be no subsequent use of this value (e.g., as an argument to a primitive procedure) that will cause it to be forced. Cy thus thinks that when evaluating sequences, we must force all expressions in the sequence except the final one. He proposes to modify `eval-sequence` from Section 4.1.1 to use `actual-value` rather than `eval`:
+#exercise[Cy D. Fect, a reformed C programmer, is worried that some side effects may never take place, because the lazy evaluator doesn't force the expressions in a sequence. Since the value of an expression in a sequence other than the last one is not used (the expression is there only for its effect, such as assigning to a variable or printing), there can be no subsequent use of this value (e.g., as an argument to a primitive procedure) that will cause it to be forced. Cy thus thinks that when evaluating sequences, we must force all expressions in the sequence except the final one. He proposes to modify `eval-sequence` from Section 4.1.1 to use `actual-value` rather than `eval`:
 
   ```scm
   (define (eval-sequence exps env)
@@ -12569,8 +12333,7 @@ Notice that the same `delay-it` procedure works both with and without memoizatio
   d. How do you think sequences ought to be treated in the lazy evaluator? Do you like Cy's approach, the approach in the text, or some other approach?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.31:* The approach taken in this section is somewhat unpleasant, because it makes an incompatible change to Scheme. It might be nicer to implement lazy evaluation as an *upward-compatible extension*, that is, so that ordinary Scheme programs will work as before. we can do this by extending the syntax of procedure declarations to let the user control whether or not arguments are to be delayed. While we're at it, we may as well also give the user the choice between delaying with and without memoization. For example, the definition
+#exercise[The approach taken in this section is somewhat unpleasant, because it makes an incompatible change to Scheme. It might be nicer to implement lazy evaluation as an *upward-compatible extension*, that is, so that ordinary Scheme programs will work as before. we can do this by extending the syntax of procedure declarations to let the user control whether or not arguments are to be delayed. While we're at it, we may as well also give the user the choice between delaying with and without memoization. For example, the definition
 
   ```scm
   (define (f a (b lazy) c (d lazy-memo))
@@ -12655,12 +12418,10 @@ Lazy pairs also help with the problem that arose with streams in Section 3.5.4, 
 2.716924
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.32:* Give some examples that illustrate the difference between the streams of Chapter 3 and the "lazier" lazy lists described in this section. How can you take advantage of this extra laziness?
+#exercise[Give some examples that illustrate the difference between the streams of Chapter 3 and the "lazier" lazy lists described in this section. How can you take advantage of this extra laziness?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.33:* Ben Bitdiddle tests the lazy list implementation given above by evaluating the expression
+#exercise[Ben Bitdiddle tests the lazy list implementation given above by evaluating the expression
 
   ```scm
   (car '(a b c))
@@ -12669,8 +12430,7 @@ Lazy pairs also help with the problem that arose with streams in Section 3.5.4, 
   To his surprise, this produces an error. After some thought, he realizes that the "lists" obtained by reading in quoted expressions are different from the lists manipulated by the new definitions of `cons`, `car`, and `cdr`. Modify the evaluator's treatment of quoted expressions so that quoted lists typed at the driver loop will produce true lazy lists.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.34:* Modify the driver loop for the lazy evaluator so that it prints lazy lists appropriately, showing only a few elements if the list is very long or infinite, as in Exercise 4.32.
+#exercise[Modify the driver loop for the lazy evaluator so that it prints lazy lists appropriately, showing only a few elements if the list is very long or infinite, as in Exercise 4.32.
 ]
 
 #pagebreak()
@@ -12805,8 +12565,7 @@ try-again
 (30 11)
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.35:* Write a procedure `an-integer-between` that returns an integer between two given bounds. This can be used to implement a procedure that finds Pythagorean triples, i.e., triples of integers $(i, j, k)$ between the given bounds such that $i <= j$ and $i^2 + j^2 = k^2$, as follows:
+#exercise[Write a procedure `an-integer-between` that returns an integer between two given bounds. This can be used to implement a procedure that finds Pythagorean triples, i.e., triples of integers $(i, j, k)$ between the given bounds such that $i <= j$ and $i^2 + j^2 = k^2$, as follows:
 
   ```scm
   (define (a-pythagorean-triple-between low high)
@@ -12819,12 +12578,10 @@ try-again
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.36:* Exercise 3.69 discussed how to generate the stream of *all* Pythagorean triples, with no upper bound on the size of the integers to be searched. Explain why simply replacing `an-integer-between` by `an-integer-starting-from` in the procedure in Exercise 4.35 is not an adequate way to generate arbitrary Pythagorean triples. Write a procedure that actually will accomplish this. (That is, write a procedure for which repeatedly typing `try-again` would in principle eventually generate all Pythagorean triples.)
+#exercise[Exercise 3.69 discussed how to generate the stream of *all* Pythagorean triples, with no upper bound on the size of the integers to be searched. Explain why simply replacing `an-integer-between` by `an-integer-starting-from` in the procedure in Exercise 4.35 is not an adequate way to generate arbitrary Pythagorean triples. Write a procedure that actually will accomplish this. (That is, write a procedure for which repeatedly typing `try-again` would in principle eventually generate all Pythagorean triples.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.37:* Ben Bitdiddle claims that the following method for generating Pythagorean triples is more efficient than the one in Exercise 4.35. Is he correct? (Hint: Consider the number of possibilities that must be explored.)
+#exercise[Ben Bitdiddle claims that the following method for generating Pythagorean triples is more efficient than the one in Exercise 4.35. Is he correct? (Hint: Consider the number of possibilities that must be explored.)
 
   ```scm
   (define (a-pythagorean-triple-between low high)
@@ -12895,24 +12652,19 @@ Evaluating the expression `(multiple-dwelling)` produces the result
 
 Although this simple procedure works, it is very slow. Exercise 4.39 and Exercise 4.40 discuss some possible improvements.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.38:* Modify the multiple-dwelling procedure to omit the requirement that Smith and Fletcher do not live on adjacent floors. How many solutions are there to this modified puzzle?
+#exercise[Modify the multiple-dwelling procedure to omit the requirement that Smith and Fletcher do not live on adjacent floors. How many solutions are there to this modified puzzle?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.39:* Does the order of the restrictions in the multiple-dwelling procedure affect the answer? Does it affect the time to find an answer? If you think it matters, demonstrate a faster program obtained from the given one by reordering the restrictions. If you think it does not matter, argue your case.
+#exercise[Does the order of the restrictions in the multiple-dwelling procedure affect the answer? Does it affect the time to find an answer? If you think it matters, demonstrate a faster program obtained from the given one by reordering the restrictions. If you think it does not matter, argue your case.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.40:* In the multiple dwelling problem, how many sets of assignments are there of people to floors, both before and after the requirement that floor assignments be distinct? It is very inefficient to generate all possible assignments of people to floors and then leave it to backtracking to eliminate them. For example, most of the restrictions depend on only one or two of the person-floor variables, and can thus be imposed before floors have been selected for all the people. Write and demonstrate a much more efficient nondeterministic procedure that solves this problem based upon generating only those possibilities that are not already ruled out by previous restrictions. (Hint: This will require a nest of `let` expressions.)
+#exercise[In the multiple dwelling problem, how many sets of assignments are there of people to floors, both before and after the requirement that floor assignments be distinct? It is very inefficient to generate all possible assignments of people to floors and then leave it to backtracking to eliminate them. For example, most of the restrictions depend on only one or two of the person-floor variables, and can thus be imposed before floors have been selected for all the people. Write and demonstrate a much more efficient nondeterministic procedure that solves this problem based upon generating only those possibilities that are not already ruled out by previous restrictions. (Hint: This will require a nest of `let` expressions.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.41:* Write an ordinary Scheme program to solve the multiple dwelling puzzle.
+#exercise[Write an ordinary Scheme program to solve the multiple dwelling puzzle.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.42:* Solve the following "Liars" puzzle (from Phillips 1934):
+#exercise[Solve the following "Liars" puzzle (from Phillips 1934):
 
   Five schoolgirls sat for an examination. Their parents---so they thought---showed an undue degree of interest in the result. They therefore agreed that, in writing home about the examination, each girl should make one true statement and one untrue one. The following are the relevant passages from their letters:
 
@@ -12925,8 +12677,7 @@ Although this simple procedure works, it is very slow. Exercise 4.39 and Exercis
   What in fact was the order in which the five girls were placed?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.43:* Use the `amb` evaluator to solve the following puzzle:#footnote[This is taken from a booklet called "Problematical Recreations," published in the 1960s by Litton Industries, where it is attributed to the _Kansas State Engineer_.]
+#exercise[Use the `amb` evaluator to solve the following puzzle:#footnote[This is taken from a booklet called "Problematical Recreations," published in the 1960s by Litton Industries, where it is attributed to the _Kansas State Engineer_.]
 
   #quote(block: true)[
     Mary Ann Moore's father has a yacht and so has each of his four friends: Colonel Downing, Mr. Hall, Sir Barnacle Hood, and Dr. Parker. Each of the five also has one daughter and each has named his yacht after a daughter of one of the others. Sir Barnacle's yacht is the Gabrielle, Mr. Moore owns the Lorna; Mr. Hall the Rosalind. The Melissa, owned by Colonel Downing, is named after Sir Barnacle's daughter. Gabrielle's father owns the yacht that is named after Dr. Parker's daughter. Who is Lorna's father?
@@ -12935,8 +12686,7 @@ Although this simple procedure works, it is very slow. Exercise 4.39 and Exercis
   Try to write the program so that it runs efficiently (see Exercise 4.40). Also determine how many solutions there are if we are not told that Mary Ann's last name is Moore.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.44:* Exercise 2.42 described the "eight-queens puzzle" of placing queens on a chessboard so that no two attack each other. Write a nondeterministic program to solve this puzzle.
+#exercise[Exercise 2.42 described the "eight-queens puzzle" of placing queens on a chessboard so that no two attack each other. Write a nondeterministic program to solve this puzzle.
 ]
 
 ==== Parsing natural language
@@ -13142,16 +12892,13 @@ Asking the evaluator to try again yields
                   (noun cat)))))))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.45:* With the grammar given above, the following sentence can be parsed in five different ways: "The professor lectures to the student in the class with the cat." Give the five parses and explain the differences in shades of meaning among them.
+#exercise[With the grammar given above, the following sentence can be parsed in five different ways: "The professor lectures to the student in the class with the cat." Give the five parses and explain the differences in shades of meaning among them.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.46:* The evaluators in Section 4.1 and Section 4.2 do not determine what order operands are evaluated in. we will see that the `amb` evaluator evaluates them from left to right. Explain why our parsing program wouldn't work if the operands were evaluated in some other order.
+#exercise[The evaluators in Section 4.1 and Section 4.2 do not determine what order operands are evaluated in. we will see that the `amb` evaluator evaluates them from left to right. Explain why our parsing program wouldn't work if the operands were evaluated in some other order.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.47:* Louis Reasoner suggests that, since a verb phrase is either a verb or a verb phrase followed by a prepositional phrase, it would be much more straightforward to define the procedure `parse-verb-phrase` as follows (and similarly for noun phrases):
+#exercise[Louis Reasoner suggests that, since a verb phrase is either a verb or a verb phrase followed by a prepositional phrase, it would be much more straightforward to define the procedure `parse-verb-phrase` as follows (and similarly for noun phrases):
 
   ```scm
   (define (parse-verb-phrase)
@@ -13165,12 +12912,10 @@ Asking the evaluator to try again yields
   Does this work? Does the program's behavior change if we interchange the order of expressions in the `amb`?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.48:* Extend the grammar given above to handle more complex sentences. For example, you could extend noun phrases and verb phrases to include adjectives and adverbs, or you could handle compound sentences.#footnote[This kind of grammar can become arbitrarily complex, but it is only a toy as far as real language understanding is concerned. Real natural-language understanding by computer requires an elaborate mixture of syntactic analysis and interpretation of meaning. On the other hand, even toy parsers can be useful in supporting flexible command languages for programs such as information-retrieval systems. Winston 1992 discusses computational approaches to real language understanding and also the applications of simple grammars to command languages.]
+#exercise[Extend the grammar given above to handle more complex sentences. For example, you could extend noun phrases and verb phrases to include adjectives and adverbs, or you could handle compound sentences.#footnote[This kind of grammar can become arbitrarily complex, but it is only a toy as far as real language understanding is concerned. Real natural-language understanding by computer requires an elaborate mixture of syntactic analysis and interpretation of meaning. On the other hand, even toy parsers can be useful in supporting flexible command languages for programs such as information-retrieval systems. Winston 1992 discusses computational approaches to real language understanding and also the applications of simple grammars to command languages.]
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.49:* Alyssa P. Hacker is more interested in generating interesting sentences than in parsing them. She reasons that by simply changing the procedure `parse-word` so that it ignores the "input sentence" and instead always succeeds and generates an appropriate word, we can use the programs we had built for parsing to do generation instead. Implement Alyssa's idea, and show the first half-dozen or so sentences generated.#footnote[Although Alyssa's idea works just fine (and is surprisingly simple), the sentences that it generates are a bit boring---they don't sample the possible sentences of this language in a very interesting way. In fact, the grammar is highly recursive in many places, and Alyssa's technique "falls into" one of these recursions and gets stuck. See Exercise 4.50 for a way to deal with this.]
+#exercise[Alyssa P. Hacker is more interested in generating interesting sentences than in parsing them. She reasons that by simply changing the procedure `parse-word` so that it ignores the "input sentence" and instead always succeeds and generates an appropriate word, we can use the programs we had built for parsing to do generation instead. Implement Alyssa's idea, and show the first half-dozen or so sentences generated.#footnote[Although Alyssa's idea works just fine (and is surprisingly simple), the sentences that it generates are a bit boring---they don't sample the possible sentences of this language in a very interesting way. In fact, the grammar is highly recursive in many places, and Alyssa's technique "falls into" one of these recursions and gets stuck. See Exercise 4.50 for a way to deal with this.]
 ]
 
 === Implementing the `Amb` Evaluator
@@ -13390,12 +13135,10 @@ This is accomplished by giving `vproc` a success continuation (marked with the c
          (segment-queue first-seg)))))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.50:* Implement a new special form `ramb` that is like `amb` except that it searches alternatives in a random order, rather than from left to right. Show how this can help with Alyssa's problem in Exercise 4.49.
+#exercise[Implement a new special form `ramb` that is like `amb` except that it searches alternatives in a random order, rather than from left to right. Show how this can help with Alyssa's problem in Exercise 4.49.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.51:* Implement a new kind of assignment called `permanent-set!` that is not undone upon failure. For example, we can choose two distinct elements from a list and count the number of trials required to make a successful choice as follows:
+#exercise[Implement a new kind of assignment called `permanent-set!` that is not undone upon failure. For example, we can choose two distinct elements from a list and count the number of trials required to make a successful choice as follows:
 
   ```scm
   (define count 0)
@@ -13419,8 +13162,7 @@ This is accomplished by giving `vproc` a success continuation (marked with the c
   What values would have been displayed if we had used `set!` here rather than `permanent-set!`?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.52:* Implement a new construct called `if-fail` that permits the user to catch the failure of an expression. `If-fail` takes two expressions. It evaluates the first expression as usual and returns as usual if the evaluation succeeds. If the evaluation fails, however, the value of the second expression is returned, as in the following example:
+#exercise[Implement a new construct called `if-fail` that permits the user to catch the failure of an expression. `If-fail` takes two expressions. It evaluates the first expression as usual and returns as usual if the evaluation succeeds. If the evaluation fails, however, the value of the second expression is returned, as in the following example:
 
   ```scm
   ;;; Amb-Eval input:
@@ -13447,8 +13189,7 @@ This is accomplished by giving `vproc` a success continuation (marked with the c
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.53:* With `permanent-set!` as described in Exercise 4.51 and `if-fail` as in Exercise 4.52, what will be the result of evaluating
+#exercise[With `permanent-set!` as described in Exercise 4.51 and `if-fail` as in Exercise 4.52, what will be the result of evaluating
 
   ```scm
   (let ((pairs '()))
@@ -13463,8 +13204,7 @@ This is accomplished by giving `vproc` a success continuation (marked with the c
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.54:* If we had not realized that `require` could be implemented as an ordinary procedure that uses `amb`, to be defined by the user as part of a nondeterministic program, we would have had to implement it as a special form. This would require syntax procedures
+#exercise[If we had not realized that `require` could be implemented as an ordinary procedure that uses `amb`, to be defined by the user as part of a nondeterministic program, we would have had to implement it as a special form. This would require syntax procedures
 
   ```scm
   (define (require? exp) 
@@ -13757,8 +13497,7 @@ we can describe the query language's processing of simple queries as follows:
 
 Note that if the pattern has no variables, the query reduces to a determination of whether that pattern is in the data base. If so, the empty assignment, which assigns no values to variables, satisfies that pattern for that data base.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.55:* Give simple queries that retrieve the following information from the data base:
+#exercise[Give simple queries that retrieve the following information from the data base:
 
   1. all people supervised by Ben Bitdiddle;
   2. the names and jobs of all people in the accounting division;
@@ -13866,8 +13605,7 @@ will be satisfied by assignments to the pattern variables for which the `<predic
      (lisp-value > ?amount 30000))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.56:* Formulate compound queries that retrieve the following information:
+#exercise[Formulate compound queries that retrieve the following information:
 
   a. the names of all people who are supervised by Ben Bitdiddle, together with their addresses;
   b. all people whose salary is less than Ben Bitdiddle's, together with their salary and Ben Bitdiddle's salary;
@@ -13941,19 +13679,16 @@ As in the case of compound procedures, rules can be used as parts of other rules
 
 says that a staff person is outranked by a boss in the organization if the boss is the person's supervisor or (recursively) if the person's supervisor is outranked by the boss.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.57:* Define a rule that says that person 1 can replace person 2 if either person 1 does the same job as person 2 or someone who does person 1's job can also do person 2's job, and if person 1 and person 2 are not the same person. Using your rule, give queries that find the following:
+#exercise[Define a rule that says that person 1 can replace person 2 if either person 1 does the same job as person 2 or someone who does person 1's job can also do person 2's job, and if person 1 and person 2 are not the same person. Using your rule, give queries that find the following:
 
   a. all people who can replace Cy D. Fect;
   b. all people who can replace someone who is being paid more than they are, together with the two salaries.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.58:* Define a rule that says that a person is a "big shot" in a division if the person works in the division but does not have a supervisor who works in the division.
+#exercise[Define a rule that says that a person is a "big shot" in a division if the person works in the division but does not have a supervisor who works in the division.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.59:* Ben Bitdiddle has missed one meeting too many. Fearing that his habit of forgetting meetings could cost him his job, Ben decides to do something about it. He adds all the weekly meetings of the firm to the Microshaft data base by asserting the following:
+#exercise[Ben Bitdiddle has missed one meeting too many. Fearing that his habit of forgetting meetings could cost him his job, Ben decides to do something about it. He adds all the weekly meetings of the firm to the Microshaft data base by asserting the following:
 
   ```scm
   (meeting accounting (Monday 9am))
@@ -13980,8 +13715,7 @@ says that a staff person is outranked by a boss in the organization if the boss 
   c. Alyssa arrives at work on Wednesday morning and wonders what meetings she has to attend that day. Having defined the above rule, what query should she make to find this out?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.60:* By giving the query
+#exercise[By giving the query
   
   ```scm
   (lives-near ?person (Hacker Alyssa P))
@@ -14064,8 +13798,7 @@ we can also ask for all pairs of lists that `append` to form `(a b c d)`:
 
 The query system may seem to exhibit quite a bit of intelligence in using the rules to deduce the answers to the queries above. Actually, as we will see in the next section, the system is following a well-determined algorithm in unraveling the rules. Unfortunately, although the system works impressively in the `append` case, the general methods may break down in more complex cases, as we will see in Section 4.4.3.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.61:* The following rules implement a `next-to` relation that finds adjacent elements of a list:
+#exercise[The following rules implement a `next-to` relation that finds adjacent elements of a list:
 
   ```scm
   (rule (?x next-to ?y in (?x ?y . ?u)))
@@ -14081,12 +13814,10 @@ The query system may seem to exhibit quite a bit of intelligence in using the ru
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.62:* Define rules to implement the `last-pair` operation of Exercise 2.17, which returns a list containing the last element of a nonempty list. Check your rules on queries such as `(last-pair (3) ?x)`, `(last-pair (1 2 3) ?x)` and `(last-pair (2 ?x) (3))`. Do your rules work correctly on queries such as `(last-pair ?x (3))`?
+#exercise[Define rules to implement the `last-pair` operation of Exercise 2.17, which returns a list containing the last element of a nonempty list. Check your rules on queries such as `(last-pair (3) ?x)`, `(last-pair (1 2 3) ?x)` and `(last-pair (2 ?x) (3))`. Do your rules work correctly on queries such as `(last-pair ?x (3))`?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.63:* The following data base (see Genesis 4) traces the genealogy of the descendants of Ada back to Adam, by way of Cain:
+#exercise[The following data base (see Genesis 4) traces the genealogy of the descendants of Ada back to Adam, by way of Cain:
 
   ```scm
   (son Adam Cain) (son Cain Enoch)
@@ -14392,8 +14123,7 @@ The trouble is that our implementation of `not` really is meant to serve as a fi
 
 There is also a much more serious way in which the `not` of the query language differs from the `not` of mathematical logic. In logic, we interpret the statement "not $P$" to mean that $P$ is not true. In the query system, however, "not $P$" means that $P$ is not deducible from the knowledge in the data base. For example, given the personnel data base of Section 4.4.1, the system would happily deduce all sorts of `not` statements, such as that Ben Bitdiddle is not a baseball fan, that it is not raining outside, and that 2 + 2 is not 4.#footnote[Consider the query `(not (baseball-fan (Bitdiddle Ben)))`. The system finds that `(baseball-fan (Bitdiddle Ben))` is not in the data base, so the empty frame does not satisfy the pattern and is not filtered out of the initial stream of frames. The result of the query is thus the empty frame, which is used to instantiate the input query to produce `(not (baseball-fan (Bitdiddle Ben)))`.] In other words, the `not` of logic programming languages reflects the so-called *closed world assumption* that all relevant information has been included in the data base.#footnote[A discussion and justification of this treatment of `not` can be found in the article by Clark (1978).]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.64:* Louis Reasoner mistakenly deletes the `outranked-by` rule (Section 4.4.1) from the data base. When he realizes this, he quickly reinstalls it. Unfortunately, he makes a slight change in the rule, and types it in as
+#exercise[Louis Reasoner mistakenly deletes the `outranked-by` rule (Section 4.4.1) from the data base. When he realizes this, he quickly reinstalls it. Unfortunately, he makes a slight change in the rule, and types it in as
 
   ```scm
   (rule (outranked-by ?staff-person ?boss)
@@ -14413,8 +14143,7 @@ There is also a much more serious way in which the `not` of the query language d
   After answering, the system goes into an infinite loop. Explain why.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.65:* Cy D. Fect, looking forward to the day when he will rise in the organization, gives a query to find all the wheels (using the `wheel` rule of Section 4.4.1):
+#exercise[Cy D. Fect, looking forward to the day when he will rise in the organization, gives a query to find all the wheels (using the `wheel` rule of Section 4.4.1):
 
   ```scm
   (wheel ?who)
@@ -14434,8 +14163,7 @@ There is also a much more serious way in which the `not` of the query language d
   Why is Oliver Warbucks listed four times?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.66:* Ben has been generalizing the query system to provide statistics about the company. For example, to find the total salaries of all the computer programmers one will be able to say
+#exercise[Ben has been generalizing the query system to provide statistics about the company. For example, to find the total salaries of all the computer programmers one will be able to say
 
   ```scm
   (sum ?amount
@@ -14454,16 +14182,13 @@ There is also a much more serious way in which the `not` of the query language d
   What has Ben just realized? Outline a method he can use to salvage the situation.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.67:* Devise a way to install a loop detector in the query system so as to avoid the kinds of simple loops illustrated in the text and in Exercise 4.64. The general idea is that the system should maintain some sort of history of its current chain of deductions and should not begin processing a query that it is already working on. Describe what kind of information (patterns and frames) is included in this history, and how the check should be made. (After you study the details of the query-system implementation in Section 4.4.4, you may want to modify the system to include your loop detector.)
+#exercise[Devise a way to install a loop detector in the query system so as to avoid the kinds of simple loops illustrated in the text and in Exercise 4.64. The general idea is that the system should maintain some sort of history of its current chain of deductions and should not begin processing a query that it is already working on. Describe what kind of information (patterns and frames) is included in this history, and how the check should be made. (After you study the details of the query-system implementation in Section 4.4.4, you may want to modify the system to include your loop detector.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.68:* Define rules to implement the `reverse` operation of Exercise 2.18, which returns a list containing the same elements as a given list in reverse order. (Hint: Use `append-to-form`.) Can your rules answer both `(reverse (1 2 3) ?x)` and `(reverse ?x (1 2 3))`?
+#exercise[Define rules to implement the `reverse` operation of Exercise 2.18, which returns a list containing the same elements as a given list in reverse order. (Hint: Use `append-to-form`.) Can your rules answer both `(reverse (1 2 3) ?x)` and `(reverse ?x (1 2 3))`?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.69:* Beginning with the data base and the rules you formulated in Exercise 4.63, devise a rule for adding "greats" to a grandson relationship. This should enable the system to deduce that Irad is the great-grandson of Adam, or that Jabal and Jubal are the great-great-great-great-great-grandsons of Adam. (Hint: Represent the fact about Irad, for example, as `((great grandson) Adam Irad)`. Write rules that determine if a list ends in the word `grandson`. Use this to express a rule that allows one to derive the relationship `((great . ?rel) ?x ?y)`, where `?rel` is a list ending in `grandson`.) Check your rules on queries such as `((great grandson) ?g ?ggs)` and `(?relationship Adam Irad)`.
+#exercise[Beginning with the data base and the rules you formulated in Exercise 4.63, devise a rule for adding "greats" to a grandson relationship. This should enable the system to deduce that Irad is the great-grandson of Adam, or that Jabal and Jubal are the great-great-great-great-great-grandsons of Adam. (Hint: Represent the fact about Irad, for example, as `((great grandson) Adam Irad)`. Write rules that determine if a list ends in the word `grandson`. Use this to express a rule that allows one to derive the relationship `((great . ?rel) ?x ?y)`, where `?rel` is a list ending in `grandson`.) Check your rules on queries such as `((great grandson) ?g ?ggs)` and `(?relationship Adam Irad)`.
 ]
 
 === Implementing the Query System
@@ -14717,8 +14442,7 @@ The trouble is that our implementation of `not` really is meant to serve as a fi
 
 There is also a much more serious way in which the `not` of the query language differs from the `not` of mathematical logic. In logic, we interpret the statement "not $P$" to mean that $P$ is not true. In the query system, however, "not $P$" means that $P$ is not deducible from the knowledge in the data base. For example, given the personnel data base of Section 4.4.1, the system would happily deduce all sorts of `not` statements, such as that Ben Bitdiddle is not a baseball fan, that it is not raining outside, and that 2 + 2 is not 4.#footnote[Consider the query `(not (baseball-fan (Bitdiddle Ben)))`. The system finds that `(baseball-fan (Bitdiddle Ben))` is not in the data base, so the empty frame does not satisfy the pattern and is not filtered out of the initial stream of frames. The result of the query is thus the empty frame, which is used to instantiate the input query to produce `(not (baseball-fan (Bitdiddle Ben)))`.] In other words, the `not` of logic programming languages reflects the so-called *closed world assumption* that all relevant information has been included in the data base.#footnote[A discussion and justification of this treatment of `not` can be found in the article by Clark (1978).]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.64:* Louis Reasoner mistakenly deletes the `outranked-by` rule (Section 4.4.1) from the data base. When he realizes this, he quickly reinstalls it. Unfortunately, he makes a slight change in the rule, and types it in as
+#exercise[Louis Reasoner mistakenly deletes the `outranked-by` rule (Section 4.4.1) from the data base. When he realizes this, he quickly reinstalls it. Unfortunately, he makes a slight change in the rule, and types it in as
 
   ```scm
   (rule (outranked-by ?staff-person ?boss)
@@ -14738,8 +14462,7 @@ There is also a much more serious way in which the `not` of the query language d
   After answering, the system goes into an infinite loop. Explain why.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.65:* Cy D. Fect, looking forward to the day when he will rise in the organization, gives a query to find all the wheels (using the `wheel` rule of Section 4.4.1):
+#exercise[Cy D. Fect, looking forward to the day when he will rise in the organization, gives a query to find all the wheels (using the `wheel` rule of Section 4.4.1):
 
   ```scm
   (wheel ?who)
@@ -14759,8 +14482,7 @@ There is also a much more serious way in which the `not` of the query language d
   Why is Oliver Warbucks listed four times?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.66:* Ben has been generalizing the query system to provide statistics about the company. For example, to find the total salaries of all the computer programmers one will be able to say
+#exercise[Ben has been generalizing the query system to provide statistics about the company. For example, to find the total salaries of all the computer programmers one will be able to say
 
   ```scm
   (sum ?amount
@@ -14779,16 +14501,13 @@ There is also a much more serious way in which the `not` of the query language d
   What has Ben just realized? Outline a method he can use to salvage the situation.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.67:* Devise a way to install a loop detector in the query system so as to avoid the kinds of simple loops illustrated in the text and in Exercise 4.64. The general idea is that the system should maintain some sort of history of its current chain of deductions and should not begin processing a query that it is already working on. Describe what kind of information (patterns and frames) is included in this history, and how the check should be made. (After you study the details of the query-system implementation in Section 4.4.4, you may want to modify the system to include your loop detector.)
+#exercise[Devise a way to install a loop detector in the query system so as to avoid the kinds of simple loops illustrated in the text and in Exercise 4.64. The general idea is that the system should maintain some sort of history of its current chain of deductions and should not begin processing a query that it is already working on. Describe what kind of information (patterns and frames) is included in this history, and how the check should be made. (After you study the details of the query-system implementation in Section 4.4.4, you may want to modify the system to include your loop detector.)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.68:* Define rules to implement the `reverse` operation of Exercise 2.18, which returns a list containing the same elements as a given list in reverse order. (Hint: Use `append-to-form`.) Can your rules answer both `(reverse (1 2 3) ?x)` and `(reverse ?x (1 2 3))`?
+#exercise[Define rules to implement the `reverse` operation of Exercise 2.18, which returns a list containing the same elements as a given list in reverse order. (Hint: Use `append-to-form`.) Can your rules answer both `(reverse (1 2 3) ?x)` and `(reverse ?x (1 2 3))`?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.69:* Beginning with the data base and the rules you formulated in Exercise 4.63, devise a rule for adding "greats" to a grandson relationship. This should enable the system to deduce that Irad is the great-grandson of Adam, or that Jabal and Jubal are the great-great-great-great-great-grandsons of Adam. (Hint: Represent the fact about Irad, for example, as `((great grandson) Adam Irad)`. Write rules that determine if a list ends in the word `grandson`. Use this to express a rule that allows one to derive the relationship `((great . ?rel) ?x ?y)`, where `?rel` is a list ending in `grandson`.) Check your rules on queries such as `((great grandson) ?g ?ggs)` and `(?relationship Adam Irad)`.
+#exercise[Beginning with the data base and the rules you formulated in Exercise 4.63, devise a rule for adding "greats" to a grandson relationship. This should enable the system to deduce that Irad is the great-grandson of Adam, or that Jabal and Jubal are the great-great-great-great-great-grandsons of Adam. (Hint: Represent the fact about Irad, for example, as `((great grandson) Adam Irad)`. Write rules that determine if a list ends in the word `grandson`. Use this to express a rule that allows one to derive the relationship `((great . ?rel) ?x ?y)`, where `?rel` is a list ending in `grandson`.) Check your rules on queries such as `((great grandson) ?g ?ggs)` and `(?relationship Adam Irad)`.
 ]
 
 === Implementing the Query System
@@ -15198,8 +14917,7 @@ The unification algorithm is implemented as a procedure that takes as inputs two
   (constant-symbol? (car pat)))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.70:* What is the purpose of the `let` bindings in the procedures `add-assertion!` and `add-rule!`? What would be wrong with the following implementation of `add-assertion!`? Hint: Recall the definition of the infinite stream of ones in Section 3.5.2: `(define ones (cons-stream 1 ones))`.
+#exercise[What is the purpose of the `let` bindings in the procedures `add-assertion!` and `add-rule!`? What would be wrong with the following implementation of `add-assertion!`? Hint: Recall the definition of the infinite stream of ones in Section 3.5.2: `(define ones (cons-stream 1 ones))`.
 
   ```scm
   (define (add-assertion! assertion)
@@ -15466,8 +15184,7 @@ The unification algorithm is implemented as a procedure that takes as inputs two
   (constant-symbol? (car pat)))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.70:* What is the purpose of the `let` bindings in the procedures `add-assertion!` and `add-rule!`? What would be wrong with the following implementation of `add-assertion!`? Hint: Recall the definition of the infinite stream of ones in Section 3.5.2: `(define ones (cons-stream 1 ones))`.
+#exercise[What is the purpose of the `let` bindings in the procedures `add-assertion!` and `add-rule!`? What would be wrong with the following implementation of `add-assertion!`? Hint: Recall the definition of the infinite stream of ones in Section 3.5.2: `(define ones (cons-stream 1 ones))`.
 
   ```scm
   (define (add-assertion! assertion)
@@ -15667,8 +15384,7 @@ Frames are represented as lists of bindings, which are variable-value pairs:
   (cons (make-binding variable value) frame))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.71:* Louis Reasoner wonders why the `simple-query` and `disjoin` procedures (Section 4.4.4.2) are implemented using explicit `delay` operations, rather than being defined as follows:
+#exercise[Louis Reasoner wonders why the `simple-query` and `disjoin` procedures (Section 4.4.4.2) are implemented using explicit `delay` operations, rather than being defined as follows:
 
   ```scm
   (define (simple-query 
@@ -15693,12 +15409,10 @@ Frames are represented as lists of bindings, which are variable-value pairs:
   Can you give examples of queries where these simpler definitions would lead to undesirable behavior?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.72:* Why do `disjoin` and `stream-flatmap` interleave the streams rather than simply append them? Give examples that illustrate why interleaving works better. (Hint: Why did we use `interleave` in Section 3.5.3?)
+#exercise[Why do `disjoin` and `stream-flatmap` interleave the streams rather than simply append them? Give examples that illustrate why interleaving works better. (Hint: Why did we use `interleave` in Section 3.5.3?)
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.73:* Why does `flatten-stream` use `delay` explicitly? What would be wrong with defining it as follows:
+#exercise[Why does `flatten-stream` use `delay` explicitly? What would be wrong with defining it as follows:
 
   ```scm
   (define (flatten-stream stream)
@@ -15710,8 +15424,7 @@ Frames are represented as lists of bindings, which are variable-value pairs:
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.74:* Alyssa P. Hacker proposes to use a simpler version of `stream-flatmap` in `negate`, `lisp-value`, and `find-assertions`. She observes that the procedure that is mapped over the frame stream in these cases always produces either the empty stream or a singleton stream, so no interleaving is needed when combining these streams.
+#exercise[Alyssa P. Hacker proposes to use a simpler version of `stream-flatmap` in `negate`, `lisp-value`, and `find-assertions`. She observes that the procedure that is mapped over the frame stream in these cases always produces either the empty stream or a singleton stream, so no interleaving is needed when combining these streams.
 
   a. Fill in the missing expressions in Alyssa's program.
 
@@ -15728,8 +15441,7 @@ Frames are represented as lists of bindings, which are variable-value pairs:
   b. Does the query system's behavior change if we change it in this way?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.75:* Implement for the query language a new special form called `unique`. `Unique` should succeed if there is precisely one item in the data base satisfying a specified query. For example,
+#exercise[Implement for the query language a new special form called `unique`. `Unique` should succeed if there is precisely one item in the data base satisfying a specified query. For example,
   
   ```scm
   (unique (job ?x (computer wizard)))
@@ -15770,22 +15482,18 @@ Frames are represented as lists of bindings, which are variable-value pairs:
   Test your implementation by forming a query that lists all people who supervise precisely one person.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.76:* Our implementation of `and` as a series combination of queries (Figure 4.5) is elegant, but it is inefficient because in processing the second query of the `and` we must scan the data base for each frame produced by the first query. If the data base has $n$ elements, and a typical query produces a number of output frames proportional to $n$ (say $n / k$), then scanning the data base for each frame produced by the first query will require $n^2 / k$ calls to the pattern matcher. Another approach would be to process the two clauses of the `and` separately, then look for all pairs of output frames that are compatible. If each query produces $n / k$ output frames, then this means that we must perform $n^2 / k^2$ compatibility checks---a factor of $k$ fewer than the number of matches required in our current method.
+#exercise[Our implementation of `and` as a series combination of queries (Figure 4.5) is elegant, but it is inefficient because in processing the second query of the `and` we must scan the data base for each frame produced by the first query. If the data base has $n$ elements, and a typical query produces a number of output frames proportional to $n$ (say $n / k$), then scanning the data base for each frame produced by the first query will require $n^2 / k$ calls to the pattern matcher. Another approach would be to process the two clauses of the `and` separately, then look for all pairs of output frames that are compatible. If each query produces $n / k$ output frames, then this means that we must perform $n^2 / k^2$ compatibility checks---a factor of $k$ fewer than the number of matches required in our current method.
 
   Devise an implementation of `and` that uses this strategy. you must implement a procedure that takes two frames as inputs, checks whether the bindings in the frames are compatible, and, if so, produces a frame that merges the two sets of bindings. This operation is similar to unification.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.77:* In Section 4.4.3 we saw that `not` and `lisp-value` can cause the query language to give "wrong" answers if these filtering operations are applied to frames in which variables are unbound. Devise a way to fix this shortcoming. One idea is to perform the filtering in a "delayed" manner by appending to the frame a "promise" to filter that is fulfilled only when enough variables have been bound to make the operation possible. we could wait to perform filtering until all other operations have been performed. However, for efficiency's sake, we would like to perform filtering as soon as possible so as to cut down on the number of intermediate frames generated.
+#exercise[In Section 4.4.3 we saw that `not` and `lisp-value` can cause the query language to give "wrong" answers if these filtering operations are applied to frames in which variables are unbound. Devise a way to fix this shortcoming. One idea is to perform the filtering in a "delayed" manner by appending to the frame a "promise" to filter that is fulfilled only when enough variables have been bound to make the operation possible. we could wait to perform filtering until all other operations have been performed. However, for efficiency's sake, we would like to perform filtering as soon as possible so as to cut down on the number of intermediate frames generated.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.78:* Redesign the query language as a nondeterministic program to be implemented using the evaluator of Section 4.3, rather than as a stream process. In this approach, each query will produce a single answer (rather than the stream of all answers) and the user can type `try-again` to see more answers. you should find that much of the mechanism we built in this section is subsumed by nondeterministic search and backtracking. you will probably also find, however, that your new query language has subtle differences in behavior from the one implemented here. Can you find examples that illustrate this difference?
+#exercise[Redesign the query language as a nondeterministic program to be implemented using the evaluator of Section 4.3, rather than as a stream process. In this approach, each query will produce a single answer (rather than the stream of all answers) and the user can type `try-again` to see more answers. you should find that much of the mechanism we built in this section is subsumed by nondeterministic search and backtracking. you will probably also find, however, that your new query language has subtle differences in behavior from the one implemented here. Can you find examples that illustrate this difference?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 4.79:* When we implemented the Lisp evaluator in Section 4.1, we saw how to use local environments to avoid name conflicts between the parameters of procedures. For example, in evaluating
+#exercise[When we implemented the Lisp evaluator in Section 4.1, we saw how to use local environments to avoid name conflicts between the parameters of procedures. For example, in evaluating
 
   ```scm
   (define (square x) 
@@ -15858,8 +15566,7 @@ In order for the data paths to actually compute GCDs, the buttons must be pushed
   caption: [Controller for a GCD machine.],
 ) <fig-3-2>
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.1:* Design a register machine to compute factorials using the iterative algorithm specified by the following procedure. Draw data-path and controller diagrams for this machine.
+#exercise[Design a register machine to compute factorials using the iterative algorithm specified by the following procedure. Draw data-path and controller diagrams for this machine.
 
   ```scm
   (define (factorial n)
@@ -15924,8 +15631,7 @@ This form of description is easier to read than the kind illustrated in Figure 5
 
 In spite of these disadvantages, we will use this register-machine language throughout this chapter, because we will be more concerned with understanding controllers than with understanding the elements and connections in data paths. we should keep in mind, however, that data-path design is crucial in designing real machines.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.2:* Use the register-machine language to describe the iterative factorial machine of Exercise 5.1.
+#exercise[Use the register-machine language to describe the iterative factorial machine of Exercise 5.1.
 ]
 
 ==== Actions
@@ -15971,8 +15677,7 @@ in the GCD controller definition is replaced by a sequence of instructions that 
   caption: [Data paths and controller for the elaborated GCD machine.],
 ) <fig-5-5>
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.3:* Design a machine to compute square roots using Newton's method, as described in Section 1.1.7:
+#exercise[Design a machine to compute square roots using Newton's method, as described in Section 1.1.7:
 
   ```scm
   (define (sqrt x)
@@ -16116,8 +15821,7 @@ Just as with factorial, we can implement the recursive Fibonacci computation as 
   caption: [Controller for a machine to compute Fibonacci numbers.],
 ) <fig-5-12>
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.4:* Specify register machines that implement each of the following procedures. For each machine, write a controller instruction sequence and draw a diagram showing the data paths.
+#exercise[Specify register machines that implement each of the following procedures. For each machine, write a controller instruction sequence and draw a diagram showing the data paths.
 
   a. Recursive exponentiation:
   ```scm
@@ -16139,12 +15843,10 @@ Just as with factorial, we can implement the recursive Fibonacci computation as 
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.5:* Hand-simulate the factorial and Fibonacci machines, using some nontrivial input (requiring execution of at least one recursive call). Show the contents of the stack at each significant point in the execution.
+#exercise[Hand-simulate the factorial and Fibonacci machines, using some nontrivial input (requiring execution of at least one recursive call). Show the contents of the stack at each significant point in the execution.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.6:* Ben Bitdiddle observes that the Fibonacci machine's controller sequence has an extra `save` and an extra `restore`, which can be removed to make a faster machine. Where are these instructions?
+#exercise[Ben Bitdiddle observes that the Fibonacci machine's controller sequence has an extra `save` and an extra `restore`, which can be removed to make a faster machine. Where are these instructions?
 ]
 
 === Instruction Summary
@@ -16242,8 +15944,7 @@ done
 
 This computation will run much more slowly than a `gcd` procedure written in Scheme, because we will simulate low-level machine instructions, such as `assign`, by much more complex operations.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.7:* Use the simulator to test the machines you designed in Exercise 5.4.
+#exercise[Use the simulator to test the machines you designed in Exercise 5.4.
 ]
 
 === The Machine Model
@@ -16510,8 +16211,7 @@ Entries will be looked up in the table with
                label-name))))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.8:* The following register-machine code is ambiguous, because the label `here` is defined more than once:
+#exercise[The following register-machine code is ambiguous, because the label `here` is defined more than once:
 
   ```scm
   start
@@ -16762,16 +16462,13 @@ The assembler calls `make-execution-procedure` to generate the execution procedu
                symbol))))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.9:* The treatment of machine operations above permits them to operate on labels as well as on constants and the contents of registers. Modify the expression-processing procedures to enforce the condition that operations can be used only with registers and constants.
+#exercise[The treatment of machine operations above permits them to operate on labels as well as on constants and the contents of registers. Modify the expression-processing procedures to enforce the condition that operations can be used only with registers and constants.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.10:* Design a new syntax for register-machine instructions and modify the simulator to use your new syntax. Can you implement your new syntax without changing any part of the simulator except the syntax procedures in this section?
+#exercise[Design a new syntax for register-machine instructions and modify the simulator to use your new syntax. Can you implement your new syntax without changing any part of the simulator except the syntax procedures in this section?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.11:* When we introduced `save` and `restore` in Section 5.1.4, we didn't specify what would happen if you tried to restore a register that was not the last one saved, as in the sequence
+#exercise[When we introduced `save` and `restore` in Section 5.1.4, we didn't specify what would happen if you tried to restore a register that was not the last one saved, as in the sequence
   
   ```scm
   (save y)
@@ -16786,8 +16483,7 @@ The assembler calls `make-execution-procedure` to generate the execution procedu
   c. `(restore y)` puts into `y` the last value saved from `y` regardless of what other registers were saved after `y` and not restored. Modify the simulator to behave this way. you will have to associate a separate stack with each register. you should make the `initialize-stack` operation initialize all the register stacks.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.12:* The simulator can be used to help determine the data paths required for implementing a machine with a given controller. Extend the assembler to store the following information in the machine model:
+#exercise[The simulator can be used to help determine the data paths required for implementing a machine with a given controller. Extend the assembler to store the following information in the machine model:
 
   - a list of all instructions, with duplicates removed, sorted by instruction type (`assign`, `goto`, and so on);
   - a list (without duplicates) of the registers used to hold entry points (these are the registers referenced by `goto` instructions);
@@ -16797,8 +16493,7 @@ The assembler calls `make-execution-procedure` to generate the execution procedu
   Extend the message-passing interface to the machine to provide access to this new information. To test your analyzer, define the Fibonacci machine from Figure 5.12 and examine the lists you constructed.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.13:* Modify the simulator so that it uses the controller sequence to determine what registers the machine has rather than requiring a list of registers as an argument to `make-machine`. Instead of pre-allocating the registers in `make-machine`, you can allocate them one at a time when they are first seen during assembly of the instructions.
+#exercise[Modify the simulator so that it uses the controller sequence to determine what registers the machine has rather than requiring a list of registers as an argument to `make-machine`. Instead of pre-allocating the registers in `make-machine`, you can allocate them one at a time when they are first seen during assembly of the instructions.
 ]
 
 === Monitoring Machine Performance
@@ -16864,28 +16559,22 @@ Here is the new version of `make-stack`:
     dispatch))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.14:* Measure the number of pushes and the maximum stack depth required to compute $n!$ for various small values of $n$ using the factorial machine shown in Figure 5.11. From your data determine formulas in terms of $n$ for the total number of push operations and the maximum stack depth used in computing $n!$ for any $n > 1$. Note that each of these is a linear function of $n$ and is thus determined by two constants. In order to get the statistics printed, you will have to augment the factorial machine with instructions to initialize the stack and print the statistics. you may want to also modify the machine so that it repeatedly reads a value for $n$, computes the factorial, and prints the result (as we did for the GCD machine in Figure 5.4), so that you will not have to repeatedly invoke `get-register-contents`, `set-register-contents!`, and `start`.
+#exercise[Measure the number of pushes and the maximum stack depth required to compute $n!$ for various small values of $n$ using the factorial machine shown in Figure 5.11. From your data determine formulas in terms of $n$ for the total number of push operations and the maximum stack depth used in computing $n!$ for any $n > 1$. Note that each of these is a linear function of $n$ and is thus determined by two constants. In order to get the statistics printed, you will have to augment the factorial machine with instructions to initialize the stack and print the statistics. you may want to also modify the machine so that it repeatedly reads a value for $n$, computes the factorial, and prints the result (as we did for the GCD machine in Figure 5.4), so that you will not have to repeatedly invoke `get-register-contents`, `set-register-contents!`, and `start`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.15:* Add *instruction counting* to the register machine simulation. That is, have the machine model keep track of the number of instructions executed. Extend the machine model's interface to accept a new message that prints the value of the instruction count and resets the count to zero.
+#exercise[Add *instruction counting* to the register machine simulation. That is, have the machine model keep track of the number of instructions executed. Extend the machine model's interface to accept a new message that prints the value of the instruction count and resets the count to zero.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.16:* Augment the simulator to provide for *instruction tracing*. That is, before each instruction is executed, the simulator should print the text of the instruction. Make the machine model accept `trace-on` and `trace-off` messages to turn tracing on and off.
+#exercise[Augment the simulator to provide for *instruction tracing*. That is, before each instruction is executed, the simulator should print the text of the instruction. Make the machine model accept `trace-on` and `trace-off` messages to turn tracing on and off.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.17:* Extend the instruction tracing of Exercise 5.16 so that before printing an instruction, the simulator prints any labels that immediately precede that instruction in the controller sequence. Be careful to do this in a way that does not interfere with instruction counting (Exercise 5.15). you will have to make the simulator retain the necessary label information.
+#exercise[Extend the instruction tracing of Exercise 5.16 so that before printing an instruction, the simulator prints any labels that immediately precede that instruction in the controller sequence. Be careful to do this in a way that does not interfere with instruction counting (Exercise 5.15). you will have to make the simulator retain the necessary label information.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.18:* Modify the `make-register` procedure of Section 5.2.1 so that registers can be traced. Registers should accept messages that turn tracing on and off. When a register is traced, assigning a value to the register should print the name of the register, the old contents of the register, and the new contents being assigned. Extend the interface to the machine model to permit you to turn tracing on and off for designated machine registers.
+#exercise[Modify the `make-register` procedure of Section 5.2.1 so that registers can be traced. Registers should accept messages that turn tracing on and off. When a register is traced, assigning a value to the register should print the name of the register, the old contents of the register, and the new contents being assigned. Extend the interface to the machine model to permit you to turn tracing on and off for designated machine registers.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.19:* Alyssa P. Hacker wants a *breakpoint* feature in the simulator to help her debug her machine designs. you have been hired to install this feature for her. She wants to be able to specify a place in the controller sequence where the simulator will stop and allow her to examine the state of the machine. you are to implement a procedure
+#exercise[Alyssa P. Hacker wants a *breakpoint* feature in the simulator to help her debug her machine designs. you have been hired to install this feature for her. She wants to be able to specify a place in the controller sequence where the simulator will stop and allow her to examine the state of the machine. you are to implement a procedure
   
   ```scm
   (set-breakpoint <machine> <label> <n>)
@@ -17052,8 +16741,7 @@ and `(perform (op initialize-stack))` can be implemented as
 
 These operations can be further expanded in terms of the vector operations given above. In conventional computer architectures, however, it is usually advantageous to allocate the stack as a separate vector. Then pushing and popping the stack can be accomplished by incrementing or decrementing an index into that vector.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.20:* Draw the box-and-pointer representation and the memory-vector representation (as in Figure 5.14) of the list structure produced by
+#exercise[Draw the box-and-pointer representation and the memory-vector representation (as in Figure 5.14) of the list structure produced by
 
   ```scm
   (define x (cons 1 2))
@@ -17063,8 +16751,7 @@ These operations can be further expanded in terms of the vector operations given
   with the `free` pointer initially `p1`. What is the final value of `free`? What pointers represent the values of `x` and `y`?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.21:* Implement register machines for the following procedures. Assume that the list-structure memory operations are available as machine primitives.
+#exercise[Implement register machines for the following procedures. Assume that the list-structure memory operations are available as machine primitives.
 
   a. Recursive `count-leaves`:
   ```scm
@@ -17091,8 +16778,7 @@ These operations can be further expanded in terms of the vector operations given
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.22:* Exercise 3.12 of Section 3.3.1 presented an `append` procedure that appends two lists to form a new list and an `append!` procedure that splices two lists together. Design a register machine to implement each of these procedures. Assume that the list-structure memory operations are available as primitive operations.
+#exercise[Exercise 3.12 of Section 3.3.1 presented an `append` procedure that appends two lists to form a new list and an `append!` procedure that splices two lists together. Design a register machine to implement each of these procedures. Assume that the list-structure memory operations are available as primitive operations.
 ]
 
 === Maintaining the Illusion of Infinite Memory
@@ -17592,16 +17278,13 @@ ev-definition-1
   (goto (reg continue))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.23:* Extend the evaluator to handle derived expressions such as `cond`, `let`, and so on (Section 4.1.2). you may "cheat" and assume that the syntax transformers such as `cond->if` are available as machine operations.#footnote[This isn't really cheating. In an actual implementation built from scratch, we would use our explicit-control evaluator to interpret a Scheme program that performs source-level transformations like `cond->if` in a syntax phase that runs before execution.]
+#exercise[Extend the evaluator to handle derived expressions such as `cond`, `let`, and so on (Section 4.1.2). you may "cheat" and assume that the syntax transformers such as `cond->if` are available as machine operations.#footnote[This isn't really cheating. In an actual implementation built from scratch, we would use our explicit-control evaluator to interpret a Scheme program that performs source-level transformations like `cond->if` in a syntax phase that runs before execution.]
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.24:* Implement `cond` as a new basic special form without reducing it to `if`. you will have to construct a loop that tests the predicates of successive `cond` clauses until you find one that is true, and then use `ev-sequence` to evaluate the actions of the clause.
+#exercise[Implement `cond` as a new basic special form without reducing it to `if`. you will have to construct a loop that tests the predicates of successive `cond` clauses until you find one that is true, and then use `ev-sequence` to evaluate the actions of the clause.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.25:* Modify the evaluator so that it uses normal-order evaluation, based on the lazy evaluator of Section 4.2.
+#exercise[Modify the evaluator so that it uses normal-order evaluation, based on the lazy evaluator of Section 4.2.
 ]
 
 === Running the Evaluator
@@ -17735,8 +17418,7 @@ ok
 
 Note that the driver loop of the evaluator reinitializes the stack at the start of each interaction, so that the statistics printed will refer only to stack operations used to evaluate the previous expression.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.26:* Use the monitored stack to explore the tail-recursive property of the evaluator (Section 5.4.2). Start the evaluator and define the iterative `factorial` procedure from Section 1.2.1:
+#exercise[Use the monitored stack to explore the tail-recursive property of the evaluator (Section 5.4.2). Start the evaluator and define the iterative `factorial` procedure from Section 1.2.1:
 
   ```scm
   (define (factorial n)
@@ -17754,8 +17436,7 @@ Note that the driver loop of the evaluator reinitializes the stack at the start 
   b. Determine from your data a formula in terms of $n$ for the total number of push operations used in evaluating $n!$ for any $n >= 1$. Note that the number of operations used is a linear function of $n$ and is thus determined by two constants.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.27:* For comparison with Exercise 5.26, explore the behavior of the following procedure for computing factorials recursively:
+#exercise[For comparison with Exercise 5.26, explore the behavior of the following procedure for computing factorials recursively:
 
   ```scm
   (define (factorial n)
@@ -17780,12 +17461,10 @@ Note that the driver loop of the evaluator reinitializes the stack at the start 
   The maximum depth is a measure of the amount of space used by the evaluator in carrying out the computation, and the number of pushes correlates well with the time required.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.28:* Modify the definition of the evaluator by changing `eval-sequence` as described in Section 5.4.2 so that the evaluator is no longer tail-recursive. Rerun your experiments from Exercise 5.26 and Exercise 5.27 to demonstrate that both versions of the `factorial` procedure now require space that grows linearly with their input.
+#exercise[Modify the definition of the evaluator by changing `eval-sequence` as described in Section 5.4.2 so that the evaluator is no longer tail-recursive. Rerun your experiments from Exercise 5.26 and Exercise 5.27 to demonstrate that both versions of the `factorial` procedure now require space that grows linearly with their input.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.29:* Monitor the stack operations in the tree-recursive Fibonacci computation:
+#exercise[Monitor the stack operations in the tree-recursive Fibonacci computation:
 
   ```scm
   (define (fib n)
@@ -17798,8 +17477,7 @@ Note that the driver loop of the evaluator reinitializes the stack at the start 
   b. Give a formula for the total number of pushes used to compute $F i b(n)$ for $n >= 2$. you should find that the number of pushes (which correlates well with the time used) grows exponentially with $n$. Hint: Let $S(n)$ be the number of pushes used in computing $F i b(n)$. you should be able to argue that there is a formula that expresses $S(n)$ in terms of $S(n - 1)$, $S(n - 2)$, and some fixed "overhead" constant $k$ that is independent of $n$. Give the formula, and say what $k$ is. Then show that $S(n)$ can be expressed as $a dot F i b(n + 1) + b$ and give the values of $a$ and $b$.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.30:* Our evaluator currently catches and signals only two kinds of errors---unknown expression types and unknown procedure types. Other errors will take us out of the evaluator read-eval-print loop. When we run the evaluator using the register-machine simulator, these errors are caught by the underlying Scheme system. This is analogous to the computer crashing when a user program makes an error.#footnote[Regrettably, this is the normal state of affairs in conventional compiler-based language systems such as C. In UNIX the system "dumps core," and in DOS/Windows it becomes catatonic. The Macintosh displays a picture of an exploding bomb and offers you the opportunity to reboot the computer---if you're lucky. It is a large project to make a real error system work, but it is well worth the effort to understand what is involved here.]
+#exercise[Our evaluator currently catches and signals only two kinds of errors---unknown expression types and unknown procedure types. Other errors will take us out of the evaluator read-eval-print loop. When we run the evaluator using the register-machine simulator, these errors are caught by the underlying Scheme system. This is analogous to the computer crashing when a user program makes an error.#footnote[Regrettably, this is the normal state of affairs in conventional compiler-based language systems such as C. In UNIX the system "dumps core," and in DOS/Windows it becomes catatonic. The Macintosh displays a picture of an exploding bomb and offers you the opportunity to reboot the computer---if you're lucky. It is a large project to make a real error system work, but it is well worth the effort to understand what is involved here.]
 
   a. Errors that occur in the evaluation process, such as an attempt to access an unbound variable, could be caught by changing the lookup operation to make it return a distinguished condition code, which cannot be a possible value of any user variable. The evaluator can test for this condition code and then do what is necessary to go to `signal-error`. Find all of the places in the evaluator where such a change is necessary and fix them. This is lots of work.
 
@@ -18700,8 +18378,7 @@ Another sequence combiner, `tack-on-instruction-sequence`, is used by `compile-l
            (statements seq2))))
 ```
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.31:* In evaluating a procedure application, the explicit-control evaluator always saves and restores the `env` register around the evaluation of the operator, saves and restores `env` around the evaluation of each operand (except the final one), saves and restores `argl` around the evaluation of each operand, and saves and restores `proc` around the evaluation of the operand sequence. For each of the following combinations, say which of these `save` and `restore` operations are superfluous and thus could be eliminated by the compiler's `preserving` mechanism:
+#exercise[In evaluating a procedure application, the explicit-control evaluator always saves and restores the `env` register around the evaluation of the operator, saves and restores `env` around the evaluation of each operand (except the final one), saves and restores `argl` around the evaluation of each operand, and saves and restores `proc` around the evaluation of the operand sequence. For each of the following combinations, say which of these `save` and `restore` operations are superfluous and thus could be eliminated by the compiler's `preserving` mechanism:
 
   ```scm
   (f 'x 'y)
@@ -18711,8 +18388,7 @@ Another sequence combiner, `tack-on-instruction-sequence`, is used by `compile-l
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.32:* Using the `preserving` mechanism, the compiler will avoid saving and restoring `env` around the evaluation of the operator of a combination in the case where the operator is a symbol. we could also build such optimizations into the evaluator. Indeed, the explicit-control evaluator of Section 5.4 already performs a similar optimization, by treating combinations with no operands as a special case.
+#exercise[Using the `preserving` mechanism, the compiler will avoid saving and restoring `env` around the evaluation of the operator of a combination in the case where the operator is a symbol. we could also build such optimizations into the evaluator. Indeed, the explicit-control evaluator of Section 5.4 already performs a similar optimization, by treating combinations with no operands as a special case.
 
   a. Extend the explicit-control evaluator to recognize as a separate class of expressions combinations whose operator is a symbol, and to take advantage of this fact in evaluating such expressions.
 
@@ -18836,8 +18512,7 @@ The code for the false branch is another procedure call, where the procedure is 
   caption: [Compilation of the definition of the `factorial` procedure.],
 ) <fig-5-17>
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.33:* Consider the following definition of a factorial procedure, which is slightly different from the one given above:
+#exercise[Consider the following definition of a factorial procedure, which is slightly different from the one given above:
 
   ```scm
   (define (factorial-alt n)
@@ -18849,8 +18524,7 @@ The code for the false branch is another procedure call, where the procedure is 
   Compile this procedure and compare the resulting code with that produced for `factorial`. Explain any differences you find. Does either program execute more efficiently than the other?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.34:* Compile the iterative factorial procedure
+#exercise[Compile the iterative factorial procedure
 
   ```scm
   (define (factorial n)
@@ -18865,8 +18539,7 @@ The code for the false branch is another procedure call, where the procedure is 
   Annotate the resulting code, showing the essential difference between the code for iterative and recursive versions of `factorial` that makes one process build up stack space and the other run in constant stack space.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.35:* What expression was compiled to produce the code shown in Figure 5.18?
+#exercise[What expression was compiled to produce the code shown in Figure 5.18?
 
   #figure(
     rect(inset: 10pt, fill: luma(245))[
@@ -18877,16 +18550,13 @@ The code for the false branch is another procedure call, where the procedure is 
   ) <fig-5-18>
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.36:* What order of evaluation does our compiler produce for operands of a combination? Is it left-to-right, right-to-left, or some other order? Where in the compiler is this order determined? Modify the compiler so that it produces some other order of evaluation. (See the discussion of order of evaluation for the explicit-control evaluator in Section 5.4.1.) How does changing the order of operand evaluation affect the efficiency of the code that constructs the argument list?
+#exercise[What order of evaluation does our compiler produce for operands of a combination? Is it left-to-right, right-to-left, or some other order? Where in the compiler is this order determined? Modify the compiler so that it produces some other order of evaluation. (See the discussion of order of evaluation for the explicit-control evaluator in Section 5.4.1.) How does changing the order of operand evaluation affect the efficiency of the code that constructs the argument list?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.37:* One way to understand the compiler's `preserving` mechanism for optimizing stack usage is to see what extra operations would be generated if we did not use this idea. Modify `preserving` so that it always generates the `save` and `restore` operations. Compile some simple expressions and identify the unnecessary stack operations that are generated. Compare the code to that generated with the `preserving` mechanism intact.
+#exercise[One way to understand the compiler's `preserving` mechanism for optimizing stack usage is to see what extra operations would be generated if we did not use this idea. Modify `preserving` so that it always generates the `save` and `restore` operations. Compile some simple expressions and identify the unnecessary stack operations that are generated. Compare the code to that generated with the `preserving` mechanism intact.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.38:* Our compiler is clever about avoiding unnecessary stack operations, but it is not clever at all when it comes to compiling calls to the primitive procedures of the language in terms of the primitive operations supplied by the machine. For example, consider how much code is compiled to compute `(+ a 1)`: The code sets up an argument list in `argl`, puts the primitive addition procedure (which it finds by looking up the symbol `+` in the environment) into `proc`, and tests whether the procedure is primitive or compound. The compiler always generates code to perform the test, as well as code for primitive and compound branches (only one of which will be executed). we have not shown the part of the controller that implements primitives, but we presume that these instructions make use of primitive arithmetic operations in the machine's data paths. Consider how much less code would be generated if the compiler could *open-code* primitives---that is, if it could generate code to directly use these primitive machine operations. The expression `(+ a 1)` might be compiled into something as simple as#footnote[we have used the same symbol `+` here to denote both the source-language procedure and the machine operation. In general there will not be a one-to-one correspondence between primitives of the source language and primitives of the machine.]
+#exercise[Our compiler is clever about avoiding unnecessary stack operations, but it is not clever at all when it comes to compiling calls to the primitive procedures of the language in terms of the primitive operations supplied by the machine. For example, consider how much code is compiled to compute `(+ a 1)`: The code sets up an argument list in `argl`, puts the primitive addition procedure (which it finds by looking up the symbol `+` in the environment) into `proc`, and tests whether the procedure is primitive or compound. The compiler always generates code to perform the test, as well as code for primitive and compound branches (only one of which will be executed). we have not shown the part of the controller that implements primitives, but we presume that these instructions make use of primitive arithmetic operations in the machine's data paths. Consider how much less code would be generated if the compiler could *open-code* primitives---that is, if it could generate code to directly use these primitive machine operations. The expression `(+ a 1)` might be compiled into something as simple as#footnote[we have used the same symbol `+` here to denote both the source-language procedure and the machine operation. In general there will not be a one-to-one correspondence between primitives of the source language and primitives of the machine.]
 
   ```scm
   (assign val (op lookup-variable-value) 
@@ -18954,16 +18624,13 @@ One way for the compiler to produce code that uses lexical addressing is to main
 
 Exercise 5.39 through Exercise 5.43 describe how to complete this sketch of the lexical-addressing strategy in order to incorporate lexical lookup into the compiler. Exercise 5.44 describes another use for the compile-time environment.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.39:* Write a procedure `lexical-address-lookup` that implements the new lookup operation. It should take two arguments---a lexical address and a run-time environment---and return the value of the variable stored at the specified lexical address. `lexical-address-lookup` should signal an error if the value of the variable is the symbol `*unassigned*`.#footnote[This is the modification to variable lookup required if we implement the scanning method to eliminate internal definitions (Exercise 4.16). we will need to eliminate these definitions in order for lexical addressing to work.] Also write a procedure `lexical-address-set!` that implements the operation that changes the value of the variable at a specified lexical address.
+#exercise[Write a procedure `lexical-address-lookup` that implements the new lookup operation. It should take two arguments---a lexical address and a run-time environment---and return the value of the variable stored at the specified lexical address. `lexical-address-lookup` should signal an error if the value of the variable is the symbol `*unassigned*`.#footnote[This is the modification to variable lookup required if we implement the scanning method to eliminate internal definitions (Exercise 4.16). we will need to eliminate these definitions in order for lexical addressing to work.] Also write a procedure `lexical-address-set!` that implements the operation that changes the value of the variable at a specified lexical address.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.40:* Modify the compiler to maintain the compile-time environment as described above. That is, add a compile-time-environment argument to `compile` and the various code generators, and extend it in `compile-lambda-body`.
+#exercise[Modify the compiler to maintain the compile-time environment as described above. That is, add a compile-time-environment argument to `compile` and the various code generators, and extend it in `compile-lambda-body`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.41:* Write a procedure `find-variable` that takes as arguments a variable and a compile-time environment and returns the lexical address of the variable with respect to that environment. For example, in the program fragment that is shown above, the compile-time environment during the compilation of expression `<e1>` is `((y z) (a b c d e) (x y))`. `find-variable` should produce
+#exercise[Write a procedure `find-variable` that takes as arguments a variable and a compile-time environment and returns the lexical address of the variable with respect to that environment. For example, in the program fragment that is shown above, the compile-time environment during the compilation of expression `<e1>` is `((y z) (a b c d e) (x y))`. `find-variable` should produce
 
   ```scm
   (find-variable 'c '((y z) (a b c d e) (x y)))
@@ -18977,16 +18644,13 @@ Exercise 5.39 through Exercise 5.43 describe how to complete this sketch of the 
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.42:* Using `find-variable` from Exercise 5.41, rewrite `compile-variable` and `compile-assignment` to output lexical-address instructions. In cases where `find-variable` returns `not-found` (that is, where the variable is not in the compile-time environment), you should have the code generators use the evaluator operations, as before, to search for the binding. (The only place a variable that is not found at compile time can be is in the global environment, which is part of the run-time environment but is not part of the compile-time environment.#footnote[Lexical addresses cannot be used to access variables in the global environment, because these names can be defined and redefined interactively at any time. With internal definitions scanned out, as in Exercise 5.43, the only definitions the compiler sees are those at top level, which act on the global environment. Compilation of a definition does not cause the defined name to be entered in the compile-time environment.] Thus, if you wish, you may have the evaluator operations look directly in the global environment, which can be obtained with the operation `(op get-global-environment)`, instead of having them search the whole run-time environment found in `env`.) Test the modified compiler on a few simple cases, such as the nested `lambda` combination at the beginning of this section.
+#exercise[Using `find-variable` from Exercise 5.41, rewrite `compile-variable` and `compile-assignment` to output lexical-address instructions. In cases where `find-variable` returns `not-found` (that is, where the variable is not in the compile-time environment), you should have the code generators use the evaluator operations, as before, to search for the binding. (The only place a variable that is not found at compile time can be is in the global environment, which is part of the run-time environment but is not part of the compile-time environment.#footnote[Lexical addresses cannot be used to access variables in the global environment, because these names can be defined and redefined interactively at any time. With internal definitions scanned out, as in Exercise 5.43, the only definitions the compiler sees are those at top level, which act on the global environment. Compilation of a definition does not cause the defined name to be entered in the compile-time environment.] Thus, if you wish, you may have the evaluator operations look directly in the global environment, which can be obtained with the operation `(op get-global-environment)`, instead of having them search the whole run-time environment found in `env`.) Test the modified compiler on a few simple cases, such as the nested `lambda` combination at the beginning of this section.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.43:* we argued in Section 4.1.6 that internal definitions for block structure should not be considered "real" `defines`. Rather, a procedure body should be interpreted as if the internal variables being defined were installed as ordinary `lambda` variables initialized to their correct values using `set!`. Section 4.1.6 and Exercise 4.16 showed how to modify the metacircular interpreter to accomplish this by scanning out internal definitions. Modify the compiler to perform the same transformation before it compiles a procedure body.
+#exercise[we argued in Section 4.1.6 that internal definitions for block structure should not be considered "real" `defines`. Rather, a procedure body should be interpreted as if the internal variables being defined were installed as ordinary `lambda` variables initialized to their correct values using `set!`. Section 4.1.6 and Exercise 4.16 showed how to modify the metacircular interpreter to accomplish this by scanning out internal definitions. Modify the compiler to perform the same transformation before it compiles a procedure body.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.44:* In this section we have focused on the use of the compile-time environment to produce lexical addresses. But there are other uses for compile-time environments. For instance, in Exercise 5.38 we increased the efficiency of compiled code by open-coding primitive procedures. Our implementation treated the names of open-coded procedures as reserved words. If a program were to rebind such a name, the mechanism described in Exercise 5.38 would still open-code it as a primitive, ignoring the new binding. For example, consider the procedure
+#exercise[In this section we have focused on the use of the compile-time environment to produce lexical addresses. But there are other uses for compile-time environments. For instance, in Exercise 5.38 we increased the efficiency of compiled code by open-coding primitive procedures. Our implementation treated the names of open-coded procedures as reserved words. If a program were to rebind such a name, the mechanism described in Exercise 5.38 would still open-code it as a primitive, ignoring the new binding. For example, consider the procedure
 
   ```scm
   (lambda (+ * a b x y)
@@ -19128,8 +18792,7 @@ Compilers for popular languages, such as C and C++, put hardly any error-checkin
 
 The alternatives of interpretation and compilation also lead to different strategies for porting languages to new computers. Suppose that we wish to implement Lisp for a new machine. One strategy is to begin with the explicit-control evaluator of Section 5.4 and translate its instructions to instructions for the new machine. A different strategy is to begin with the compiler and change the code generators so that they generate code for the new machine. The second strategy allows us to run any Lisp program on the new machine by first compiling it with the compiler running on our original Lisp system, and linking it with a compiled version of the run-time library.#footnote[Of course, with either the interpretation or the compilation strategy we must also implement for the new machine storage allocation, input and output, and all the various operations that we took as "primitive" in our discussion of the evaluator and compiler. One strategy for minimizing work here is to write as many of these operations as possible in Lisp and then compile them for the new machine. Ultimately, everything reduces to a small kernel (such as garbage collection and the mechanism for applying actual machine primitives) that is hand-coded for the new machine.] Better yet, we can compile the compiler itself, and run this on the new machine to compile other Lisp programs.#footnote[This strategy leads to amusing tests of correctness of the compiler, such as checking whether the compilation of a program on the new machine, using the compiled compiler, is identical with the compilation of the program on the original Lisp system. Tracking down the source of differences is fun but often frustrating, because the results are extremely sensitive to minuscule details.] Or we can compile one of the interpreters of Section 4.1 to produce an interpreter that runs on the new machine.
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.45:* By comparing the stack operations used by compiled code to the stack operations used by the evaluator for the same computation, we can determine the extent to which the compiler optimizes use of the stack, both in speed (reducing the total number of stack operations) and in space (reducing the maximum stack depth). Comparing this optimized stack use to the performance of a special-purpose machine for the same computation gives some indication of the quality of the compiler.
+#exercise[By comparing the stack operations used by compiled code to the stack operations used by the evaluator for the same computation, we can determine the extent to which the compiler optimizes use of the stack, both in speed (reducing the total number of stack operations) and in space (reducing the maximum stack depth). Comparing this optimized stack use to the performance of a special-purpose machine for the same computation gives some indication of the quality of the compiler.
 
   a. Exercise 5.27 asked you to determine, as a function of $n$, the number of pushes and the maximum stack depth needed by the evaluator to compute $n!$ using the recursive factorial procedure given above. Exercise 5.14 asked you to do the same measurements for the special-purpose factorial machine shown in Figure 5.11. Now perform the same analysis using the compiled `factorial` procedure.
 
@@ -19140,8 +18803,7 @@ The alternatives of interpretation and compilation also lead to different strate
   b. Can you suggest improvements to the compiler that would help it generate code that would come closer in performance to the hand-tailored version?
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.46:* Carry out an analysis like the one in Exercise 5.45 to determine the effectiveness of compiling the tree-recursive Fibonacci procedure
+#exercise[Carry out an analysis like the one in Exercise 5.45 to determine the effectiveness of compiling the tree-recursive Fibonacci procedure
 
   ```scm
   (define (fib n)
@@ -19153,8 +18815,7 @@ The alternatives of interpretation and compilation also lead to different strate
   compared to the effectiveness of using the special-purpose Fibonacci machine of Figure 5.12. (For measurement of the interpreted performance, see Exercise 5.29.) For Fibonacci, the time resource used is not linear in $n$; hence the ratios of stack operations will not approach a limiting value that is independent of $n$.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.47:* This section described how to modify the explicit-control evaluator so that interpreted code can call compiled procedures. Show how to modify the compiler so that compiled procedures can call not only primitive procedures and compiled procedures, but interpreted procedures as well. This requires modifying `compile-procedure-call` to handle the case of compound (interpreted) procedures. Be sure to handle all the same `target` and `linkage` combinations as in `compile-proc-appl`. To do the actual procedure application, the code needs to jump to the evaluator's `compound-apply` entry point. This label cannot be directly referenced in object code (since the assembler requires that all labels referenced by the code it is assembling be defined there), so we will add a register called `compapp` to the evaluator machine to hold this entry point, and add an instruction to initialize it:
+#exercise[This section described how to modify the explicit-control evaluator so that interpreted code can call compiled procedures. Show how to modify the compiler so that compiled procedures can call not only primitive procedures and compiled procedures, but interpreted procedures as well. This requires modifying `compile-procedure-call` to handle the case of compound (interpreted) procedures. Be sure to handle all the same `target` and `linkage` combinations as in `compile-proc-appl`. To do the actual procedure application, the code needs to jump to the evaluator's `compound-apply` entry point. This label cannot be directly referenced in object code (since the assembler requires that all labels referenced by the code it is assembling be defined there), so we will add a register called `compapp` to the evaluator machine to hold this entry point, and add an instruction to initialize it:
 
   ```scm
     (assign compapp (label compound-apply))
@@ -19166,8 +18827,7 @@ The alternatives of interpretation and compilation also lead to different strate
   To test your code, start by defining a procedure `f` that calls a procedure `g`. Use `compile-and-go` to compile the definition of `f` and start the evaluator. Now, typing at the evaluator, define `g` and try to call `f`.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.48:* The `compile-and-go` interface implemented in this section is awkward, since the compiler can be called only once (when the evaluator machine is started). Augment the compiler-interpreter interface by providing a `compile-and-run` primitive that can be called from within the explicit-control evaluator as follows:
+#exercise[The `compile-and-go` interface implemented in this section is awkward, since the compiler can be called only once (when the evaluator machine is started). Augment the compiler-interpreter interface by providing a `compile-and-run` primitive that can be called from within the explicit-control evaluator as follows:
 
   ```scm
   ;;; EC-Eval input:
@@ -19188,20 +18848,16 @@ The alternatives of interpretation and compilation also lead to different strate
   ```
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.49:* As an alternative to using the explicit-control evaluator's read-eval-print loop, design a register machine that performs a read-compile-execute-print loop. That is, the machine should run a loop that reads an expression, compiles it, assembles and executes the resulting code, and prints the result. This is easy to run in our simulated setup, since we can arrange to call the procedures `compile` and `assemble` as "register-machine operations."
+#exercise[As an alternative to using the explicit-control evaluator's read-eval-print loop, design a register machine that performs a read-compile-execute-print loop. That is, the machine should run a loop that reads an expression, compiles it, assembles and executes the resulting code, and prints the result. This is easy to run in our simulated setup, since we can arrange to call the procedures `compile` and `assemble` as "register-machine operations."
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.50:* Use the compiler to compile the metacircular evaluator of Section 4.1 and run this program using the register-machine simulator. (To compile more than one definition at a time, you can package the definitions in a `begin`.) The resulting interpreter will run very slowly because of the multiple levels of interpretation, but getting all the details to work is an instructive exercise.
+#exercise[Use the compiler to compile the metacircular evaluator of Section 4.1 and run this program using the register-machine simulator. (To compile more than one definition at a time, you can package the definitions in a `begin`.) The resulting interpreter will run very slowly because of the multiple levels of interpretation, but getting all the details to work is an instructive exercise.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.51:* Develop a rudimentary implementation of Scheme in C (or some other low-level language of your choice) by translating the explicit-control evaluator of Section 5.4 into C. In order to run this code you will need to also provide appropriate storage-allocation routines and other run-time support.
+#exercise[Develop a rudimentary implementation of Scheme in C (or some other low-level language of your choice) by translating the explicit-control evaluator of Section 5.4 into C. In order to run this code you will need to also provide appropriate storage-allocation routines and other run-time support.
 ]
 
-#block(fill: luma(240), inset: 10pt, radius: 4pt)[
-  *Exercise 5.52:* As a counterpoint to Exercise 5.51, modify the compiler so that it compiles Scheme procedures into sequences of C instructions. Compile the metacircular evaluator of Section 4.1 to produce a Scheme interpreter written in C.
+#exercise[As a counterpoint to Exercise 5.51, modify the compiler so that it compiles Scheme procedures into sequences of C instructions. Compile the metacircular evaluator of Section 4.1 to produce a Scheme interpreter written in C.
 ]
 
 #pagebreak()
