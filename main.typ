@@ -10,6 +10,8 @@
   size: 8pt,
 )
 
+#set text(lang: "es")
+
 #set heading(numbering: "1.")
 
 // Title Page
@@ -849,7 +851,7 @@ $ n! = n dot (n - 1) dot (n - 2) dots.c 3 dot 2 dot 1 $
 
 Hay muchas maneras de calcular factoriales. Una de ellas es observar que $n!$ es igual a $n$ multiplicado por $(n - 1)!$ para cualquier entero positivo $n$.
 
-$ n! = n dot [(n - 1) dot (n - 2) dots 3 dot 2 dot 1] = n dot (n - 1)! $
+$ n! = n dot [(n - 1) dot (n - 2) dots.c 3 dot 2 dot 1] = n dot (n - 1)! $
 
 Luego, podemos calcular $n!$ calculando $(n - 1)!$ y multiplicando el resultado por $n$. Si añadimos la convención de que $1!$ es igual a $1$, la observación se traduce directamente en un procedimiento:
 
@@ -860,7 +862,7 @@ Luego, podemos calcular $n!$ calculando $(n - 1)!$ y multiplicando el resultado 
       (* n (factorial (- n 1)))))
 ```
 
-Podemos usar el modelo de sustitución para mirar este procedimiento en acción al calcular 6!, como se muestra en la Figure 1.3.
+Podemos usar el modelo de sustitución para mirar este procedimiento en acción al calcular 6!, como se muestra a continuación:
 
 #figure(
   ```
@@ -880,7 +882,7 @@ Podemos usar el modelo de sustitución para mirar este procedimiento en acción 
   caption: [Un proceso recursivo lineal para calcular 6!.],
 )
 
-Ahora vamos a tomar una perspectiva diferente al calcular factoriales. Podríamos describir una regla para calcular $n!$ especificando que primero multiplicamos 1 por 2, luego multiplicamos el resultado por 3 y luego por 4, y así sucesivamente hasta llegar a $n$. Más formalmente, mantenemos funcionando un producto, junto con un contador que va desde 1 hasta $n$. Podemos describir el cálculo deciendo que el contador y el producto cambian simultáneamente de un paso al siguiente de acuerdo a la siguiente regla
+Ahora vamos a tomar una perspectiva diferente al calcular factoriales. Podríamos describir una regla para calcular $n!$ especificando que primero multiplicamos 1 por 2, luego multiplicamos el resultado por 3 y luego por 4, y así sucesivamente hasta llegar a $n$. Más formalmente, mantenemos funcionando un producto, junto con un contador que va desde 1 hasta $n$. Podemos describir el cálculo deciendo que el contador y el producto cambian simultáneamente de un paso al siguiente de acuerdo a la siguiente regla:
 
 $ "producto" arrow.l "contador" dot "producto" \
 "contador" arrow.l "producto" + 1 $
@@ -901,7 +903,7 @@ Nuevamente, podemos reformular nuestra descripción de un procedimiento para cal
                  max-count)))
 ```
 
-Como antes, podemos usar este modelo de sustitución para visualizar el proceso de calcular 6!, como se muestra en la Figure 1.4.
+Como antes, podemos usar este modelo de sustitución para visualizar el proceso de calcular 6!, como se muestra a continuación:
 
 #figure(
   ```
@@ -918,18 +920,18 @@ Como antes, podemos usar este modelo de sustitución para visualizar el proceso 
   caption: [Un proceso iterativo lineal para calcular 6!.],
 )
 
-Compare los dos procesos. Desde cierto punto vista, parecen práctimente indistinguibles. Ambos calculan la misma función matemática sobre el mismo dominio y cada una requiere un número de pasos proporcional a $n$ para calcular $n!$. De hecho, ambos procedimientos llegan a acumular la misma secuencia de multiplicaciones, obteniendo así la misma secuencia de productos parciales. Por otro lado, cuando consideramos las "formas" de los dos procesos, encontramos que tienen un desarrollo distinto.
+Compare los dos procesos. Desde cierto punto de vista, parecen práctimente indistinguibles. Ambos calculan la misma función matemática sobre el mismo dominio y cada una requiere un número de pasos proporcional a $n$ para calcular $n!$ De hecho, ambos procedimientos llegan a acumular la misma secuencia de multiplicaciones, obteniendo así la misma secuencia de productos parciales. Por otro lado, cuando consideramos las "formas" de los dos procesos, encontramos que tienen un desarrollo distinto.
 
 
 Considere el primer proceso. El modelo de sustitución revela una forma de expansión seguida de una contracción,  como se ve en la forma de flecha de la Figura 1.3. La expansión ocurre cuando el proceso se contruye bajo una cadena de *operaciones pospuestas* (revisar) (en este caso, una cadena de multiplicaciones). La contracción ocurre cuando las operaciones ya han sido ejecutadas. Este tipo de proceso, que se caracteriza por una cadena de operaciones pospuestas, es llamado *proceso recursivo*. Llevar a cabo este proceso requiere que el intérprete vaya registrando las operaciones para que después sean ejecutadas. En el cálculo de $n!$, la longitud de la cadena de multiplicaciones pospuestas, y por lo tanto el monto de información necesaria para registrarlas, crece linealmente con respecto a $n$ (es proporcional a $n$), al igual que el número de pasos. En tal caso el proceso es llamado *proceso recursivo lineal*.
 
-En cambio el segundo proceso no crece ni se contrae. En cada paso, para cualquier $n$, todo lo que necesitamos registrar son los valores de las variable `product`, `counter` y `max-count`. Llamamos a este proceso un *proceso iterativo*. En general, un proceso es iterativo cuando se puede resumir en un número fijo de *variables de estado*, junto con un número fijo de reglas que describen cómo se deben actualizar dichas variables, mientras que el proceso avanza de estado en estado, y, de manera opcional, una prueba que especifica condiciones bajo las cuales el proceso debería terminar. En el cálculo de $n!$, el número de pasos requeridos crece linealmente con $n$. Este proceso es llamado *proceso iterativo lineal*.
+En cambio el segundo proceso no crece ni se contrae. En cada paso, para cualquier $n$, todo lo que necesitamos registrar son los valores de las variables `product`, `counter` y `max-count`. Llamamos a este proceso un *proceso iterativo*. En general, un proceso es iterativo cuando se puede resumir en un número fijo de *variables de estado*, junto con un número fijo de reglas que describen cómo se deben actualizar dichas variables, mientras que el proceso avanza de estado en estado, y, de manera opcional, una prueba que especifica condiciones bajo las cuales el proceso debería terminar. En el cálculo de $n!$, el número de pasos requeridos crece linealmente con $n$. Este proceso es llamado *proceso iterativo lineal*.
 
-El contraste entre estos dos procesos puede ser visto de otro modo. En el caso iterativo, las variables del programa dan una descripción completa del estado del proceso en cualquier punto. Si detuvieramos la ejecución entre pasos, todo lo que necesitarimos para reanudar la ejecución es darle al intérprete los valores de las tres variable del programa. No ocurre lo mismo con el proceso recursivo. En este caso hay algo de información adicional que está "oculta", mantenida por el intérprete y no contenida en las variables del programa, que indica "dónde va el proceso" al recorrer la cadena de operaciones pospuestas. Entre más grande la cadena se debe mantener más información.
+El contraste entre estos dos procesos puede ser visto de otro modo. En el caso iterativo, las variables del programa dan una descripción completa del estado del proceso en cualquier punto. Si detuvieramos la ejecución entre pasos, todo lo que necesitaríamos para reanudar la ejecución es darle al intérprete los valores de las tres variables del programa. No ocurre lo mismo con el proceso recursivo. En este caso hay algo de información adicional que está "oculta", mantenida por el intérprete y no contenida en las variables del programa, que indica "dónde va el proceso" al recorrer la cadena de operaciones pospuestas. Entre más grande la cadena se debe mantener más información.
 
 Al contrastar iteración con recursión, debemos tener cuidado de no confundir la noción de un *proceso* recursivo con la de un *procedimiento* recursivo. Cuando decimos que un procedimiento es recursivo, nos referimos a la sintaxis que señala la definición de un procedimiento (ya sea directa o indirectamente) para el procedimiento en sí mismo. Pero cuando decimos que un proceso está siguiendo un patrón que es linealmente recursivo, estamos hablando de cómo evoluciona el proceso, no de la sintaxis con la que es escrito el procedimiento. Podría parecer desconcertante que nos refiramos a un procedimiento recursivo como `fact-iter` como generador de un proceso iterativo. Sin embargo, el proceso realmente es iterativo: su estado es completamente capturado por sus tres variables de estado y un intérprete que necesita mantener solo el registro de las tres variables para ejecutar el proceso. (REVISAR)
 
-Una razón por la cual la distinción entre proceso y procedimiento podría ser confusa, es que la mayoría de implementaciones de lenguajes comunes (incluyendo Ada, Pascal y C) son deseñados de tal manera que la interpretacióñ de cualquier procedimiento recursivo consume una cantidad de memoria que crece con el número de llamadas del procedimiento, incluso cuando, en principio, el proceso descrito es iterativo. Como consecuencia, estos lenguajes solo pueden describir procedimientos iterativos recurriendo a "constructores de bucles" de propósito especial como lo son `do`, `repeat`, `until`, `for` y `while`. La implementación de Scheme que consideramos en el Capítulo 5 no comparte este defecto. Scheme ejecutará un proceso iterativo en un espacio constante, incluso si el proceso iterativo es descrito por un procedimiento recursivo. Decimos que una implementación con esta propiedad es de *cola recursiva*. Con una implementación de cola recursiva, la iteración puede ser expresada usando la llamada ordinaria del procedimiento, de modo que las construcciones especiales de iteración solo son útiles como azúcar sintáctico. (este chiste solo lo entiende la madre del autor)
+Una razón por la cual la distinción entre proceso y procedimiento podría ser confusa, es que la mayoría de implementaciones de lenguajes comunes (incluyendo Python, Java y C) son diseñados de tal manera que la interpretación de cualquier procedimiento recursivo consume una cantidad de memoria que crece con el número de llamadas del procedimiento, incluso cuando, en principio, el proceso descrito es iterativo. Como consecuencia, estos lenguajes solo pueden describir procedimientos iterativos recurriendo a "constructores de bucles" de propósito especial como lo son `do`, `repeat`, `until`, `for` y `while`. La implementación de Scheme que consideramos en el Capítulo 5 no comparte este defecto. Scheme ejecutará un proceso iterativo en un espacio constante, incluso si el proceso iterativo es descrito por un procedimiento recursivo. Decimos que una implementación con esta propiedad es de *recursión de cola*. Con una implementación de recursión de cola, la iteración puede ser expresada usando la llamada ordinaria del procedimiento, de modo que las construcciones especiales de iteración solo son útiles como azúcar sintáctico.
 
 #block(fill: luma(240), inset: 10pt, radius: 4pt)[
   *Exercise 1.9:* Cada uno de los siguientes dos procedimientos definen un método para sumar dos enteros positivos en términos de los procedimientos `inc`, el cual aumenta 1 al argumento, y `dec`, que resta 1 al argumento.
