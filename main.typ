@@ -752,7 +752,7 @@ Observe que del problema de calcular raíces cuadradas naturalmente se derivan o
       /     \           \
   square    abs       average
   ```,
-  caption: [Procedural decomposition of the `sqrt` program.],
+  caption: [Descomposición procedimental del programa `sqrt`],
 )
 
 La importancia de esta estrategia de descomponer no es simplemente dividir el problema en partes. Obviamente podríamos tomar un programa extenso y dividirlo en partes---las primeras diez líneas, las siguientes diez líneas y así. Más allá de eso, es crucial que cada procedimiento lleve consigo una tarea específica y pueda ser usado de manera modular en la definición de otros procedimientos. Por ejemplo, cuando definimos el procedimiento `good-enough?` en términos de `square`, podemos considerar `square` como una "caja negra". Por el momento no nos concierne *cómo* calcular el procedimiento su resultado, pero sí el hecho de que sí calcula el cuadrado. Se pueden posponer los detalles de cómo se calcula el cuadrado, los retomaremos más adelante. En efecto, hasta que nos referimos al procedimiento `good-enough?`, `square` no es tanto un procedimiento sino más bien una abstracción de procedimiento, llamado *abstracción procedimental*. Para este nivel de abstracción, cualquier procedimiento que calcule el cuadrado es igual de de bueno.
@@ -944,7 +944,7 @@ El contraste entre estos dos procesos puede ser visto de otro modo. En el caso i
 
 Al contrastar iteración con recursión, debemos tener cuidado de no confundir la noción de un *proceso* recursivo con la de un *procedimiento* recursivo. Cuando decimos que un procedimiento es recursivo, nos referimos a la sintaxis que señala la definición de un procedimiento (ya sea directa o indirectamente) para el procedimiento en sí mismo. Pero cuando decimos que un proceso está siguiendo un patrón que es linealmente recursivo, estamos hablando de cómo evoluciona el proceso, no de la sintaxis con la que es escrito el procedimiento. Podría parecer desconcertante que nos refiramos a un procedimiento recursivo como `fact-iter` como generador de un proceso iterativo. Sin embargo, el proceso realmente es iterativo: su estado es completamente capturado por sus tres variables de estado y un intérprete que necesita mantener solo el registro de las tres variables para ejecutar el proceso. (REVISAR)
 
-Una razón por la cual la distinción entre proceso y procedimiento podría ser confusa, es que la mayoría de implementaciones de lenguajes comunes (incluyendo Python, Java y C) son diseñados de tal manera que la interpretación de cualquier procedimiento recursivo consume una cantidad de memoria que crece con el número de llamadas del procedimiento, incluso cuando, en principio, el proceso descrito es iterativo. Como consecuencia, estos lenguajes solo pueden describir procedimientos iterativos recurriendo a "constructores de bucles" de propósito especial como lo son `do`, `repeat`, `until`, `for` y `while`. La implementación de Scheme que consideramos en el Capítulo 5 no comparte este defecto. Scheme ejecutará un proceso iterativo en un espacio constante, incluso si el proceso iterativo es descrito por un procedimiento recursivo. Decimos que una implementación con esta propiedad es de *recursión de cola*. Con una implementación de recursión de cola, la iteración puede ser expresada usando la llamada ordinaria del procedimiento, de modo que las construcciones especiales de iteración solo son útiles como azúcar sintáctico.
+Una razón por la cual la distinción entre proceso y procedimiento podría ser confusa, es que la mayoría de implementaciones de lenguajes comunes (incluyendo Python, Java y C) son diseñados de tal manera que la interpretación de cualquier procedimiento recursivo consume una cantidad de memoria que crece con el número de llamadas del procedimiento, incluso cuando, en principio, el proceso descrito es iterativo. Como consecuencia, estos lenguajes solo pueden describir procedimientos iterativos recurriendo a "constructores de bucles" de propósito especial como lo son `do`, `repeat`, `until`, `for` y `while`. La implementación de Scheme que consideramos en el Capítulo 5 no comparte este defecto. Scheme ejecutará un proceso iterativo en un espacio constante, incluso si el proceso iterativo es descrito por un procedimiento recursivo. Decimos que una implementación con esta propiedad es de *recursión de cola*. Con una implementación de recursión de cola, la iteración puede ser expresada usando la llamada ordinaria d   el procedimiento, de modo que las construcciones especiales de iteración solo son útiles como #link("https://es.wikipedia.org/wiki/Az%C3%BAcar_sint%C3%A1ctico")[#text(fill: blue)[azúcar sintáctico]].
 
 #exercise[Cada uno de los siguientes dos procedimientos definen un método para sumar dos enteros positivos en términos de los procedimientos `inc`, el cual aumenta 1 al argumento, y `dec`, que resta 1 al argumento.
   
@@ -994,21 +994,21 @@ Una razón por la cual la distinción entre proceso y procedimiento podría ser 
   Dar definiciones matemáticas concisas para las funciones implementadas por los procesos `f`, `g` y `h`para valores de enteros positivos $n$. Por ejemplo, `(k n)` calcula $5 n^2$. 
 ]
 
-=== Tree Recursion
+=== Recursión de Árbol
 
-Another common pattern of computation is called *tree recursion*. As an example, consider computing the sequence of Fibonacci numbers, in which each number is the sum of the preceding two:
+Otro patrón común de computación es llamado *recursión de árbol*; como ejemplo, considere el cálculo de la sucesión de los números de Fibonacci, en la cual cada número es la suma de los dos anteriores:
 
 #align(center)[0, 1, 1, 2, 3, 5, 8, 13, 21, ...]
 
-In general, the Fibonacci numbers can be defined by the rule
+En general, los números de Fibonacci se pueden definir usando la regla
 
 $ "Fib"(n) = cases(
-  0 & "if" n = 0,
-  1 & "if" n = 1,
-  "Fib"(n-1) + "Fib"(n-2) & "otherwise"
+  0 & "si" n = 0,
+  1 & "si" n = 1,
+  "Fib"(n-1) + "Fib"(n-2) & "en otro caso"
 ) $
 
-We can immediately translate this definition into a recursive procedure for computing Fibonacci numbers:
+De inmediato podemos trasladar esta definición a un procedimiento recursivo para calcular los números de Fibonacci:
 
 ```scm
 (define (fib n)
@@ -1018,7 +1018,7 @@ We can immediately translate this definition into a recursive procedure for comp
                  (fib (- n 2))))))
 ```
 
-Consider the pattern of this computation. To compute `(fib 5)`, we compute `(fib 4)` and `(fib 3)`. To compute `(fib 4)`, we compute `(fib 3)` and `(fib 2)`. In general, the evolved process looks like a tree, as shown in Figure 1.5. Notice that the branches split into two at each level (except at the bottom); this reflects the fact that the `fib` procedure calls itself twice each time it is invoked.
+Consideremos el patrón de este cálculo. Para calcular `(fib 5)`, calculamos `(fib 4)` y `(fib 3)`, y a su vez, para calcular `(fib 4)`, calculamos `(fib 3)` y `(fib 2)`. En general, el desarrollo del proceso se ve como un árbol, tal como en la Figura 1.5. Note que las ramas se bifurcan en cada nivel (a excepción del inicio); esto refleja que el procedimiento `fib` se llama a sí mismo dos veces en cada llamada.
 
 #figure(
   ```
@@ -1040,25 +1040,25 @@ Consider the pattern of this computation. To compute `(fib 5)`, we compute `(fib
    .   .     .  .       
     .>.       ..        
   ```,
-  caption: [The tree-recursive process generated in computing `(fib 5)`.],
+  caption: [El proceso de recursión de árbol generado por el cálculo de `(fib 5)`.],
 )
 
-This procedure is instructive as a prototypical tree recursion, but it is a terrible way to compute Fibonacci numbers because it does so much redundant computation. Notice in Figure 1.5 that the entire computation of `(fib 3)`---almost half the work---is duplicated. In fact, it is not hard to show that the number of times the procedure will compute `(fib 1)` or `(fib 0)` (the number of leaves in the above tree, in general) is precisely $"Fib"(n+1)$. To get an idea of how bad this is, one can show that the value of $"Fib"(n)$ grows exponentially with $n$. More precisely (see Exercise 1.13), $"Fib"(n)$ is the closest integer to $phi^n / sqrt(5)$, where
+Este procedimiento es un prototipo instructivo para la recursión de árbol, pero es una terrible manera de calcular los números de Fibonacci, pues hace muchos cálculos redundantes. Note que en la Figura 1.5 hay cálculos duplicados de `(fib 3)`---esto es por lo menos la mitad del trabajo. En realidad no es difícil mostrar que el número de veces que se calculará `(fib 1)` o `(fib 0)` (en general, el número de hojas bajo el árbol) es precisamente $"Fib"(n+1)$. Para tener una idea de lo malo que es esto, se puede mostrar que el valor de $"Fib"(n)$ crece exponencialmente con $n$. Más precisamente (ver el Ejercicio 1.13), $"Fib"(n)$ es el entero más cercano de $phi^n / sqrt(5)$, donde
 
 $ phi = (1 + sqrt(5))/2 approx 1.6180 $
 
-is the *golden ratio*, which satisfies the equation
+es el *número aureo*, el cual satisface la ecuación
 
 $ phi^2 = phi + 1 $
 
-Thus, the process uses a number of steps that grows exponentially with the input. On the other hand, the space required grows only linearly with the input, because we need keep track only of which nodes are above us in the tree at any point in the computation. In general, the number of steps required by a tree-recursive process will be proportional to the number of nodes in the tree, while the space required will be proportional to the maximum depth of the tree.
+Es así que el proceso usa un número de pasos que crece exponencialmente con respecto a la entrada. Por otro lado, el espacio que se requiere solo crece linealmente con la entrada, pues en cualquier punto del cálculo solo necesitamos guardar el registro de los vértices que están arriba de nosotros. En general, el número de pasos requeridos para un proceso de recursión de árbol será proporcional al número de vértices, mientras que el espacio requerido será proporcional a la profundidad máxima del árbol. 
 
-We can also formulate an iterative process for computing the Fibonacci numbers. The idea is to use a pair of integers $a$ and $b$, initialized to $"Fib"(1) = 1$ and $"Fib"(0) = 0$, and to repeatedly apply the simultaneous transformations
+También podemos formular un proceso iterativo para calcular los números de Fibonacci. La idea es usar un par de enteros $a$ y $b$, inicializar $"Fib"(1) = 1$ y $"Fib"(0) = 0$ y luego aplicar repetidamente las siguientes transformaciones simultaneas
 
 $ a arrow.l a + b \
 b arrow.l a $
 
-It is not hard to show that, after applying this transformation $n$ times, $a$ and $b$ will be equal, respectively, to $"Fib"(n+1)$ and $"Fib"(n)$. Thus, we can compute Fibonacci numbers iteratively using the procedure
+No es difícil mostrar que, después de aplicar esta transformación $n$ veces, $a$ y $b$ serán iguales a $"Fib"(n+1)$ y $"Fib"(n)$, respectivamente. De modo que, iterativamente, podemos calcular los números de Fibonacci usando el procedimiento
 
 ```scm
 (define (fib n) 
@@ -1070,30 +1070,30 @@ It is not hard to show that, after applying this transformation $n$ times, $a$ a
       (fib-iter (+ a b) a (- count 1))))
 ```
 
-This second method for computing $"Fib"(n)$ is a linear iteration. The difference in number of steps required by the two methods---one linear in $n$, one growing as fast as $"Fib"(n)$ itself---is enormous, even for small inputs.
+Este segundo método para calcular $"Fib"(n)$ es una iteración lineal. La diferencia entre el número de pasos requeridos por los dos métodos---uno lineal con respecto a $n$, otro que crece tan rápido como $"Fib"(n)$---es enorme, incluso para entradas pequeñas.
 
-One should not conclude from this that tree-recursive processes are useless. When we consider processes that operate on hierarchically structured data rather than numbers, we will find that tree recursion is a natural and powerful tool. But even in numerical operations, tree-recursive processes can be useful in helping us to understand and design programs. For instance, although the first `fib` procedure is much less efficient than the second one, it is more straightforward, being little more than a translation into Lisp of the definition of the Fibonacci sequence. To formulate the iterative algorithm required noticing that the computation could be recast as an iteration with three state variables.
+De aquí no se debería concluir que los procesos de recursión de árbol son inútiles. Cuando consideramos procesos que operan sobre una estructura de datos jerárquica más allá de los números, encontraremos que la recursión de árbol es una herramienta natural y poderosa. Incluso en operaciones numéricas, los procesos de recursión de árbol nos pueden ser útiles en el entendimiento y diseño de programas. Por ejemplo, aunque el primer procedimiento `fib` es mucho menos eficiente que el segundo, es mucho más directo, pues en principio se parece más a una traducción en Lisp de la definición de la sucesión de Fibonacci. En la formulación del algoritmo iterativo fue necesario notar que el cálculo podría reformularse como una iteración con tres variables de estado.
 
-==== Example: Counting change
+==== Ejemplo: Contando el cambio
 
-It takes only a bit of cleverness to come up with the iterative Fibonacci algorithm. In contrast, consider the following problem: How many different ways can we make change of $1.00$, given half-dollars, quarters, dimes, nickels, and pennies? More generally, can we write a procedure to compute the number of ways to change any given amount of money?
+Para dar con el algoritmo iterativo de Fibonacci solo fue necesario un poco de astucia. En cambio, considere el siguiente problema: ¿De cuántas maneras diferentes se puede dar cambio de $1.00$ dolar, en términos de $50$, $25$, $10$, $5$ y $1$ centavos? De manera general, ¿podemos escribir un procedimiento para calcular el número de maneras de cambiar cualquier cantidad de dinero?
 
-This problem has a simple solution as a recursive procedure. Suppose we think of the types of coins available as arranged in some order. Then the following relation holds:
+Este problema tiene una solución simple si se le traslada a un procedimiento recursivo. Supongamos que pensamos los tipos de monedas disponibles como un arreglo con algún cierto orden. Entonces se tienen las siguientes relaciones:
 
-The number of ways to change amount $a$ using $n$ kinds of coins equals
+El número de maneras de cambiar la cantidad $a$ usando $n$ tipos de monedas es igual a
 
-- the number of ways to change amount $a$ using all but the first kind of coin, plus
-- the number of ways to change amount $a - d$ using all $n$ kinds of coins, where $d$ is the denomination of the first kind of coin.
+- el número de maneras de cambiar la cantidad $a$ usando todas las monedas excepto la primera, más
+- el número de maneras de cambiar la cantidad $a - d$ usando todos tipos $n$ de monedas, donde $d$ es la denominación del primer tipo de moneda. 
 
-To see why this is true, observe that the ways to make change can be divided into two groups: those that do not use any of the first kind of coin, and those that do. Therefore, the total number of ways to make change for some amount is equal to the number of ways to make change for the amount without using any of the first kind of coin, plus the number of ways to make change assuming that we do use the first kind of coin. But the latter number is equal to the number of ways to make change for the amount that remains after using a coin of the first kind.
+Para ver por qué esto es cierto, observe que la maneras de dar cambio pueden dividirse en dos grupos: aquellas que no usan ninguna moneda del primer tipo y las que sí lo hacen. Por lo tanto, el número total de maneras de dar cambio para cualquier cantidad es igual al número de maneras sin usar ninguna moneda del primer tipo, más el número de maneras asumiendo que en ellas siempre usamos la moneda del primer tipo. Pero este último número es igual a el número de maneras de dar cambio para la cantidad que quede después de usar una moneda del primer tipo.
 
-Thus, we can recursively reduce the problem of changing a given amount to the problem of changing smaller amounts using fewer kinds of coins. Consider this reduction rule carefully, and convince yourself that we can use it to describe an algorithm if we specify the following degenerate cases:
+Entonces, reducimos recursivamente el problema de cambiar una cantidad determinadad al problema de cambiar cantidades más pequeñas usando menos tipos de monedas. Considere cuidadosamente este regla de reducción y convénzase a sí mismo de que podemos usar esto para describir un algoritmo si especificamos los siguientes casos particulares:
 
-- If $a$ is exactly 0, we should count that as 1 way to make change.
-- If $a$ is less than 0, we should count that as 0 ways to make change.
-- If $n$ is 0, we should count that as 0 ways to make change.
+- Si $a$ es 0, debemos contar eso como 1 manera de dar cambio.
+- Si $a$ es menos que 0, debemos contar eso como 0 maneras de dar cambio.
+- Si $n$ es 0, debemos contar eso como 0 maneras de dar cambio.
 
-We can easily translate this description into a recursive procedure:
+Fácilmente podemos trasladar esta descripción a un procedimiento recursivo:
 
 ```scm
 (define (count-change amount)
@@ -1118,19 +1118,21 @@ We can easily translate this description into a recursive procedure:
         ((= kinds-of-coins 5) 50)))
 ```
 
-(The `first-denomination` procedure takes as input the number of kinds of coins available and returns the denomination of the first kind. Here we are thinking of the coins as arranged in order from largest to smallest, but any order would do as well.) We can now answer our original question about changing a dollar:
+(El procedimiento `first-denomination` toma como entrada el número de tipos de monedas disponibles y devulve la denominación del primer tipo. Pensamos que las monedas están en un arreglo ordenadas de mayor a menor, pero cualquier otro orden también funcionaría.) Ahora podemos responder a nuestra pregunta original sobre dar cambio de un dolar:
 
 ```scm
 (count-change 100)
 292
 ```
 
-`Count-change` generates a tree-recursive process with redundancies similar to those in our first implementation of `fib`. (It will take quite a while for that 292 to be computed.) On the other hand, it is not obvious how to design a better algorithm for computing the result, and we leave this problem as a challenge. The observation that a tree-recursive process may be highly inefficient but often easy to specify and understand has led people to propose that one could get the best of both worlds by designing a "smart compiler" that could transform tree-recursive procedures into more efficient procedures that compute the same result.
+`count-change` genera un proceso de recursión de árbol con redundancias similares a las de nuestra primera implementación de `fib`. (Tomará algo de tiempo calcular ese 292.) Por otro lado, no es obvio cómo diseñar un mejor algoritmo para calcular el resultado y dejamos este problema como un reto. La observación de que un proceso de recursión de árbol puede ser altamente ineficiente pero usualmente es fácil de especificar y de entender, ha llevado a las personas a proponer que se podría obtener lo mejor de dos mundos al diseñar un "compilador inteligente" que pueda transformar procedimientos de recursión de árbol en procedimientos más eficientes que calculen el mismo resultado. 
 
-#exercise[A function $f$ is defined by the rule that $f(n) = n$ if $n < 3$ and $f(n) = f(n-1) + 2 f(n-2) + 3 f(n-3)$ if $n >= 3$. Write a procedure that computes $f$ by means of a recursive process. Write a procedure that computes $f$ by means of an iterative process.
+#exercise[Una función $f$ está definida por la regla $f(n) = n$ si $n < 3$ y $f(n) = f(n-1) + 2 f(n-2) + 3 f(n-3)$ si $n >= 3$. Escriba un procedimiento que calcule $f$ por medio de un procedimiento recursivo. Escriba un procedimiento que calcule $f$ por medio de un procedimiento iterativo.
 ]
 
-#exercise[The following pattern of numbers is called *Pascal's triangle*.
+
+
+#exercise[El siguiente patrón de números es llamado *Triángulo de Pascal*.
 
   ```
            1
@@ -1141,10 +1143,10 @@ We can easily translate this description into a recursive procedure:
          . . .
   ```
 
-  The numbers at the edge of the triangle are all 1, and each number inside the triangle is the sum of the two numbers above it. Write a procedure that computes elements of Pascal's triangle by means of a recursive process.
+  Los números de los lados son todos iguales a 1 y cada número dentro del triángulo es la suma de los dos números arriba de él. Escribir in procedimiento que calcule elementos del triángulo de Pascal por medio de un procedimiento recursivo.
 ]
 
-#exercise[Prove that $"Fib"(n)$ is the closest integer to $phi^n / sqrt(5)$, where $phi = (1 + sqrt(5)) / 2$. Hint: Let $psi = (1 - sqrt(5)) / 2$. Use induction and the definition of the Fibonacci numbers to prove that $"Fib"(n) = (phi^n - psi^n) / sqrt(5)$.
+#exercise[Pruebe que $"Fib"(n)$ es el entero más cercano de $phi^n / sqrt(5)$, donde $phi = (1 + sqrt(5)) / 2$. Pista: considere $psi = (1 - sqrt(5)) / 2$. Use inducción y la definición de los números de Fibonacci para probar que $"Fib"(n) = (phi^n - psi^n) / sqrt(5)$.
 ]
 
 === Orders of Growth
