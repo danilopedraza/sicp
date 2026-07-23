@@ -1150,26 +1150,26 @@ Fácilmente podemos trasladar esta descripción a un procedimiento recursivo:
 #exercise[Pruebe que $"Fib"(n)$ es el entero más cercano de $phi^n / sqrt(5)$, donde $phi = (1 + sqrt(5)) / 2$. Pista: considere $psi = (1 - sqrt(5)) / 2$. Use inducción y la definición de los números de Fibonacci para probar que $"Fib"(n) = (phi^n - psi^n) / sqrt(5)$.
 ]
 
-=== Orders of Growth
+=== Órdenes de Crecimiento
 
-The previous examples illustrate that processes can differ considerably in the rates at which they consume computational resources. One convenient way to describe this difference is to use the notion of *order of growth* to obtain a gross measure of the resources required by a process as the inputs become larger.
+En el ejemplo anterior se evidencia que los procesos pueden diferir bastante con respecto al radio de consumo de recursos computacionales. Una manera conveniente de describir esta diferencia es usar la notación de *orden de crecimiento*, con ella obtenemos una medida aproximada de los rucursos necesarios en función de la entrada del proceso. 
 
-Let $n$ be a parameter that measures the size of the problem, and let $R(n)$ be the amount of resources the process requires for a problem of size $n$. In our previous examples we took $n$ to be the number for which a given function is to be computed, but there are other possibilities. For instance, if our goal is to compute an approximation to the square root of a number, we might take $n$ to be the number of digits accuracy required. For matrix multiplication we might take $n$ to be the number of rows in the matrices. In general there are a number of properties of the problem with respect to which it will be desirable to analyze a given process. Similarly, $R(n)$ might measure the number of internal storage registers used, the number of elementary machine operations performed, and so on. In computers that do only a fixed number of operations at a time, the time required will be proportional to the number of elementary machine operations performed.
+Sea $n$ un parámetro que mide el tamaño del problema y sea $R(n)$ la cantidad de recursos que el proceso require para un problema de tamaño $n$. En nuestros ejemplos previos, tomamos $n$ como el número para el cual se debe calcular una función determinada, pero existen otras posibilidades. Por ejemplo, si nuestra meta es calcular una aproximación de la raíz cuadrada, podríamos tomar $n$ como el número de dígitos de aproximación esperada. Para la multiplicación de matrices podríamos tomar $n$ como el número de filas de las matrices. En general hay un buen número de propiedades del problema con las cuales nos gustaría analizar un determinado proceso. De manera similar, $R(n)$ podría medir el número de almacenamiento interno usado para los registros, el número de operaciones elementales que la máquina ejecuta y otros más. En computadores que solo hacen un número fijo de operaciones a la vez, el tiempo requerido será proporcional al número de operaciones elementales que la máquina ejecuta.
 
-We say that $R(n)$ has order of growth $Theta(f(n))$, written $R(n) = Theta(f(n))$ (pronounced "theta of $f(n)$"), if there are positive constants $k_1$ and $k_2$ independent of $n$ such that $k_1 f(n) <= R(n) <= k_2 f(n)$ for any sufficiently large value of $n$. (In other words, for large $n$, the value $R(n)$ is sandwiched between $k_1 f(n)$ and $k_2 f(n)$.)
+Decimos que $R(n)$ es de orden $Theta(f(n))$, lo que se nota como $R(n) = Theta(f(n))$ (se pronuncia "theta de $f(n)$"), si existen constantes positivas $k_1$ y $k_2$, independientes de $n$, tales que $k_1 f(n) <= R(n) <= k_2 f(n)$ para cualquier valor de $n$ suficientemente grande. (En otras palabras, para un $n$ condireblamente grande, el valor de $R(n)$ está encajado entre $k_1 f(n)$ y $k_2 f(n)$.)
 
-For instance, with the linear recursive process for computing factorial described in Section 1.2.1 the number of steps grows proportionally to the input $n$. Thus, the steps required for this process grows as $Theta(n)$. We also saw that the space required grows as $Theta(n)$. For the iterative factorial, the number of steps is still $Theta(n)$ but the space is $Theta(1)$---that is, constant.#footnote[These statements mask a great deal of oversimplification. For instance, if we count process steps as "machine operations" we are making the assumption that the number of machine operations needed to perform, say, a multiplication is independent of the size of the numbers to be multiplied, which is false if the numbers are sufficiently large. Similar remarks hold for the estimates of space. Like the design and description of a process, the analysis of a process can be carried out at various levels of abstraction.] The tree-recursive Fibonacci computation requires $Theta(phi^n)$ steps and space $Theta(n)$, where $phi$ is the golden ratio described in Section 1.2.2.
+Por ejemplo, con el proceso recursivo lineal para calcular el factorial descrito en la Sección 1.2.1, el número de pasos crece en proporción con la entrada $n$. Luego, los pasos requeridos para este proceso son de orden $Theta(n)$. También vimos que el espacio requerido es de orden $Theta(n)$. Para el factorial iterativo, el número de pasos se mantiene en $Theta(n)$ pero el espacio es $Theta(1)$---es decir, constante.#footnote[Estas afirmaciones ocultan una gran simplificación. Por ejemplo, si contamos los procesos como "operaciones de máquina" asumimos que el número de operaciones necesarias para ejecutar, digamos, una multiplicación es independiente del tamaño de los números a multiplicar, lo cual es falso si los números son lo suficientemente grandes. Observaciones similares son válidas para la estimación del espacio. Así como en el diseño de procesos, el análisis de un proceso puede llevar varios niveles de abstracción.] El cálculo de los números de Fibonacci mediante recursión de árbol, requiere $Theta(phi^n)$ pasos y $Theta(n)$ de espacio, donde $phi$ es el número de oro descrito en la Sección 1.2.2.
 
-Orders of growth provide only a crude description of the behavior of a process. For example, a process requiring $n^2$ steps and a process requiring $1000n^2$ steps and a process requiring $3n^2 + 10n + 17$ steps all have $Theta(n^2)$ order of growth. On the other hand, order of growth provides a useful indication of how we may expect the behavior of the process to change as we change the size of the problem. For a $Theta(n)$ (linear) process, doubling the size will roughly double the amount of resources used. For an exponential process, each increment in problem size will multiply the resource utilization by a constant factor. In the remainder of Section 1.2 we will examine two algorithms whose order of growth is logarithmic, so that doubling the problem size increases the resource requirement by a constant amount.
+Los órdenes de crecimiento solo dan una descripción cruda del comportamiento de un proceso. Por ejemplo, un proceso que requiere $n^2$ pasos, uno de $1000n^2$ pasos y otro de $3n^2 + 10n + 17$ pasos tienen el mismo orden de crecimiento $Theta(n^2)$. Por otro lado, el orden de crecimiento da un indicación útil de cuál debería ser el cambio en el comportamiento esperado a medida que cambia el tamaño del problema. Para un proceso $Theta(n)$ (un proceso lineal), doblar el tamaño también doblará el tamaño de los recursos usados. Para un proceso exponencial, cada incremento en el tamaño del problema multiplicará los recursos por un factor constante. En lo que queda de la Sección 1.2 examinaremos dos algoritmos cuyo orden de crecimiento es logarítmico, de modo que doblando el tamaño del problema aumentamos los recursos necesarios en una cantidad constante.
 
-#exercise[Draw the tree illustrating the process generated by the `count-change` procedure of Section 1.2.2 in making change for 11 cents. What are the orders of growth of the space and number of steps used by this process as the amount to be changed increases?
+#exercise[Dibuje el árbol que ilustra el proceso generado por el procedimiento `count-change` de la Sección 1.2.2, al dar cambio de 11 centavos. ¿Cuáles son los ordenes de crecimiento del espacio y el número de pasos que usa este proceso a medida que cambia la cantidad a cambiar?
 ]
 
-#exercise[The sine of an angle (specified in radians) can be computed by making use of the approximation $sin x approx x$ if $x$ is sufficiently small, and the trigonometric identity
-  
-  $ sin x = 3 sin x/3 - 4 sin^3 x/3 $
+#exercise[El seno de un ángulo (dado en radianes) puede ser calculado haciendo uso de la aproximación $sin x approx x$ si $x$ es lo suficientemente pequeño y la identidad trigonométrica
 
-  to reduce the size of the argument of sine. (For purposes of this exercise an angle is considered "sufficiently small" if its magnitude is not greater than 0.1 radians.) These ideas are incorporated in the following procedures:
+$ sin x = 3 sin x/3 - 4 sin^3 x/3$
+
+para recudir el tamaño del argumento del seno. (Para el fin de este ejercicio, un ángulo es considerado "suficientemente pequeño" si su magnitud no es mayor que 0.1 radianes.) Estas ideas son incluidas en los siguientes procedimientos:
 
   ```scm
   (define (cube x) (* x x x))
@@ -1180,9 +1180,9 @@ Orders of growth provide only a crude description of the behavior of a process. 
          (p (sine (/ angle 3.0)))))
   ```
 
-  a. How many times is the procedure `p` applied when `(sine 12.15)` is evaluated?
+a. ¿Cuántas veces se aplica el procedimiento `p` cuando se evalúa `(sine 12.15)`?
 
-  b. What is the order of growth in space and number of steps (as a function of $a$) used by the process generated by the `sine` procedure when `(sine a)` is evaluated?
+b. ¿Cuál es el orden de crecimiento, en espacio y número de pasos (en función de $a$), usado por el proceso generado por el procedimiento `sine` cuando se evalúa `(sine a)`?
 ]
 
 === Exponentiation
