@@ -33,8 +33,9 @@
   exercise-counter.update(0)
 }
 
-#set figure(numbering: none)
-
+#set figure(
+  supplement: [Figura],
+)
 // Title Page
 #align(center + horizon)[
   #text(16pt, weight: "bold")[Structure and Interpretation \ of Computer Programs]
