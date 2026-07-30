@@ -1185,14 +1185,14 @@ a. ¿Cuántas veces se aplica el procedimiento `p` cuando se evalúa `(sine 12.1
 b. ¿Cuál es el orden de crecimiento, en espacio y número de pasos (en función de $a$), usado por el proceso generado por el procedimiento `sine` cuando se evalúa `(sine a)`?
 ]
 
-=== Exponentiation
+=== Potenciación
 
-Consider the problem of computing the exponential of a given number. We would like a procedure that takes as arguments a base $b$ and a positive integer exponent $n$ and computes $b^n$. One way to do this is via the recursive definition
+Considere el problema de calcular la potencia de un número dado. Nos gustaría un procedimiento cuyos argumentos sean una base $b$ y un entero positivo $n$ como exponente, con esto podríamos calcular $b^n$. Una forma de hacer esto es usando la definición recursiva 
 
 $ b^n &= b dot b^(n-1) \
   b^0 &= 1 $
 
-which translates readily into the procedure
+que se traslada fácilmente en el procedimiento
 
 ```scm
 (define (expt b n)
@@ -1201,7 +1201,7 @@ which translates readily into the procedure
       (* b (expt b (- n 1)))))
 ```
 
-This is a linear recursive process, which requires $Theta(n)$ steps and $Theta(n)$ space. Just as with factorial, we can readily formulate an equivalent linear iteration:
+Esto es un proceso recursivo lineal que requiere $Theta(n)$ pasos y $Theta(n)$ espacio. Justo como en el factorial, fácilmente podemos formular una iteración lineal equivalente:
 
 ```scm
 (define (expt b n) 
@@ -1215,24 +1215,25 @@ This is a linear recursive process, which requires $Theta(n)$ steps and $Theta(n
                  (* b product))))
 ```
 
-This version requires $Theta(n)$ steps and $Theta(1)$ space.
+Esta versión requiere $Theta(n)$ pasos y $Theta(1)$ de espacio.
 
-We can compute exponentials in fewer steps by using successive squaring. For instance, rather than computing $b^8$ as
+
+Podemos calcular potencias en pocos pasos si lo hacemos elevando al cuadrado sucesivamente. Por ejemplo, en lugar de calcular $b^8$ como 
 
 $ b dot (b dot (b dot (b dot (b dot (b dot (b dot b)))))) $
 
-we can compute it using three multiplications:
+podemos calcularlo usando tres multiplicaciones:
 
 $ b^2 &= b dot b \
   b^4 &= b^2 dot b^2 \
   b^8 &= b^4 dot b^4 $
 
-This method works fine for exponents that are powers of 2. We can also take advantage of successive squaring in computing exponentials in general if we use the rule
+Este método funciona bien para potencias de 2. Podemos usar esta ventaja, de elevar al cuadrado sucesivamente, en el cálculo de potencias en general si usamos la regla
 
-$ b^n &= (b^(n/2))^2 && "if" n "is even" \
-  b^n &= b dot b^(n-1) && "if" n "is odd" $
+$ b^n &= (b^(n/2))^2 && "si" n "es par" \
+  b^n &= b dot b^(n-1) && "si" n "es impar" $
 
-We can express this method as a procedure:
+Podemos expresar este método como un procedimiento:
 
 ```scm
 (define (fast-expt b n)
@@ -1244,21 +1245,20 @@ We can express this method as a procedure:
          (* b (fast-expt b (- n 1))))))
 ```
 
-where the predicate to test whether an integer is even is defined in terms of the primitive procedure `remainder` by
+donde el predicado de la prueba para determinar si un entero es par, está definido en términos del procedimiento primitivo `remainder`
 
 ```scm
 (define (even? n)
   (= (remainder n 2) 0))
 ```
 
-The process evolved by `fast-expt` grows logarithmically with $n$ in both space and number of steps. To see this, observe that computing $b^(2n)$ using `fast-expt` requires only one more multiplication than computing $b^n$. The size of the exponent we can compute therefore doubles (approximately) with every new multiplication we are allowed. Thus, the number of multiplications required for an exponent of $n$ grows about as fast as the logarithm of $n$ to the base 2. The process has $Theta(log n)$ growth.#footnote[More precisely, the number of multiplications required is equal to 1 less than the log base 2 of $n$ plus the number of ones in the binary representation of $n$. This total is always less than twice the log base 2 of $n$. The arbitrary constants $k_1$ and $k_2$ in the definition of order notation imply that, for a logarithmic process, the base to which logarithms are taken does not matter, so all such processes are described as $Theta(log n)$.]
+El proceso representado por `fast-expt` crece logaritmicamente con respecto a $n$ tanto en espacio como en número de pasos. Para ver esto, observe que calcular $b^(2n)$, usando `fast-expt`, se requiere solo una multiplicación más que $b^n$. El tamaño del exponente que podemos calcular se duplica (aproximadamente) con cada multiplicación que permitamos. Entonces, el número de multiplicaciones necesarias para un exponente $n$ crece tan rápido como el logaritmo de $n$ en base 2. El proceso tiene un orden de crecimiento $Theta(log n)$.#footnote[Más precisamente, el número de multiplicaciones necesarias es igual en 1 menos que el logaritmo en base 2 de $n$ (es decir $log_2(n) - 1$) más el número de unos en la representación binaria de $n$. El total de esto siempre es menor que dos veces el logaritmo en base 2 de $n$ (es decir $log_2(n) - 1 + "ones-binary"(n) <= 2 log_2(n)$). Las constantes arbitrarias $k_1$ y $k_2$ en la definición de la notación de orden implica que, para un proceso logarítmico, la base escogida en el logaritmo no importe, es por eso que todos estos procesos son descritos como $Theta(log n)$.]
 
-The difference between $Theta(log n)$ growth and $Theta(n)$ growth becomes striking as $n$ becomes large. For example, `fast-expt` for $n = 1000$ requires only 14 multiplications.#footnote[You may wonder why anyone would care about raising numbers to the 1000th power. See Section 1.2.6.] It is also possible to use the idea of successive squaring to devise an iterative algorithm that computes exponentials with a logarithmic number of steps (see Exercise 1.16), although, as is often the case with iterative algorithms, this is not written down so straightforwardly as the recursive algorithm.#footnote[This iterative algorithm is ancient. It appears in the _Chandah-sutra_ by Acharya Pingala, written before 200 B.C. See Knuth (1981), section 4.6.3, for a full discussion and analysis of this and other methods of exponentiation.]
+La diferencia entre los ordenes $Theta(log n)$ y $Theta(n)$ es que el crecimiento se vuelve considerable a medida que $n$ crece. Por ejemplo, `fast-expt` cuando $n = 1000$ necesita solo de 14 multiplicaciones.#footnote[Te podrías preguntar por qué alguien se preocuparía por elevar números a la 1000-ésima potencia. Ver la Sección 1.2.6] También es posible usar la idea de fondo que está en elevar al cuadrado sucesivamente para elaborar un algoritmo iterativo que calcule potencias en un número logarítmico de pasos (ver el Ejercicio 1.16), aunque, como sucede usualmente con lo algoritmos iterativos, no se escribe tan directamente como los algoritmos recursivos.#footnote[Este algoritmo es antiguo, aparece en el _Chandah-sutra_ de Acharya Pingala, escrito antes del 200 A.C. Ver Knuth (1981), sección 4.6.3, para una discusión y análisis completos de este y otros métodos de potenciación.]  
 
-#exercise[Design a procedure that evolves an iterative exponentiation process that uses successive squaring and uses a logarithmic number of steps, as does `fast-expt`. (Hint: Using the observation that $(b^(n/2))^2 = (b^2)^(n/2)$, keep, along with the exponent $n$ and the base $b$, an additional state variable $a$, and define the state transformation in such a way that the product $a b^n$ is unchanged from state to state. At the beginning of the process $a$ is taken to be 1, and the answer is given by the value of $a$ at the end of the process. In general, the technique of defining an *invariant quantity* that remains unchanged from state to state is a powerful way to think about the design of iterative algorithms.)
-]
+#exercise[Diseñar un procedimiento que desarrolle un proceso iterativo de potenciación que use cuadrados sucesivos y que lo haga en un número logarítmico de pasos, así como `fast-expt`. (Pista: usando la observación $(b^(n/2))^2 = (b^2)^(n/2)$, considere, junto al exponente $n$ y la base $b$, una variable de estado adicional $a$ y defina la transformación de estado de tal modo el producto $a b^n$ no cambie de estado en estado. Al inicio del proceso $a$ se toma como 1 y la respuesta está dada por el valor que toma $a$ al final del proceso. En general, la técnica de definir una *cantidad invariante* que permanece sin cambios de un estado a otro es una manera poderosa de pensar acerca del diseño iterativo de algoritmos.)]
 
-#exercise[The exponentiation algorithms in this section are based on performing exponentiation by means of repeated multiplication. In a similar way, one can perform integer multiplication by means of repeated addition. The following multiplication procedure (in which it is assumed that our language can only add, not multiply) is analogous to the `expt` procedure:
+#exercise[El algoritmo de potenciación en esta sección se basa en que potenciar significa repetir multiplicaciones. De manera similar, uno puede ejecutar la multiplicación de enteros por medio de sumas repetidas. El siguiente procedimiento de multiplicación (que supone que nuestro lenguaje solo puede sumar, no multiplicar) es analogo al procedimiento `expt`:
 
   ```scm
   (define (* a b)
@@ -1267,11 +1267,12 @@ The difference between $Theta(log n)$ growth and $Theta(n)$ growth becomes strik
         (+ a (* a (- b 1)))))
   ```
 
-  This algorithm takes a number of steps that is linear in `b`. Now suppose we include, together with addition, operations `double`, which doubles an integer, and `halve`, which divides an (even) integer by 2. Using these, design a multiplication procedure analogous to `fast-expt` that uses a logarithmic number of steps.
+  Este algoritmo toma un número de pasos que es lineal en `b`. Ahora suponga que incluimos, además de la suma, las operaciones `double`, que multiplica por 2 a un entero, y `halve`, que divide entre 2 a un entero (par). Usando esto, diseñe un procedimiento de multiplicación análogo a `fast-expt` que use un número logarítmico de pasos.
 ]
 
-#exercise[Using the results of Exercise 1.16 and Exercise 1.17, devise a procedure that generates an iterative process for multiplying two integers in terms of adding, doubling, and halving and uses a logarithmic number of steps.#footnote[This algorithm, which is sometimes known as the "Russian peasant method" of multiplication, is ancient. Examples of its use are found in the Rhind Papyrus, one of the two oldest mathematical documents in existence, written about 1700 B.C. (and copied from an even older document) by an Egyptian scribe named A'h-mose.]
-]
+#exercise[Usando los resultados del Ejercicio 1.16 y 1.17, desarrolle un procedimiento que genere un proceso iterativo para multiplicar dos enteros en términos de la suma, de multiplicar por 2 y de dividir entre 2, y que use un número logaritmico de pasos.#footnote[Este algoritmo, que aveces se conoce como el "Método campesino ruso" de multiplicación, es antiguo. Ejemplos donde es usado se encuentran en el Rhind Papyrus, uno de los dos documentos matemáticos existentes más antiguos, escrito cerca del 1700 A.C. (y copiado de un documento aún más antiguo) por un escriba egipcio llamado A'h-mose.]]
+
+#exercise[Existe un algoritmo inteligente para calcular los números de Fibonacci en un número logarítmico de pasos. Recordemos la transformación de las variables de estado $a$ y $b$ del proceso `fib-iter` de la Sección 1.2.2: $a <- a + b$ y $b <- a$. Nombre $T$ a esta transfomación y observe que aplicándola $n$ veces una y otra vez, empezando en 1 y 0, se genera el par $F i b(n+1)$ y $F i b(n)$. En otras palabras, los números de Fibonacci son producidos aplicando $T^n$, la $n$-ésima potencia de la transformación $T$, empezando con la pareja $(1,0)$. Ahora considere a $T$ como un caso especial de $p=0$ y $q=1$ en una familia de transformaciones $T_(p q)$, donde $T_(p q)$ transforma la pareja $(a, b)$ de acuerdo a la asignación $a <- b q + a q + a p$ y $b <- b p + a q$. Muestre que aplicar dos veces la transfomación $T_(p q)$, da el mismo resultado que aplicar una sola vez la transfomación $T_(p' q')$ de la misma manera, calculando $p'$ y $q'$ en términos de $p$ y $q$. Esto nos da una manera explícita elevar al cuadrado estas transformaciones y entonces podemos calcular $T^n$ elevando al cuadrado de manera sucesiva, como en el procedimiento de `fast-expt`. Junto todo esto para completar el siguiente procedimiento, que corre en un número logarítmico de pasos:#footnote[Este ejercicio fue sugerido por nuestro Joe Stoy, basado en un ejemplo en Kaldewaij (1990).]]
 
 #exercise[There is a clever algorithm for computing the Fibonacci numbers in a logarithmic number of steps. Recall the transformation of the state variables $a$ and $b$ in the `fib-iter` process of Section 1.2.2: $a <- a + b$ and $b <- a$. Call this transformation $T$, and observe that applying $T$ over and over again $n$ times, starting with 1 and 0, produces the pair $F i b(n+1)$ and $F i b(n)$. In other words, the Fibonacci numbers are produced by applying $T^n$, the $n^"th"$ power of the transformation $T$, starting with the pair (1, 0). Now consider $T$ to be the special case of $p=0$ and $q=1$ in a family of transformations $T_(p q)$, where $T_(p q)$ transforms the pair $(a, b)$ according to $a <- b q + a q + a p$ and $b <- b p + a q$. Show that if we apply such a transformation $T_(p q)$ twice, the effect is the same as using a single transformation $T_(p' q')$ of the same form, and compute $p'$ and $q'$ in terms of $p$ and $q$. This gives us an explicit way to square these transformations, and thus we can compute $T^n$ using successive squaring, as in the `fast-expt` procedure. Put this all together to complete the following procedure, which runs in a logarithmic number of steps:#footnote[This exercise was suggested to us by Joe Stoy, based on an example in Kaldewaij (1990).]
 
@@ -1494,7 +1495,7 @@ The existence of tests for which one can prove that the chance of error becomes 
 #exercise[Demonstrate that the Carmichael numbers listed in the footnote really do fool the Fermat test. That is, write a procedure that takes an integer $n$ and tests whether $a^n$ is congruent to $a$ modulo $n$ for every $a < n$, and try your procedure on the given Carmichael numbers.
 ]
 
-#exercise[One variant of the Fermat test that cannot be fooled is called the *Miller-Rabin test* (Miller 1976; Rabin 1980). This starts from an alternate form of Fermat's Little Theorem, which states that if $n$ is a prime number and $a$ is any positive integer less than $n$, then $a$ raised to the $(n-1)$-st power is congruent to 1 modulo $n$. To test the primality of a number $n$ by the Miller-Rabin test, we pick a random number $a < n$ and raise $a$ to the $(n-1)$-st power modulo $n$ using the `expmod` procedure. However, whenever we perform the squaring step in `expmod`, we check to see if we have discovered a "nontrivial square root of 1 modulo $n$," that is, a number not equal to 1 or $n-1$ whose square is equal to 1 modulo $n$. It is possible to prove that if such a nontrivial square root of 1 exists, then $n$ is not prime. It is also possible to prove that if $n$ is an odd number that is not prime, then, for at least half the numbers $a < n$, computing $a^(n-1)$ in this way will reveal a nontrivial square root of 1 modulo $n$. (This is why the Miller-Rabin test cannot be fooled.) Modify the `expmod` procedure to signal if it discovers a nontrivial square root of 1, and use this to implement the Miller-Rabin test with a procedure analogous to `fermat-test`. Check your procedure by testing various known primes and non-primes. Hint: One convenient way to make `expmod` signal is to have it return 0.
+#exercise[One variant of the Fermat test that cannot be fooled is called the *Miller-Rabin test* (Miller 1976; Rabin 1980). This starts from an alternate form of Fermat's Little Theorem, which states that if $n$ is a prime number and $a$ is any positive integer less than $n$, then $a$ raised to the $(n-1)$-st power is congruent to 1 modulo $n$. To test the primality of a number $n$ by the Miller-Rabin test, we pick a random number $a < n$ and raise $a$ to the $(n-1)$-st power modulo $n$ using the `expmod` procedure. However, whenever we perform the squaring step in `expmod`, we check to see if we have discovered a "nontrivial square root of 1 modulo $n$," that is, a number not equal to 1 or $n-1$ whose square is equal to 1 modulo $n$. It is possible to prove that if such a nontrivial square root of 1 exists, then $n$ is not prime. It is also possible to prove that if $n$ is an odd number that is not prime, then, for at least half the numbers $a < n$, computing $a^(n-1)$ in this way will reveal a nontrivial square root of 1 modulo $n$. (This is why the Miller-Rabin test cannot be fooled.) Modify the `expmod` procezdure to signal if it discovers a nontrivial square root of 1, and use this to implement the Miller-Rabin test with a procedure analogous to `fermat-test`. Check your procedure by testing various known primes and non-primes. Hint: One convenient way to make `expmod` signal is to have it return 0.
 ]
 
 == Formulating Abstractions with Higher-Order Procedures
