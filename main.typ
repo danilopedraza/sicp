@@ -1,3 +1,5 @@
+#import "@preview/cetz:0.5.2": canvas, draw, tree
+
 #set page(
   paper: "a6",
   margin: (x: 1cm, y: 1.5cm),
@@ -6,7 +8,7 @@
 )
 
 #set text(
-  font: ("Linux Libertine"),//, "DejaVu Serif", "serif"),
+  font: ("Linux Libertine"),
   size: 8pt,
 )
 
@@ -1021,28 +1023,85 @@ De inmediato podemos trasladar esta definición a un procedimiento recursivo par
 
 Consideremos el patrón de este cálculo. Para calcular `(fib 5)`, calculamos `(fib 4)` y `(fib 3)`, y a su vez, para calcular `(fib 4)`, calculamos `(fib 3)` y `(fib 2)`. En general, el desarrollo del proceso se ve como un árbol, tal como en la Figura 1.5. Note que las ramas se bifurcan en cada nivel (a excepción del inicio); esto refleja que el procedimiento `fib` se llama a sí mismo dos veces en cada llamada.
 
-#figure(
-  ```
-                     ..<............ fib5   <.......... 
-                  ...     ___________/  \___________   .  
-               ...       /       . .....            \    . 
-             ..       fib4     .        . . . .     fib3  .  
-           ..     ____/. \____  ..             .  __/  \__  .  
-         ..      /  . .  ..   \    .        ..   /  . .   \   . 
-       ..     fib3 .       .  fib2 .        . fib2 .   .  fib1 .
-     ..      / . \  .     .   /  \  .      .  /  \ ...  .  |  .
-   ..       / . . \   .  .   /  . \   .  .   / .  \   .  . 1 .
-  .      fib2 . . fib1.  .fib1 .  fib0 . .fib1. . fib0 .  .  .
-  .      /  \  . . |  .  . |  .  . |   . . |   . . |   .   .>
-  V     /  . \   . 1  .  . 1  .  . 0  .  . 1  .  . 0  ..
-  .  fib1 .. fib0..  .   .   .   .   .   V   .   ..  . 
-  .   |  .  . |  . .>     .>.     . .    ..>.      .>
-  .   1 .   . 0  .      
-   .   .     .  .       
-    .>.       ..        
-  ```,
-  caption: [El proceso de recursión de árbol generado por el cálculo de `(fib 5)`.],
-)
+// #figure(
+//   ```
+//                      ..<............ fib5   <.......... 
+//                   ...     ___________/  \___________   .  
+//                ...       /       . .....            \    . 
+//              ..       fib4     .        . . . .     fib3  .  
+//            ..     ____/. \____  ..             .  __/  \__  .  
+//          ..      /  . .  ..   \    .        ..   /  . .   \   . 
+//        ..     fib3 .       .  fib2 .        . fib2 .   .  fib1 .
+//      ..      / . \  .     .   /  \  .      .  /  \ ...  .  |  .
+//    ..       / . . \   .  .   /  . \   .  .   / .  \   .  . 1 .
+//   .      fib2 . . fib1.  .fib1 .  fib0 . .fib1. . fib0 .  .  .
+//   .      /  \  . . |  .  . |  .  . |   . . |   . . |   .   .>
+//   V     /  . \   . 1  .  . 1  .  . 0  .  . 1  .  . 0  ..
+//   .  fib1 .. fib0..  .   .   .   .   .   V   .   ..  . 
+//   .   |  .  . |  . .>     .>.     . .    ..>.      .>
+//   .   1 .   . 0  .      
+//    .   .     .  .       
+//     .>.       ..        
+//   ```,
+//   caption: [El proceso de recursión de árbol generado por el cálculo de `(fib 5)`.],
+// )
+
+#align(center, canvas({
+  import draw: *
+  let padded(thing) = {
+    pad(thing, bottom: 5pt, top: 5pt)
+  }
+  let one() = {
+    padded(`1`)
+  }
+  let zero() = {
+    padded(`0`)
+  }
+  let fib_call(i) = {
+    padded(raw(("fib", str(i)).join()))
+  }
+  let fib(i) = {
+    if i == 0 {
+      (
+        [#fib_call(0)],
+        zero()
+      )
+    } else if i == 1 {
+      (
+        [#fib_call(1)],
+        one(),
+      )
+    } else {
+      (
+        [#fib_call(i)],
+        fib(i - 1),
+        fib(i - 2),
+      )
+    }
+
+  }
+
+  set-style(content: (padding: 0em))
+  tree.tree(
+    spread: 0.25,
+    fib(5),
+    draw-edge: (parent, child) => {
+      if parent.x == child.x {
+        draw.line(
+          parent.group-name,
+          child.group-name,
+          stroke: 0.5pt,
+        )
+      } else { // TODO: Make these edges curved
+        draw.line(
+          parent.group-name,
+          child.group-name,
+          stroke: 0.5pt,
+        )
+      }
+    },
+  )
+}))
 
 Este procedimiento es un prototipo instructivo para la recursión de árbol, pero es una terrible manera de calcular los números de Fibonacci, pues hace muchos cálculos redundantes. Note que en la Figura 1.5 hay cálculos duplicados de `(fib 3)`---esto es por lo menos la mitad del trabajo. En realidad no es difícil mostrar que el número de veces que se calculará `(fib 1)` o `(fib 0)` (en general, el número de hojas bajo el árbol) es precisamente $"Fib"(n+1)$. Para tener una idea de lo malo que es esto, se puede mostrar que el valor de $"Fib"(n)$ crece exponencialmente con $n$. Más precisamente (ver el Ejercicio 1.13), $"Fib"(n)$ es el entero más cercano de $phi^n / sqrt(5)$, donde
 

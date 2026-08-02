@@ -35,8 +35,7 @@
         typstSource = "main.typ";
 
         fontPaths = [
-          # Add paths to fonts here
-          # "${pkgs.roboto}/share/fonts/truetype"
+          "${pkgs.libertine}/share/fonts/truetype/public"
         ];
 
         virtualPaths = [
@@ -52,8 +51,13 @@
         # Add Typst packages here, transitive dependencies are also mandatory
         {
           name = "oxifmt";
-          version = "0.2.1";
-          hash = "sha256-8PNPa9TGFybMZ1uuJwb5ET0WGIInmIgg8h24BmdfxlU=";
+          version = "1.0.0";
+          hash = "sha256-edTDK5F2xFYWypGpR0dWxwM7IiBd8hKGQ0KArkbpHvI=";
+        }
+        {
+          name = "cetz";
+          version = "0.5.2";
+          hash = "sha256-wttZ+L+VPlTLGKPN/exYXozRjMNdXLShhYVTQt4KV/E=";
         }
       ];
 
