@@ -1,13 +1,4 @@
-content.opf
-toc.xhtml
 *.png
-*.json
-*.vim
-*.swp
-*~
-\#*\#
-/phantomjs
-/mathjax
 /result
 /main.pdf
 /main.html
